@@ -15,8 +15,6 @@ if (localProperties.exists()) {
     properties.load(localProperties.inputStream())
 }
 
-val supabaseKey: String = properties["SUPABASE_KEY"] as String? ?: ""
-val supabaseUrl: String = properties["SUPABASE_URL"] as String? ?: ""
 
 android {
     namespace = "com.example.digital_mentor"
@@ -34,7 +32,10 @@ android {
             useSupportLibrary = true
         }
 
-
+        // Set value part
+        buildConfigField("String", "SUPABASE_ANON_KEY", "\"${properties.getProperty("SUPABASE_ANON_KEY")}\"")
+        buildConfigField("String", "SUPABASE_URL", "\"${properties.getProperty("SUPABASE_URL")}\"")
+        buildConfigField("String", "WEB_CLIENT_ID", "\"${properties.getProperty("WEB_CLIENT_ID")}\"")
     }
 
     buildTypes {
@@ -44,15 +45,6 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            // Creating a buildconfig Field to get values
-            buildConfigField("String", "supabaseKey", "\"$supabaseKey\"")
-            buildConfigField("String", "supabaseUrl", "\"$supabaseUrl\"")
-        }
-
-        debug {
-            // Creating a buildconfig Field to get values
-            buildConfigField("String", "supabaseKey", "\"$supabaseKey\"")
-            buildConfigField("String", "supabaseUrl", "\"$supabaseUrl\"")
         }
     }
     compileOptions {
@@ -107,10 +99,16 @@ dependencies {
     implementation(libs.material.icons.extended)
 
     // Supabase
-    implementation(platform("io.github.jan-tennert.supabase:bom:2.5.4"))
-    implementation("io.github.jan-tennert.supabase:postgrest-kt")
+    implementation(platform("io.github.jan-tennert.supabase:bom:3.0.1"))
+    implementation("io.github.jan-tennert.supabase:postgrest-kt:3.0.1")
     implementation("io.github.jan-tennert.supabase:auth-kt:3.0.1")
-    implementation("io.ktor:ktor-client-android:2.3.12")
+    implementation("io.ktor:ktor-client-android:3.0.0")
+
+    // Google auth
+    implementation("androidx.credentials:credentials:1.2.2")
+    implementation("androidx.credentials:credentials-play-services-auth:1.2.2")
+    implementation("com.google.android.libraries.identity.googleid:googleid:1.1.1")
+
 
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.6")
 

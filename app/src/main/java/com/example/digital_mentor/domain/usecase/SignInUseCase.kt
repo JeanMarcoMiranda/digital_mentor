@@ -6,6 +6,6 @@ import com.example.digital_mentor.data.repository.AuthRepository
 class SignInUseCase(
     private val authRepository: AuthRepository
 ) {
-    suspend operator fun invoke(email: String, password: String) =
+    suspend operator fun invoke(email: String, password: String): Result<Boolean> =
         authRepository.signInWithEmail(email, password)
 }

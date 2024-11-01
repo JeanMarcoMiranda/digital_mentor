@@ -61,7 +61,8 @@ fun CustomTextField(
             }
         },
         visualTransformation = if (isPassword && !isPasswordVisible) PasswordVisualTransformation() else VisualTransformation.None,
-        keyboardOptions = KeyboardOptions(keyboardType = if (isPassword) KeyboardType.Password else KeyboardType.Email),
+        keyboardOptions = KeyboardOptions(keyboardType = if (isPassword) KeyboardType.Password else KeyboardType.Text),
+        singleLine = true,
         modifier = modifier
             .fillMaxWidth()
             .padding(vertical = 8.dp)  // Menos padding para compactar

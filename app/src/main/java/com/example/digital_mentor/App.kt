@@ -1,9 +1,6 @@
 package com.example.digital_mentor
 
 import android.app.Application
-import com.example.digital_mentor.core.di.DataModule
-import com.example.digital_mentor.core.di.NetworkModule
-import com.example.digital_mentor.core.di.ViewModelModule
 import com.example.digital_mentor.core.di.appModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger

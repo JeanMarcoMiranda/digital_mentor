@@ -1,5 +1,6 @@
 package com.example.digital_mentor.presentation.register
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.digital_mentor.domain.usecase.SignUpUseCase
@@ -72,9 +73,38 @@ class RegisterViewModel(private val signUpUseCase: SignUpUseCase) : ViewModel() 
                     }
 
                     RegisterIntent.Register -> {
-                        _viewState.value = RegisterViewState.Loading
-                        // TODO: Implement auth logic
-                        _viewState.value = RegisterViewState.Success("Bienvenido!")
+                        val currentState =
+                            _viewState.value as? RegisterViewState.Input ?: RegisterViewState.Input(
+                                "",
+                                "",
+                                ""
+                            )
+
+                        if (currentState.name.isNotEmpty() && currentState.email.isNotEmpty() && currentState.password.isNotEmpty()) {
+                            Log.d("RegisterResult", "Here register")
+                            _viewState.value = RegisterViewState.Loading
+                            viewModelScope.launch {
+                                val result = signUpUseCase(
+                                    name = currentState.name,
+                                    email = currentState.email,
+                                    password = currentState.password
+                                )
+
+                                Log.d("RegisterResult", "Here2 register")
+                                _viewState.value = if (result.isSuccess) {
+                                    Log.d("RegisterResult", "Here3 register")
+                                    RegisterViewState.Success("Usuario registrado correctamente")
+                                } else {
+                                    Log.d("RegisterResult", "Here4 register")
+                                    RegisterViewState.Error(
+                                        result.exceptionOrNull()?.message
+                                            ?: "Error al registrar usuario en Supabase vuelve a intentarlo"
+                                    )
+                                }
+
+                                Log.d("RegisterResult", "El valor registrado es" + result)
+                            }
+                        }
                     }
 
                     RegisterIntent.RegisterWithGoogle -> {

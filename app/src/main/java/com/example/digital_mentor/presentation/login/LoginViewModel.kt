@@ -1,9 +1,11 @@
 package com.example.digital_mentor.presentation.login
 
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.digital_mentor.domain.usecase.SignInUseCase
+import com.example.digital_mentor.domain.usecase.SignInWithGoogleUseCase
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -12,7 +14,8 @@ import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.launch
 
 class LoginViewModel(
-    private val signInUseCase: SignInUseCase
+    private val signInUseCase: SignInUseCase,
+    private val signInWithGoogleUseCase: SignInWithGoogleUseCase
 ) : ViewModel() {
 
     private val _viewState = MutableStateFlow<LoginViewState>(LoginViewState.Input("", ""))
@@ -21,18 +24,38 @@ class LoginViewModel(
     private val intentChannel = Channel<LoginIntent> { Channel.UNLIMITED }
 
     init {
-        Log.d("LoginViewModel", "SignInUseCase: $signInUseCase")
         handleIntents()
     }
 
-    fun sendIntent(intent: LoginIntent) {
+    fun sendIntent(intent: LoginIntent, context: Context) {
         viewModelScope.launch {
             intentChannel.send(intent)
+
+            if (intent is LoginIntent.LoginWithGoogle) {
+                handleLoginWithGoogle(context)
+            }
+        }
+    }
+
+    private fun handleLoginWithGoogle(context: Context) {
+        Log.d("LogWithGoogle", "Init")
+
+        viewModelScope.launch {
+            _viewState.value = LoginViewState.Loading
+            val result = signInWithGoogleUseCase(context)
+            _viewState.value = if (result.isSuccess) {
+                Log.d("LogWithGoogle", "Success")
+                LoginViewState.Success("Bienvenido con Google!")
+            } else {
+                Log.d("LogWithGoogle", "Error")
+                LoginViewState.Error(
+                    result.exceptionOrNull()?.message ?: "Error en inicio de sesión con Google"
+                )
+            }
         }
     }
 
     private fun handleIntents() {
-
         viewModelScope.launch {
             intentChannel.consumeAsFlow().collect() { intent ->
                 when (intent) {
@@ -76,19 +99,20 @@ class LoginViewModel(
                                 val result =
                                     signInUseCase(currentState.email, currentState.password)
 
-                                Log.d("LoginResult", "El valor es: " + result);
+                                if (result.isSuccess) {
+                                    _viewState.value = LoginViewState.Success("Bienvenido con Supabase!")
+                                } else {
+                                    _viewState.value = LoginViewState.Error(
+                                        result.exceptionOrNull()?.message
+                                            ?: "Error en inicio de sesión con Supabase"
+                                    )
+                                }
                             }
                         }
-
-                        _viewState.value = LoginViewState.Success("Bienvenido!")
                     }
 
                     LoginIntent.LoginWithGoogle -> {
-                        // TODO: Implement google auth logic
-                    }
-
-                    LoginIntent.NavigateToRegister -> {
-                        // TODO: Implement logic to navigate to register
+                        // TODO: Implement some functionality
                     }
                 }
             }
