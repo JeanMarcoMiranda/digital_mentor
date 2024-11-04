@@ -5,6 +5,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
@@ -19,6 +20,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.digital_mentor.R
@@ -64,6 +66,7 @@ fun LoginScreen(
 
             CustomTextField(
                 value = (viewState as? LoginViewState.Input)?.email ?: "",
+                keyboardType = KeyboardType.Email,
                 onValueChange = { viewModel.sendIntent(LoginIntent.UpdateEmail(it), context) },
                 label = "Correo"
             )
@@ -72,6 +75,7 @@ fun LoginScreen(
 
             CustomTextField(
                 value = (viewState as? LoginViewState.Input)?.password ?: "",
+                keyboardType = KeyboardType.Password,
                 onValueChange = { viewModel.sendIntent(LoginIntent.UpdatePassword(it), context) },
                 label = "Contraseña",
                 isPassword = true,

@@ -16,7 +16,7 @@ fun NavGraphBuilder.mainNavGraph(
         startDestination = Routes.Home
     ) {
         composable<Routes.Home> {
-            MainAppLayout(navController = navController) {
+            MainAppLayout(navController = navController,) {
                 HomeScreen()
             }
         }

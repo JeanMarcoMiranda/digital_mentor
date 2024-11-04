@@ -7,8 +7,10 @@ import com.example.digital_mentor.domain.repository.AuthRepository
 import com.example.digital_mentor.data.repository.AuthRepositoryImpl
 import com.example.digital_mentor.domain.usecase.SignInUseCase
 import com.example.digital_mentor.domain.usecase.SignInWithGoogleUseCase
+import com.example.digital_mentor.domain.usecase.SignOutUseCase
 import com.example.digital_mentor.domain.usecase.SignUpUseCase
 import com.example.digital_mentor.presentation.viewmodel.LoginViewModel
+import com.example.digital_mentor.presentation.viewmodel.MainLayoutViewModel
 import com.example.digital_mentor.presentation.viewmodel.RegisterViewModel
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import io.github.jan.supabase.SupabaseClient
@@ -24,13 +26,6 @@ import java.util.UUID
 
 val appModule = module {
     single<SupabaseClient> {
-//        createSupabaseClient(
-//            supabaseUrl = BuildConfig.SUPABASE_URL,
-//            supabaseKey = BuildConfig.SUPABASE_ANON_KEY
-//        ) {
-//            install(Postgrest)
-//            install(Auth)
-//        }
         MySupabaseClient.client
     }
 
@@ -59,8 +54,10 @@ val appModule = module {
     single<AuthRepository> { AuthRepositoryImpl(get(), get(), get()) }
     single { SignUpUseCase(get()) }
     single { SignInUseCase(get()) }
+    single { SignOutUseCase(get()) }
     single { SignInWithGoogleUseCase(get()) }
 
     viewModel { RegisterViewModel(get()) }
+    viewModel { MainLayoutViewModel(get()) }
     viewModel { LoginViewModel(get(), get()) }
 }

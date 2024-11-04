@@ -15,6 +15,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.digital_mentor.R
@@ -57,12 +58,22 @@ fun RegisterScreen(
             CustomTextField(
                 value = (viewState as? RegisterViewState.Input)?.name ?: "",
                 onValueChange = { viewModel.sendIntent(RegisterIntent.ChangeName(it)) },
+                keyboardType = KeyboardType.Text,
                 label = "Nombre"
+            )
+
+
+            CustomTextField(
+                value = (viewState as? RegisterViewState.Input)?.name ?: "",
+                onValueChange = { viewModel.sendIntent(RegisterIntent.ChangeName(it)) },
+                keyboardType = KeyboardType.Number,
+                label = "Tarjeta"
             )
 
             CustomTextField(
                 value = (viewState as? RegisterViewState.Input)?.email ?: "",
                 onValueChange = { viewModel.sendIntent(RegisterIntent.ChangeEmail(it)) },
+                keyboardType = KeyboardType.Email,
                 label = "Email"
             )
 
@@ -70,6 +81,7 @@ fun RegisterScreen(
                 value = (viewState as? RegisterViewState.Input)?.password ?: "",
                 onValueChange = { viewModel.sendIntent(RegisterIntent.ChangePassword(it)) },
                 label = "Contraseña",
+                keyboardType = KeyboardType.Password,
                 isPassword = true,
                 isPasswordVisible = passwordVisible,
                 onPasswordVisibilityChange = { viewModel.sendIntent(RegisterIntent.TogglePasswordVisibility) }
@@ -85,29 +97,6 @@ fun RegisterScreen(
             ) {
                 Text("Registrarse", fontSize = 14.sp, modifier = Modifier.padding(vertical = 7.dp))
             }
-
-//            DividerWithText("o")
-//
-//            // Register with Google Button
-//            Button(
-//                onClick = { /* Acción de registro con Google aquí */ },
-//                shape = RoundedCornerShape(10.dp),
-//                modifier = Modifier.fillMaxWidth()
-//            ) {
-//                Icon(
-//                    painter = painterResource(R.drawable.ic_login_google),
-//                    contentDescription = null,
-//                    modifier = Modifier
-//                        .size(35.dp)
-//                        .padding(end = 15.dp),
-//                    tint = Color.Unspecified
-//                )
-//                Text(
-//                    "Registrarse con Google",
-//                    fontSize = 14.sp,
-//                    modifier = Modifier.padding(vertical = 7.dp)
-//                )
-//            }
         }
 
         // Text to navigate back to Login

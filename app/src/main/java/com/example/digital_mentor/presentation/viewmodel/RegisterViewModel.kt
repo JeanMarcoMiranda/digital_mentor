@@ -38,14 +38,28 @@ class RegisterViewModel(private val signUpUseCase: SignUpUseCase) : ViewModel() 
                             _viewState.value as? RegisterViewState.Input ?: RegisterViewState.Input(
                                 "",
                                 "",
+                                "",
                                 ""
                             )
                         _viewState.value = currentState.copy(name = intent.name)
                     }
 
+                    is RegisterIntent.ChangeCard -> {
+                        val currentState =
+                            _viewState.value as? RegisterViewState.Input ?: RegisterViewState.Input(
+                                "",
+                                "",
+                                "",
+                                ""
+                            )
+
+                        _viewState.value = currentState.copy(card = intent.card)
+                    }
+
                     is RegisterIntent.ChangeEmail -> {
                         val currentState =
                             _viewState.value as? RegisterViewState.Input ?: RegisterViewState.Input(
+                                "",
                                 "",
                                 "",
                                 ""
@@ -58,6 +72,7 @@ class RegisterViewModel(private val signUpUseCase: SignUpUseCase) : ViewModel() 
                             _viewState.value as? RegisterViewState.Input ?: RegisterViewState.Input(
                                 "",
                                 "",
+                                "",
                                 ""
                             )
                         _viewState.value = currentState.copy(password = intent.password)
@@ -66,6 +81,7 @@ class RegisterViewModel(private val signUpUseCase: SignUpUseCase) : ViewModel() 
                     RegisterIntent.TogglePasswordVisibility -> {
                         val currentState =
                             _viewState.value as? RegisterViewState.Input ?: RegisterViewState.Input(
+                                "",
                                 "",
                                 "",
                                 ""
@@ -77,6 +93,7 @@ class RegisterViewModel(private val signUpUseCase: SignUpUseCase) : ViewModel() 
                     RegisterIntent.Register -> {
                         val currentState =
                             _viewState.value as? RegisterViewState.Input ?: RegisterViewState.Input(
+                                "",
                                 "",
                                 "",
                                 ""
@@ -92,19 +109,14 @@ class RegisterViewModel(private val signUpUseCase: SignUpUseCase) : ViewModel() 
                                     password = currentState.password
                                 )
 
-                                Log.d("RegisterResult", "Here2 register")
                                 _viewState.value = if (result.isSuccess) {
-                                    Log.d("RegisterResult", "Here3 register")
                                     RegisterViewState.Success("Usuario registrado correctamente")
                                 } else {
-                                    Log.d("RegisterResult", "Here4 register")
                                     RegisterViewState.Error(
                                         result.exceptionOrNull()?.message
                                             ?: "Error al registrar usuario en Supabase vuelve a intentarlo"
                                     )
                                 }
-
-                                Log.d("RegisterResult", "El valor registrado es" + result)
                             }
                         }
                     }
