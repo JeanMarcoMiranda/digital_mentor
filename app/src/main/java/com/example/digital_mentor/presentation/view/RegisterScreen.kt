@@ -64,8 +64,8 @@ fun RegisterScreen(
 
 
             CustomTextField(
-                value = (viewState as? RegisterViewState.Input)?.name ?: "",
-                onValueChange = { viewModel.sendIntent(RegisterIntent.ChangeName(it)) },
+                value = (viewState as? RegisterViewState.Input)?.card ?: "",
+                onValueChange = { viewModel.sendIntent(RegisterIntent.ChangeCard(it)) },
                 keyboardType = KeyboardType.Number,
                 label = "Tarjeta"
             )

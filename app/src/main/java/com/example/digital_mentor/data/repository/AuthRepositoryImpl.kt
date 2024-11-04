@@ -27,6 +27,7 @@ class AuthRepositoryImpl(
 
     override suspend fun signUpWithEmail(
         name: String,
+        card: String,
         email: String,
         password: String
     ): Result<Boolean> {
@@ -36,6 +37,7 @@ class AuthRepositoryImpl(
                 this.password = password
                 data = buildJsonObject {
                     put("name", name)
+                    put("card", card)
                 }
             }
             Result.success(true)
@@ -91,7 +93,8 @@ class AuthRepositoryImpl(
                     request = requestId,
                     context = context
                 )
-                val googleIdTokenCredential = GoogleIdTokenCredential.createFrom(result.credential.data)
+                val googleIdTokenCredential =
+                    GoogleIdTokenCredential.createFrom(result.credential.data)
                 val googleIdToken = googleIdTokenCredential.idToken
 
                 auth.signInWith(IDToken) {
@@ -102,16 +105,19 @@ class AuthRepositoryImpl(
             } catch (e: Exception) {
                 // Here we check if the exception is "No credentials available", if so we show signInGoogleModal
                 if (e is NoSuchElementException || e.message?.contains("No credentials available") == true) {
-                    val signInWithGoogleOption = GetSignInWithGoogleOption.Builder(BuildConfig.WEB_CLIENT_ID)
-                        .setNonce(hashedNonce)
-                        .build()
+                    val signInWithGoogleOption =
+                        GetSignInWithGoogleOption.Builder(BuildConfig.WEB_CLIENT_ID)
+                            .setNonce(hashedNonce)
+                            .build()
 
                     val requestSignIn = GetCredentialRequest.Builder()
                         .addCredentialOption(signInWithGoogleOption)
                         .build()
 
-                    val resultSignIn = credentialManager.getCredential(request = requestSignIn, context = context)
-                    val googleIdTokenCredential = GoogleIdTokenCredential.createFrom(resultSignIn.credential.data)
+                    val resultSignIn =
+                        credentialManager.getCredential(request = requestSignIn, context = context)
+                    val googleIdTokenCredential =
+                        GoogleIdTokenCredential.createFrom(resultSignIn.credential.data)
                     val googleIdToken = googleIdTokenCredential.idToken
 
                     auth.signInWith(IDToken) {

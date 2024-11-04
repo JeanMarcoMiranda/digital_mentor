@@ -105,6 +105,7 @@ class RegisterViewModel(private val signUpUseCase: SignUpUseCase) : ViewModel() 
                             viewModelScope.launch {
                                 val result = signUpUseCase(
                                     name = currentState.name,
+                                    card = currentState.card,
                                     email = currentState.email,
                                     password = currentState.password
                                 )
