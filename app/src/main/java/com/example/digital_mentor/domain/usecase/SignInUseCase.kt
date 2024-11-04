@@ -1,7 +1,6 @@
 package com.example.digital_mentor.domain.usecase
 
-import android.util.Log
-import com.example.digital_mentor.data.repository.AuthRepository
+import com.example.digital_mentor.domain.repository.AuthRepository
 
 class SignInUseCase(
     private val authRepository: AuthRepository
