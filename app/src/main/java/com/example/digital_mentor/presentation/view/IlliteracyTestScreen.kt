@@ -1,9 +1,7 @@
 package com.example.digital_mentor.presentation.view
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -41,22 +39,23 @@ import com.example.digital_mentor.presentation.intent.IlliteracyTestIntent
 import com.example.digital_mentor.presentation.intent.IlliteracyTestState
 import com.example.digital_mentor.presentation.viewmodel.IlliteracyTestViewModel
 import org.koin.androidx.compose.koinViewModel
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.ContentTransform
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 
 @Composable
 fun IlliteracyTestScreen(
     viewModel: IlliteracyTestViewModel = koinViewModel()
 ) {
-    // Obtenemos el estado actual desde el ViewModel
+    // Get the view state from the ViewModel
     val viewState by viewModel.viewState.collectAsState()
-
-    // Lanza la petición de datos al iniciar la pantalla
-    LaunchedEffect(Unit) {
-        viewModel.sendIntent(IlliteracyTestIntent.LoadCategories)
-    }
 
     when (val state = viewState) {
         is IlliteracyTestState.Loading -> {
-            // Mostrar una vista de carga
+            // Here we show a load screen
             CircularProgressIndicator(
                 modifier = Modifier
                     .fillMaxSize()
@@ -65,7 +64,7 @@ fun IlliteracyTestScreen(
         }
 
         is IlliteracyTestState.Error -> {
-            // Mostrar un mensaje de error
+            // Here we show an error message
             Text(
                 text = state.message,
                 modifier = Modifier
@@ -76,7 +75,7 @@ fun IlliteracyTestScreen(
         }
 
         is IlliteracyTestState.Categories -> {
-            // Mostrar la categoría actual y la pregunta
+            // Show the Illiteracy test based on the categories and questions data
             IlliteracyTestContent(
                 categories = state.categories,
                 currentCategoryIndex = state.currentCategoryIndex,
@@ -127,7 +126,7 @@ fun IlliteracyTestContent(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-
+                // Test Image
                 Image(
                     painter = painterResource(id = R.drawable.man_image),
                     contentDescription = "algo",
@@ -136,38 +135,59 @@ fun IlliteracyTestContent(
 
                 Spacer(Modifier.height(20.dp))
 
-                // Título de la categoría
-                Text(
-                    text = currentCategory.name,
-                    modifier = Modifier.fillMaxWidth(),
-                    textAlign = TextAlign.Center,
-                    color = MaterialTheme.colorScheme.primary,
-                    style = TextStyle(
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 22.sp
-                    )
-                )
-
-                // Pregunta
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clip(RoundedCornerShape(10.dp)) // Aplica el borde redondeado
-                        .background(Color.LightGray, shape = RoundedCornerShape(8.dp))
-                        .padding(16.dp)
-                ) {
+                // Category title
+                AnimatedContent(
+                    targetState = currentCategory.name,
+                    transitionSpec = {
+                        ContentTransform(
+                            targetContentEnter = fadeIn(animationSpec = tween(500)),
+                            initialContentExit = fadeOut(animationSpec = tween(500))
+                        )
+                    }
+                ) { categoryName ->
                     Text(
-                        text = currentQuestion.question,
+                        text = categoryName,
                         modifier = Modifier.fillMaxWidth(),
                         textAlign = TextAlign.Center,
-                        fontWeight = FontWeight.Bold
+                        color = MaterialTheme.colorScheme.primary,
+                        style = TextStyle(
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 22.sp
+                        )
                     )
                 }
 
+                Spacer(Modifier.height(8.dp))
+
+                // Question label
+                AnimatedContent(
+                    targetState = currentQuestion.question,
+                    transitionSpec = {
+                         ContentTransform(
+                             targetContentEnter = fadeIn(animationSpec = tween(500)),
+                             initialContentExit = fadeOut(animationSpec = tween(500))
+                         )
+                    }
+                ) { questionText ->
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clip(RoundedCornerShape(10.dp))
+                            .background(Color.LightGray, shape = RoundedCornerShape(8.dp))
+                            .padding(16.dp)
+                    ) {
+                        Text(
+                            text = questionText,
+                            modifier = Modifier.fillMaxWidth(),
+                            textAlign = TextAlign.Center,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
+                }
 
                 Spacer(Modifier.height(20.dp))
 
-                // Opciones de respuesta
+                // Answer alternatives
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceAround
@@ -194,10 +214,9 @@ fun IlliteracyTestContent(
                 }
 
                 Spacer(modifier = Modifier.height(16.dp))
-
-
             }
 
+            // Button to go to the next question
             Button(
                 onClick = onNextQuestion,
                 enabled = selectedAnswer != null,
@@ -206,7 +225,6 @@ fun IlliteracyTestContent(
                 Text(text = "Siguiente pregunta", fontWeight = FontWeight.Bold, fontSize = 18.sp)
             }
         } else {
-            // Mensaje en caso de que no haya preguntas
             Text(
                 text = "No hay preguntas disponibles",
                 modifier = Modifier

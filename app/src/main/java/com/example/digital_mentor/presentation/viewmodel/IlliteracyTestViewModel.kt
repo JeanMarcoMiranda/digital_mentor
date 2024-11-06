@@ -8,9 +8,12 @@ import com.example.digital_mentor.presentation.intent.IlliteracyTestIntent
 import com.example.digital_mentor.presentation.intent.IlliteracyTestState
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.consumeAsFlow
+import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class IlliteracyTestViewModel(
@@ -22,12 +25,20 @@ class IlliteracyTestViewModel(
             emptyList(), 0, 0, 0, null
         )
     )
-    val viewState: StateFlow<IlliteracyTestState> = _viewState.asStateFlow()
+    val viewState: StateFlow<IlliteracyTestState> = _viewState
+        .onStart {
+            fetchCategoriesData()
+        }.stateIn(
+            viewModelScope,
+            SharingStarted.WhileSubscribed(5000L),
+            IlliteracyTestState.Loading
+        )
 
     private val intentChannel = Channel<IlliteracyTestIntent> { Channel.UNLIMITED }
 
     init {
         handleIntents()
+        fetchCategoriesData()
     }
 
     fun sendIntent(intent: IlliteracyTestIntent) {
