@@ -5,10 +5,14 @@ import com.example.digital_mentor.BuildConfig
 import com.example.digital_mentor.data.datasource.remote.MySupabaseClient
 import com.example.digital_mentor.domain.repository.AuthRepository
 import com.example.digital_mentor.data.repository.AuthRepositoryImpl
+import com.example.digital_mentor.data.repository.CategoryRepositoryImpl
+import com.example.digital_mentor.domain.repository.CategoryRepository
+import com.example.digital_mentor.domain.usecase.GetCategoriesWithQuestionsUseCase
 import com.example.digital_mentor.domain.usecase.SignInUseCase
 import com.example.digital_mentor.domain.usecase.SignInWithGoogleUseCase
 import com.example.digital_mentor.domain.usecase.SignOutUseCase
 import com.example.digital_mentor.domain.usecase.SignUpUseCase
+import com.example.digital_mentor.presentation.viewmodel.IlliteracyTestViewModel
 import com.example.digital_mentor.presentation.viewmodel.LoginViewModel
 import com.example.digital_mentor.presentation.viewmodel.MainLayoutViewModel
 import com.example.digital_mentor.presentation.viewmodel.RegisterViewModel
@@ -45,19 +49,22 @@ val appModule = module {
             .build()
 
     }
-
     single<Auth> {
         get<SupabaseClient>().auth
     }
     single { CredentialManager.create(get()) }
 
     single<AuthRepository> { AuthRepositoryImpl(get(), get(), get()) }
+    single<CategoryRepository> { CategoryRepositoryImpl(get()) }
+
     single { SignUpUseCase(get()) }
     single { SignInUseCase(get()) }
     single { SignOutUseCase(get()) }
     single { SignInWithGoogleUseCase(get()) }
+    single { GetCategoriesWithQuestionsUseCase(get()) }
 
-    viewModel { RegisterViewModel(get()) }
-    viewModel { MainLayoutViewModel(get()) }
     viewModel { LoginViewModel(get(), get()) }
+    viewModel { RegisterViewModel(get()) }
+    viewModel { IlliteracyTestViewModel(get()) }
+    viewModel { MainLayoutViewModel(get()) }
 }

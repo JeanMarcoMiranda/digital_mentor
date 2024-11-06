@@ -32,6 +32,8 @@ fun NavGraphBuilder.authNavGraph(
         composable<Routes.Register> {
             RegisterScreen(onLoginClick = {
                 navController.navigate(Routes.Login)
+            }, onRegisterSuccess = {
+                navController.navigate(Routes.Login)
             })
         }
     }

@@ -5,7 +5,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
@@ -68,7 +67,8 @@ fun LoginScreen(
                 value = (viewState as? LoginViewState.Input)?.email ?: "",
                 keyboardType = KeyboardType.Email,
                 onValueChange = { viewModel.sendIntent(LoginIntent.UpdateEmail(it), context) },
-                label = "Correo"
+                label = "Correo",
+                placeholder = "Ingresa tu correo electronico"
             )
 
             Spacer(modifier = Modifier.height(15.dp))
@@ -78,6 +78,7 @@ fun LoginScreen(
                 keyboardType = KeyboardType.Password,
                 onValueChange = { viewModel.sendIntent(LoginIntent.UpdatePassword(it), context) },
                 label = "Contraseña",
+                placeholder = "Ingresa tu contraseña",
                 isPassword = true,
                 isPasswordVisible = passwordVisible,
                 onPasswordVisibilityChange = {

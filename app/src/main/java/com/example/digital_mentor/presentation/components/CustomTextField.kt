@@ -25,6 +25,7 @@ fun CustomTextField(
     value: String,
     onValueChange: (String) -> Unit,
     label: String,
+    placeholder: String,
     keyboardType: KeyboardType,
     isPassword: Boolean = false,
     isPasswordVisible: Boolean = false,
@@ -39,9 +40,19 @@ fun CustomTextField(
             fontSize = 14.sp,  // Fuente más pequeña para compactar
             lineHeight = 18.sp
         ),
-        placeholder = {
+        label = {
             Text(
                 text = label,
+                style = TextStyle(
+                    fontSize = 14.sp,  // Fuente compacta para el placeholder
+                    color = Color(0xFF9E9E9E),
+                    lineHeight = 18.sp
+                )
+            )
+        },
+        placeholder = {
+            Text(
+                text = placeholder,
                 style = TextStyle(
                     fontSize = 14.sp,  // Fuente compacta para el placeholder
                     color = Color(0xFF9E9E9E),
@@ -65,9 +76,9 @@ fun CustomTextField(
         keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
         singleLine = true,
         modifier = modifier
-            .fillMaxWidth()
-            .padding(vertical = 8.dp)  // Menos padding para compactar
-            .height(48.dp),  // Altura reducida para un diseño más compacto
+            .fillMaxWidth(),
+//            .padding(vertical = 8.dp)  // Menos padding para compactar
+//            .height(48.dp),  // Altura reducida para un diseño más compacto
         colors = TextFieldDefaults.colors(
             focusedContainerColor = Color(0xFFE0F7FA),
             unfocusedContainerColor = Color(0xFFF5F5F5),

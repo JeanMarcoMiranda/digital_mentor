@@ -1,6 +1,7 @@
 package com.example.digital_mentor.data.repository
 
 import android.content.Context
+import android.util.Log
 import androidx.credentials.CredentialManager
 import androidx.credentials.GetCredentialRequest
 import com.example.digital_mentor.BuildConfig
@@ -93,9 +94,16 @@ class AuthRepositoryImpl(
                     request = requestId,
                     context = context
                 )
+
                 val googleIdTokenCredential =
                     GoogleIdTokenCredential.createFrom(result.credential.data)
                 val googleIdToken = googleIdTokenCredential.idToken
+
+
+                Log.d("Login Google", "This is the login with google data ${googleIdTokenCredential.id}")
+                Log.d("Login Google", "This is the login with google displayname ${googleIdTokenCredential.displayName}")
+                Log.d("Login Google", "This is the login with google givenname ${googleIdTokenCredential.givenName}")
+                Log.d("Login Google", "This is the login with google phonenumber ${googleIdTokenCredential.phoneNumber}")
 
                 auth.signInWith(IDToken) {
                     idToken = googleIdToken

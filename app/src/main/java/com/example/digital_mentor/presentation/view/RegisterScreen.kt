@@ -28,7 +28,8 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun RegisterScreen(
     viewModel: RegisterViewModel = koinViewModel(),
-    onLoginClick: () -> Unit = {}
+    onLoginClick: () -> Unit = {},
+    onRegisterSuccess: () -> Unit = {}
 ) {
     val context = LocalContext.current
     val viewState by viewModel.viewState.collectAsState()
@@ -59,35 +60,42 @@ fun RegisterScreen(
                 value = (viewState as? RegisterViewState.Input)?.name ?: "",
                 onValueChange = { viewModel.sendIntent(RegisterIntent.ChangeName(it)) },
                 keyboardType = KeyboardType.Text,
-                label = "Nombre"
+                label = "Nombre",
+                placeholder = "Ingresa tu nombre completo"
             )
 
+            Spacer(modifier = Modifier.height(8.dp))
 
             CustomTextField(
                 value = (viewState as? RegisterViewState.Input)?.card ?: "",
                 onValueChange = { viewModel.sendIntent(RegisterIntent.ChangeCard(it)) },
                 keyboardType = KeyboardType.Number,
-                label = "Tarjeta"
+                label = "Tarjeta",
+                placeholder = "Ingresa tu número de tarjeta",
             )
+            Spacer(modifier = Modifier.height(8.dp))
 
             CustomTextField(
                 value = (viewState as? RegisterViewState.Input)?.email ?: "",
                 onValueChange = { viewModel.sendIntent(RegisterIntent.ChangeEmail(it)) },
                 keyboardType = KeyboardType.Email,
-                label = "Email"
+                label = "Correo",
+                placeholder = "Ingresa tu correo electrónico"
             )
 
+            Spacer(modifier = Modifier.height(8.dp))
             CustomTextField(
                 value = (viewState as? RegisterViewState.Input)?.password ?: "",
                 onValueChange = { viewModel.sendIntent(RegisterIntent.ChangePassword(it)) },
                 label = "Contraseña",
+                placeholder = "Ingresa ontraseña",
                 keyboardType = KeyboardType.Password,
                 isPassword = true,
                 isPasswordVisible = passwordVisible,
                 onPasswordVisibilityChange = { viewModel.sendIntent(RegisterIntent.TogglePasswordVisibility) }
             )
 
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(30.dp))
 
             // Register Button
             Button(
@@ -126,6 +134,7 @@ fun RegisterScreen(
                 is RegisterViewState.Success -> {
                     val successMessage = (viewState as RegisterViewState.Success).message
                     Toast.makeText(context, successMessage, Toast.LENGTH_SHORT).show()
+                    onRegisterSuccess()
                 }
 
                 is RegisterViewState.Error -> {

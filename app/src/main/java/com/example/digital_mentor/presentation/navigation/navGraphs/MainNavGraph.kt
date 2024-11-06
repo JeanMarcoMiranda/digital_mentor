@@ -8,16 +8,23 @@ import com.example.digital_mentor.core.utils.AppRoutes
 import com.example.digital_mentor.core.utils.Routes
 import com.example.digital_mentor.presentation.layout.MainAppLayout
 import com.example.digital_mentor.presentation.view.HomeScreen
+import com.example.digital_mentor.presentation.view.IlliteracyTestScreen
 
 fun NavGraphBuilder.mainNavGraph(
     navController: NavController,
 ) {
     navigation<AppRoutes.MainGraph>(
-        startDestination = Routes.Home
+        startDestination = Routes.IlliterateTest
     ) {
         composable<Routes.Home> {
-            MainAppLayout(navController = navController,) {
+            MainAppLayout(navController = navController) {
                 HomeScreen()
+            }
+        }
+
+        composable<Routes.IlliterateTest> {
+            MainAppLayout(navController = navController) {
+                IlliteracyTestScreen()
             }
         }
     }
