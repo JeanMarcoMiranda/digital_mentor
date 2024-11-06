@@ -15,4 +15,6 @@ interface AuthRepository {
     suspend fun signOut(): Result<Boolean>
 
     suspend fun signInWithGoogle(context: Context): Result<Boolean>
+
+    suspend fun isSessionActive(): Boolean
 }

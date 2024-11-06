@@ -47,7 +47,6 @@ class AuthRepositoryImpl(
         }
     }
 
-
     override suspend fun signInWithEmail(email: String, password: String): Result<Boolean> {
         return try {
             auth.signInWith(Email) {
@@ -67,6 +66,11 @@ class AuthRepositoryImpl(
         } catch (e: Exception) {
             Result.failure(e)
         }
+    }
+
+    override suspend fun isSessionActive(): Boolean {
+        val currentSession = auth.currentSessionOrNull()
+        return currentSession != null
     }
 
     override suspend fun signInWithGoogle(context: Context): Result<Boolean> {
@@ -100,10 +104,22 @@ class AuthRepositoryImpl(
                 val googleIdToken = googleIdTokenCredential.idToken
 
 
-                Log.d("Login Google", "This is the login with google data ${googleIdTokenCredential.id}")
-                Log.d("Login Google", "This is the login with google displayname ${googleIdTokenCredential.displayName}")
-                Log.d("Login Google", "This is the login with google givenname ${googleIdTokenCredential.givenName}")
-                Log.d("Login Google", "This is the login with google phonenumber ${googleIdTokenCredential.phoneNumber}")
+                Log.d(
+                    "Login Google",
+                    "This is the login with google data ${googleIdTokenCredential.id}"
+                )
+                Log.d(
+                    "Login Google",
+                    "This is the login with google displayname ${googleIdTokenCredential.displayName}"
+                )
+                Log.d(
+                    "Login Google",
+                    "This is the login with google givenname ${googleIdTokenCredential.givenName}"
+                )
+                Log.d(
+                    "Login Google",
+                    "This is the login with google phonenumber ${googleIdTokenCredential.phoneNumber}"
+                )
 
                 auth.signInWith(IDToken) {
                     idToken = googleIdToken
