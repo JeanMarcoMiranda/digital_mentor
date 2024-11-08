@@ -69,6 +69,15 @@ class AuthRepositoryImpl(
         return currentSession != null
     }
 
+    override suspend fun getCurrentUserInfo(): Result<UserInfo> {
+        return try {
+            val user = auth.currentUserOrNull() ?: throw Exception("Cannot find user Session Info")
+            Result.success(user)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
     override suspend fun signInWithGoogle(context: Context): Result<Boolean> {
         return try {
             val rawNonce = UUID.randomUUID()

@@ -9,5 +9,8 @@ interface UserProfileRepository {
 
     suspend fun saveUserProfile(userData: UserProfileEntityCreate): Result<UserProfileEntity>
 
-    suspend fun updateUserProfile(userData: UserProfileEntityUpdate): Result<UserProfileEntity>
+    suspend fun updateUserProfile(
+        userId: String,
+        userData: UserProfileEntityUpdate
+    ): Result<UserProfileEntity>
 }

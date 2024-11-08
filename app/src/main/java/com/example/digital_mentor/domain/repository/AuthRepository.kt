@@ -15,5 +15,7 @@ interface AuthRepository {
 
     suspend fun signInWithGoogle(context: Context): Result<Boolean>
 
+    suspend fun getCurrentUserInfo(): Result<UserInfo>
+
     suspend fun isSessionActive(): Boolean
 }

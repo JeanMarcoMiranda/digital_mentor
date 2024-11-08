@@ -4,7 +4,9 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.digital_mentor.data.model.UserProfileEntityUpdate
+import com.example.digital_mentor.domain.usecase.CheckSessionUseCase
 import com.example.digital_mentor.domain.usecase.GetCategoriesWithQuestionsUseCase
+import com.example.digital_mentor.domain.usecase.GetCurrentUserInfoUseCase
 import com.example.digital_mentor.domain.usecase.UpdateUserProfileUseCase
 import com.example.digital_mentor.presentation.intent.IlliteracyTestIntent
 import com.example.digital_mentor.presentation.intent.IlliteracyTestState
@@ -16,17 +18,14 @@ import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import kotlinx.datetime.Clock
-import kotlinx.datetime.Instant
-import kotlinx.datetime.format
 import java.text.SimpleDateFormat
-import java.time.format.DateTimeFormatter
 import java.util.Date
 import java.util.Locale
 
 class IlliteracyTestViewModel(
     private val getCategoriesWithQuestionsUseCase: GetCategoriesWithQuestionsUseCase,
-    private val updateUserProfile: UpdateUserProfileUseCase
+    private val updateUserProfile: UpdateUserProfileUseCase,
+    private val getUserInfo: GetCurrentUserInfoUseCase
 ) : ViewModel() {
 
     private val _viewState = MutableStateFlow<IlliteracyTestState>(
@@ -116,27 +115,38 @@ class IlliteracyTestViewModel(
                     // There are no more categories, show Complete Test
                     _viewState.value = IlliteracyTestState.Loading
                     viewModelScope.launch {
-                        val date = Date()
-                        val formatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
-                        val currentDateFormated = formatter.format(date)
-                        val updateProfileData = UserProfileEntityUpdate(
-                            cumulativeScore = newScore,
-                            lastTestDate = currentDateFormated
-                        )
-                        val updateResult = updateUserProfile(updateProfileData)
+                        val user = getUserInfo().getOrNull()
 
-                        if (updateResult.isSuccess) {
-                            _viewState.value =
-                                IlliteracyTestState.Success("Test finalizado. Puntaje: ${currentState.score}")
-                        } else {
-                            _viewState.value = IlliteracyTestState.Error(
-                                updateResult.exceptionOrNull()?.message
-                                    ?: "Error al cargar los datos del Test"
+                        if (user != null) {
+                            val date = Date()
+                            val formatter =
+                                SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+                            val currentDateFormated = formatter.format(date)
+                            val illiteracyLevel = when (newScore) {
+                                in 0..5 -> "Muy Bajo"
+                                in 6..10 -> "Bajo"
+                                in 11..15 -> "Intermedio"
+                                else -> "Avanzado"
+                            }
+                            val updateProfileData = UserProfileEntityUpdate(
+                                cumulativeScore = newScore,
+                                illiteracyLevel = illiteracyLevel,
+                                lastTestDate = currentDateFormated
                             )
+                            val updateResult = updateUserProfile(user.id, updateProfileData)
+
+                            if (updateResult.isSuccess) {
+                                _viewState.value =
+                                    IlliteracyTestState.Success("Test finalizado. Puntaje: ${currentState.score}")
+                            } else {
+                                _viewState.value = IlliteracyTestState.Error(
+                                    updateResult.exceptionOrNull()?.message
+                                        ?: "Error al cargar los datos del Test"
+                                )
+                            }
                         }
+
                     }
-
-
                 }
             }
 

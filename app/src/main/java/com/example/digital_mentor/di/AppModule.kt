@@ -11,10 +11,12 @@ import com.example.digital_mentor.domain.repository.CategoryRepository
 import com.example.digital_mentor.domain.repository.UserProfileRepository
 import com.example.digital_mentor.domain.usecase.CheckSessionUseCase
 import com.example.digital_mentor.domain.usecase.GetCategoriesWithQuestionsUseCase
+import com.example.digital_mentor.domain.usecase.GetCurrentUserInfoUseCase
 import com.example.digital_mentor.domain.usecase.SignInUseCase
 import com.example.digital_mentor.domain.usecase.SignInWithGoogleUseCase
 import com.example.digital_mentor.domain.usecase.SignOutUseCase
 import com.example.digital_mentor.domain.usecase.SignUpUseCase
+import com.example.digital_mentor.domain.usecase.UpdateUserProfileUseCase
 import com.example.digital_mentor.presentation.viewmodel.AppViewModel
 import com.example.digital_mentor.presentation.viewmodel.IlliteracyTestViewModel
 import com.example.digital_mentor.presentation.viewmodel.LoginViewModel
@@ -68,10 +70,12 @@ val appModule = module {
     single { SignInWithGoogleUseCase(get()) }
     single { CheckSessionUseCase(get()) }
     single { GetCategoriesWithQuestionsUseCase(get()) }
+    single { UpdateUserProfileUseCase(get()) }
+    single { GetCurrentUserInfoUseCase(get()) }
 
     viewModel { AppViewModel(get()) }
     viewModel { LoginViewModel(get(), get()) }
     viewModel { RegisterViewModel(get()) }
-    viewModel { IlliteracyTestViewModel(get(), get()) }
+    viewModel { IlliteracyTestViewModel(get(), get(), get()) }
     viewModel { MainLayoutViewModel(get()) }
 }
