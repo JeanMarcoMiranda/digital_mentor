@@ -1,14 +1,13 @@
 package com.example.digital_mentor.domain.repository
 
 import android.content.Context
+import io.github.jan.supabase.auth.user.UserInfo
 
 interface AuthRepository {
     suspend fun signUpWithEmail(
-        name: String,
-        card: String,
         email: String,
         password: String
-    ): Result<Boolean>
+    ): Result<UserInfo>
 
     suspend fun signInWithEmail(email: String, password: String): Result<Boolean>
 

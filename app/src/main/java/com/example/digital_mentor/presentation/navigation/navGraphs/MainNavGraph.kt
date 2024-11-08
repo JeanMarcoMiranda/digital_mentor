@@ -9,6 +9,7 @@ import com.example.digital_mentor.core.utils.Routes
 import com.example.digital_mentor.presentation.layout.MainAppLayout
 import com.example.digital_mentor.presentation.view.HomeScreen
 import com.example.digital_mentor.presentation.view.IlliteracyTestScreen
+import com.example.digital_mentor.presentation.view.TestResultScreen
 
 fun NavGraphBuilder.mainNavGraph(
     navController: NavController,
@@ -25,6 +26,12 @@ fun NavGraphBuilder.mainNavGraph(
         composable<Routes.IlliterateTest> {
             MainAppLayout(navController = navController) {
                 IlliteracyTestScreen()
+            }
+        }
+
+        composable<Routes.TestResult> {
+            MainAppLayout(navController = navController) {
+                TestResultScreen()
             }
         }
     }

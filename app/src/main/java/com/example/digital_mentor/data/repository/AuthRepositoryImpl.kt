@@ -14,9 +14,8 @@ import io.github.jan.supabase.auth.Auth
 import io.github.jan.supabase.auth.providers.Google
 import io.github.jan.supabase.auth.providers.builtin.Email
 import io.github.jan.supabase.auth.providers.builtin.IDToken
+import io.github.jan.supabase.auth.user.UserInfo
 import io.github.jan.supabase.exceptions.RestException
-import kotlinx.serialization.json.buildJsonObject
-import kotlinx.serialization.json.put
 import java.security.MessageDigest
 import java.util.UUID
 
@@ -27,21 +26,18 @@ class AuthRepositoryImpl(
 ) : AuthRepository {
 
     override suspend fun signUpWithEmail(
-        name: String,
-        card: String,
         email: String,
         password: String
-    ): Result<Boolean> {
+    ): Result<UserInfo> {
         return try {
             auth.signUpWith(Email) {
                 this.email = email
                 this.password = password
-                data = buildJsonObject {
-                    put("name", name)
-                    put("card", card)
-                }
             }
-            Result.success(true)
+
+            val userInfo = auth.currentUserOrNull() ?: throw Exception("User ID not found")
+
+            Result.success(userInfo)
         } catch (e: Exception) {
             Result.failure(e)
         }

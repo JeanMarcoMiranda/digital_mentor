@@ -6,7 +6,9 @@ import com.example.digital_mentor.data.datasource.remote.MySupabaseClient
 import com.example.digital_mentor.domain.repository.AuthRepository
 import com.example.digital_mentor.data.repository.AuthRepositoryImpl
 import com.example.digital_mentor.data.repository.CategoryRepositoryImpl
+import com.example.digital_mentor.data.repository.UserProfileRepositoryImpl
 import com.example.digital_mentor.domain.repository.CategoryRepository
+import com.example.digital_mentor.domain.repository.UserProfileRepository
 import com.example.digital_mentor.domain.usecase.CheckSessionUseCase
 import com.example.digital_mentor.domain.usecase.GetCategoriesWithQuestionsUseCase
 import com.example.digital_mentor.domain.usecase.SignInUseCase
@@ -57,9 +59,10 @@ val appModule = module {
     single { CredentialManager.create(get()) }
 
     single<AuthRepository> { AuthRepositoryImpl(get(), get(), get()) }
+    single<UserProfileRepository> { UserProfileRepositoryImpl(get()) }
     single<CategoryRepository> { CategoryRepositoryImpl(get()) }
 
-    single { SignUpUseCase(get()) }
+    single { SignUpUseCase(get(), get()) }
     single { SignInUseCase(get()) }
     single { SignOutUseCase(get()) }
     single { SignInWithGoogleUseCase(get()) }

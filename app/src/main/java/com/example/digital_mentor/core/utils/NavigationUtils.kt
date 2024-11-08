@@ -14,7 +14,6 @@ sealed interface AppRoutes {
 }
 
 sealed interface Routes {
-
     @Serializable
     data object Login: Routes
 
@@ -26,4 +25,7 @@ sealed interface Routes {
 
     @Serializable
     data object IlliterateTest: Routes
+
+    @Serializable
+    data object TestResult: Routes
 }

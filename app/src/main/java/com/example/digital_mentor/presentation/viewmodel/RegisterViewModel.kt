@@ -99,7 +99,11 @@ class RegisterViewModel(private val signUpUseCase: SignUpUseCase) : ViewModel() 
                                 ""
                             )
 
-                        if (currentState.name.isNotEmpty() && currentState.email.isNotEmpty() && currentState.password.isNotEmpty()) {
+                        if (currentState.name.isNotEmpty()
+                            && currentState.card.isNotEmpty()
+                            && currentState.email.isNotEmpty()
+                            && currentState.password.isNotEmpty()
+                        ) {
                             Log.d("RegisterResult", "Here register")
                             _viewState.value = RegisterViewState.Loading
                             viewModelScope.launch {

@@ -15,18 +15,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
 import com.example.digital_mentor.core.utils.AppRoutes
-import com.example.digital_mentor.core.utils.Routes
 import com.example.digital_mentor.presentation.components.CustomTopAppBar
 import com.example.digital_mentor.presentation.components.DrawerContent
+import com.example.digital_mentor.presentation.intent.AppIntent
 import com.example.digital_mentor.presentation.intent.MainLayoutIntent
 import com.example.digital_mentor.presentation.intent.MainLayoutState
+import com.example.digital_mentor.presentation.viewmodel.AppViewModel
 import com.example.digital_mentor.presentation.viewmodel.MainLayoutViewModel
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
@@ -39,6 +38,7 @@ fun MainAppLayout(
 ) {
     val context = LocalContext.current
     val viewState by viewModel.viewState.collectAsState()
+    val appViewModel = koinViewModel<AppViewModel>()
 
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(
         state = rememberTopAppBarState()
@@ -82,6 +82,7 @@ fun MainAppLayout(
                     is MainLayoutState.Success -> {
                         Log.d("Logout", "Success")
                         val successMessage = (viewState as MainLayoutState.Success).message
+                        appViewModel.sendIntent(AppIntent.Start)
                         navController.navigate(AppRoutes.Onboarding) {
                             popUpTo<AppRoutes.MainGraph> {
                                 inclusive = true
