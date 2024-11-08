@@ -72,6 +72,6 @@ val appModule = module {
     viewModel { AppViewModel(get()) }
     viewModel { LoginViewModel(get(), get()) }
     viewModel { RegisterViewModel(get()) }
-    viewModel { IlliteracyTestViewModel(get()) }
+    viewModel { IlliteracyTestViewModel(get(), get()) }
     viewModel { MainLayoutViewModel(get()) }
 }

@@ -3,7 +3,9 @@ package com.example.digital_mentor.presentation.viewmodel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.digital_mentor.data.model.UserProfileEntityUpdate
 import com.example.digital_mentor.domain.usecase.GetCategoriesWithQuestionsUseCase
+import com.example.digital_mentor.domain.usecase.UpdateUserProfileUseCase
 import com.example.digital_mentor.presentation.intent.IlliteracyTestIntent
 import com.example.digital_mentor.presentation.intent.IlliteracyTestState
 import kotlinx.coroutines.channels.Channel
@@ -14,9 +16,17 @@ import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import kotlinx.datetime.Clock
+import kotlinx.datetime.Instant
+import kotlinx.datetime.format
+import java.text.SimpleDateFormat
+import java.time.format.DateTimeFormatter
+import java.util.Date
+import java.util.Locale
 
 class IlliteracyTestViewModel(
-    private val getCategoriesWithQuestionsUseCase: GetCategoriesWithQuestionsUseCase
+    private val getCategoriesWithQuestionsUseCase: GetCategoriesWithQuestionsUseCase,
+    private val updateUserProfile: UpdateUserProfileUseCase
 ) : ViewModel() {
 
     private val _viewState = MutableStateFlow<IlliteracyTestState>(
@@ -52,11 +62,12 @@ class IlliteracyTestViewModel(
                 when (intent) {
                     is IlliteracyTestIntent.SelectAnswer -> {
                         // Update selectedAnswer value
-                        if(_viewState.value is IlliteracyTestState.Categories) {
+                        if (_viewState.value is IlliteracyTestState.Categories) {
                             val newState = _viewState.value as IlliteracyTestState.Categories
                             _viewState.value = newState.copy(selectedAnswer = intent.answer)
                         }
                     }
+
                     IlliteracyTestIntent.NextQuestion -> handleNextQuestion()
                     IlliteracyTestIntent.LoadCategories -> fetchCategoriesData()
                 }
@@ -103,8 +114,29 @@ class IlliteracyTestViewModel(
                     )
                 } else {
                     // There are no more categories, show Complete Test
-                    _viewState.value =
-                        IlliteracyTestState.Success("Test finalizado. Puntaje: ${currentState.score}")
+                    _viewState.value = IlliteracyTestState.Loading
+                    viewModelScope.launch {
+                        val date = Date()
+                        val formatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+                        val currentDateFormated = formatter.format(date)
+                        val updateProfileData = UserProfileEntityUpdate(
+                            cumulativeScore = newScore,
+                            lastTestDate = currentDateFormated
+                        )
+                        val updateResult = updateUserProfile(updateProfileData)
+
+                        if (updateResult.isSuccess) {
+                            _viewState.value =
+                                IlliteracyTestState.Success("Test finalizado. Puntaje: ${currentState.score}")
+                        } else {
+                            _viewState.value = IlliteracyTestState.Error(
+                                updateResult.exceptionOrNull()?.message
+                                    ?: "Error al cargar los datos del Test"
+                            )
+                        }
+                    }
+
+
                 }
             }
 
