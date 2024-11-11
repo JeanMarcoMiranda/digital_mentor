@@ -11,7 +11,7 @@ data class UserProfileEntity(
     @SerialName("cumulative_score") val cumulativeScore: Int?,
     @SerialName("illiteracy_level") val illiteracyLevel: String?,
     @SerialName("last_test_date") val lastTestDate: String?,
-    val createdAt: String
+    @SerialName("created_at") val createdAt: String?
 )
 
 @Serializable

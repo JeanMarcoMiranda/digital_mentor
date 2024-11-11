@@ -13,9 +13,10 @@ import com.example.digital_mentor.presentation.view.TestResultScreen
 
 fun NavGraphBuilder.mainNavGraph(
     navController: NavController,
+    startDestination: Routes
 ) {
     navigation<AppRoutes.MainGraph>(
-        startDestination = Routes.IlliterateTest
+        startDestination = startDestination
     ) {
         composable<Routes.Home> {
             MainAppLayout(navController = navController) {

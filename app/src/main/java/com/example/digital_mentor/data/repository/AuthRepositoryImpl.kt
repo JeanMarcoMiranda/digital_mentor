@@ -108,24 +108,6 @@ class AuthRepositoryImpl(
                     GoogleIdTokenCredential.createFrom(result.credential.data)
                 val googleIdToken = googleIdTokenCredential.idToken
 
-
-                Log.d(
-                    "Login Google",
-                    "This is the login with google data ${googleIdTokenCredential.id}"
-                )
-                Log.d(
-                    "Login Google",
-                    "This is the login with google displayname ${googleIdTokenCredential.displayName}"
-                )
-                Log.d(
-                    "Login Google",
-                    "This is the login with google givenname ${googleIdTokenCredential.givenName}"
-                )
-                Log.d(
-                    "Login Google",
-                    "This is the login with google phonenumber ${googleIdTokenCredential.phoneNumber}"
-                )
-
                 auth.signInWith(IDToken) {
                     idToken = googleIdToken
                     provider = Google

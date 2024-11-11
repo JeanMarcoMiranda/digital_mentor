@@ -5,7 +5,7 @@ import com.example.digital_mentor.data.model.UserProfileEntityCreate
 import com.example.digital_mentor.data.model.UserProfileEntityUpdate
 
 interface UserProfileRepository {
-    suspend fun getUserProfile(): Result<UserProfileEntity>
+    suspend fun getUserProfile(userId: String): Result<UserProfileEntity>
 
     suspend fun saveUserProfile(userData: UserProfileEntityCreate): Result<UserProfileEntity>
 

@@ -25,8 +25,10 @@ import androidx.compose.ui.unit.sp
 import com.example.digital_mentor.R
 import com.example.digital_mentor.presentation.components.CustomTextField
 import com.example.digital_mentor.presentation.components.DividerWithText
+import com.example.digital_mentor.presentation.intent.AppIntent
 import com.example.digital_mentor.presentation.intent.LoginIntent
 import com.example.digital_mentor.presentation.intent.LoginViewState
+import com.example.digital_mentor.presentation.viewmodel.AppViewModel
 import com.example.digital_mentor.presentation.viewmodel.LoginViewModel
 import org.koin.androidx.compose.koinViewModel
 
@@ -37,6 +39,7 @@ fun LoginScreen(
     onLoginSuccess: () -> Unit
 ) {
     val context = LocalContext.current
+    val appViewModel = koinViewModel<AppViewModel>()
     val viewState by viewModel.viewState.collectAsState()
 
     // Get passwordIsVisible current state
@@ -93,7 +96,10 @@ fun LoginScreen(
 
             // Login Button
             Button(
-                onClick = { viewModel.sendIntent(LoginIntent.Login, context) },
+                onClick = {
+                    viewModel.sendIntent(LoginIntent.Login, context)
+                    appViewModel.sendIntent(AppIntent.Start)
+                },
                 shape = RoundedCornerShape(10.dp),
                 modifier = Modifier
                     .fillMaxWidth()
@@ -109,7 +115,10 @@ fun LoginScreen(
 
             // Login with Google Button
             Button(
-                onClick = { viewModel.sendIntent(LoginIntent.LoginWithGoogle, context) },
+                onClick = {
+                    viewModel.sendIntent(LoginIntent.LoginWithGoogle, context)
+                    appViewModel.sendIntent(AppIntent.Start)
+                },
                 shape = RoundedCornerShape(10.dp),
                 modifier = Modifier
                     .fillMaxWidth()
@@ -160,27 +169,14 @@ fun LoginScreen(
                     Toast.makeText(context, successMessage, Toast.LENGTH_SHORT).show()
                     onLoginSuccess()
                 }
+
                 is LoginViewState.Error -> {
                     val errorMessage = (viewState as LoginViewState.Error).error
                     Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
                 }
+
                 else -> Unit
             }
         }
     }
-
-    // Look for every state and show a message based on the current change of state
-//    when (viewState) {
-//        is LoginViewState.Loading -> { /* Mostrar indicador de carga */
-//        }
-//
-//        is LoginViewState.Error -> { /* Mostrar mensaje de error */
-//        }
-//
-//        is LoginViewState.Success -> { /* Navegar o mostrar mensaje de éxito */
-//        }
-//
-//        else -> Unit
-//    }
-
 }
