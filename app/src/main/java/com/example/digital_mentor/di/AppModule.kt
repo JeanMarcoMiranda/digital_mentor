@@ -1,5 +1,7 @@
 package com.example.digital_mentor.di
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.credentials.CredentialManager
 import com.example.digital_mentor.BuildConfig
 import com.example.digital_mentor.data.datasource.remote.MySupabaseClient
@@ -35,6 +37,7 @@ import java.security.MessageDigest
 import java.util.UUID
 
 
+@RequiresApi(Build.VERSION_CODES.O)
 val appModule = module {
     single<SupabaseClient> {
         MySupabaseClient.client
@@ -75,8 +78,8 @@ val appModule = module {
     single { GetCurrentUserInfoUseCase(get()) }
     single { GetUserProfileUseCase(get()) }
 
-    viewModel { AppViewModel(get(), get(), get()) }
-    viewModel { LoginViewModel(get(), get()) }
+    viewModel { AppViewModel(get()) }
+    viewModel { LoginViewModel(get(), get(), get(), get()) }
     viewModel { RegisterViewModel(get()) }
     viewModel { IlliteracyTestViewModel(get(), get(), get()) }
     viewModel { MainLayoutViewModel(get()) }

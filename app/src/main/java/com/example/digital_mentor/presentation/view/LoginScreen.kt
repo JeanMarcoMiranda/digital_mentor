@@ -1,6 +1,8 @@
 package com.example.digital_mentor.presentation.view
 
+import android.os.Build
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -22,7 +24,10 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.digital_mentor.R
+import com.example.digital_mentor.core.utils.AppRoutes
+import com.example.digital_mentor.core.utils.Routes
 import com.example.digital_mentor.presentation.components.CustomTextField
 import com.example.digital_mentor.presentation.components.DividerWithText
 import com.example.digital_mentor.presentation.intent.AppIntent
@@ -32,11 +37,12 @@ import com.example.digital_mentor.presentation.viewmodel.AppViewModel
 import com.example.digital_mentor.presentation.viewmodel.LoginViewModel
 import org.koin.androidx.compose.koinViewModel
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun LoginScreen(
     viewModel: LoginViewModel = koinViewModel(),
     onRegisterClick: () -> Unit = {},
-    onLoginSuccess: () -> Unit
+    navController: NavController,
 ) {
     val context = LocalContext.current
     val appViewModel = koinViewModel<AppViewModel>()
@@ -98,7 +104,6 @@ fun LoginScreen(
             Button(
                 onClick = {
                     viewModel.sendIntent(LoginIntent.Login, context)
-                    appViewModel.sendIntent(AppIntent.Start)
                 },
                 shape = RoundedCornerShape(10.dp),
                 modifier = Modifier
@@ -166,8 +171,18 @@ fun LoginScreen(
             when (viewState) {
                 is LoginViewState.Success -> {
                     val successMessage = (viewState as LoginViewState.Success).message
+
+
+                    val isPending = (viewState as LoginViewState.Success).isPending
+
+                    if (isPending != null) {
+                        val mainStartDestination = if (isPending) Routes.IlliterateTest else Routes.Home
+                        navController.navigate(mainStartDestination) {
+                            popUpTo(AppRoutes.AuthGraph) { inclusive = true }
+                        }
+                    }
+
                     Toast.makeText(context, successMessage, Toast.LENGTH_SHORT).show()
-                    onLoginSuccess()
                 }
 
                 is LoginViewState.Error -> {

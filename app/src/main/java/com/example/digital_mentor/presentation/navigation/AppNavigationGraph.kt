@@ -1,5 +1,7 @@
 package com.example.digital_mentor.presentation.navigation
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -8,7 +10,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.digital_mentor.core.utils.AppRoutes
-import com.example.digital_mentor.core.utils.Routes
 import com.example.digital_mentor.presentation.intent.AppIntent
 import com.example.digital_mentor.presentation.intent.AppState
 import com.example.digital_mentor.presentation.navigation.navGraphs.authNavGraph
@@ -17,6 +18,7 @@ import com.example.digital_mentor.presentation.view.OnboardingScreen
 import com.example.digital_mentor.presentation.viewmodel.AppViewModel
 import org.koin.androidx.compose.koinViewModel
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun AppNavigationGraph(
     viewModel: AppViewModel = koinViewModel(),
@@ -27,7 +29,6 @@ fun AppNavigationGraph(
 
     // Get start route
     val startRoute = (viewState as? AppState.StartDestination)?.route ?: AppRoutes.AuthGraph
-    val isTestPending = (viewState as? AppState.User)?.isTestPending ?: true
 
     LaunchedEffect(Unit) {
         viewModel.sendIntent(AppIntent.Start)
@@ -51,7 +52,6 @@ fun AppNavigationGraph(
         )
         mainNavGraph(
             navController = navController,
-            startDestination = if (isTestPending) Routes.IlliterateTest else Routes.Home
         )
     }
 }

@@ -1,5 +1,7 @@
 package com.example.digital_mentor.presentation.navigation.navGraphs
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
@@ -11,12 +13,12 @@ import com.example.digital_mentor.presentation.view.HomeScreen
 import com.example.digital_mentor.presentation.view.IlliteracyTestScreen
 import com.example.digital_mentor.presentation.view.TestResultScreen
 
+@RequiresApi(Build.VERSION_CODES.O)
 fun NavGraphBuilder.mainNavGraph(
     navController: NavController,
-    startDestination: Routes
 ) {
     navigation<AppRoutes.MainGraph>(
-        startDestination = startDestination
+        startDestination = Routes.Home
     ) {
         composable<Routes.Home> {
             MainAppLayout(navController = navController) {

@@ -1,7 +1,9 @@
 package com.example.digital_mentor.presentation.layout
 
+import android.os.Build
 import android.util.Log
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -30,6 +32,7 @@ import com.example.digital_mentor.presentation.viewmodel.MainLayoutViewModel
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
+@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainAppLayout(
@@ -53,7 +56,9 @@ fun MainAppLayout(
         drawerState = drawerState,
         drawerContent = {
             ModalDrawerSheet() {
-                DrawerContent(onLogoutClick = { viewModel.sendIntent(MainLayoutIntent.LogoutClicked) })
+                DrawerContent(onLogoutClick = {
+                    viewModel.sendIntent(MainLayoutIntent.LogoutClicked)
+                })
             }
         }
     ) {

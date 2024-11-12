@@ -20,13 +20,7 @@ fun NavGraphBuilder.authNavGraph(
                 onRegisterClick = {
                     navController.navigate(Routes.Register)
                 },
-                onLoginSuccess = {
-                    navController.navigate(AppRoutes.MainGraph) {
-                        popUpTo<AppRoutes.AuthGraph> {
-                            inclusive = true
-                        }
-                    }
-                }
+                navController = navController,
             )
         }
         composable<Routes.Register> {
