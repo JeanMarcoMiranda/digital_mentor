@@ -58,6 +58,7 @@ fun RegisterScreen(
 
             CustomTextField(
                 value = (viewState as? RegisterViewState.Input)?.name ?: "",
+                error = (viewState as? RegisterViewState.Input)?.nameError,
                 onValueChange = { viewModel.sendIntent(RegisterIntent.ChangeName(it)) },
                 keyboardType = KeyboardType.Text,
                 label = "Nombre",
@@ -68,6 +69,7 @@ fun RegisterScreen(
 
             CustomTextField(
                 value = (viewState as? RegisterViewState.Input)?.card ?: "",
+                error = (viewState as? RegisterViewState.Input)?.cardError,
                 onValueChange = { viewModel.sendIntent(RegisterIntent.ChangeCard(it)) },
                 keyboardType = KeyboardType.Number,
                 label = "Tarjeta",
@@ -77,6 +79,7 @@ fun RegisterScreen(
 
             CustomTextField(
                 value = (viewState as? RegisterViewState.Input)?.email ?: "",
+                error = (viewState as? RegisterViewState.Input)?.emailError,
                 onValueChange = { viewModel.sendIntent(RegisterIntent.ChangeEmail(it)) },
                 keyboardType = KeyboardType.Email,
                 label = "Correo",
@@ -86,6 +89,7 @@ fun RegisterScreen(
             Spacer(modifier = Modifier.height(8.dp))
             CustomTextField(
                 value = (viewState as? RegisterViewState.Input)?.password ?: "",
+                error = (viewState as? RegisterViewState.Input)?.passwordError,
                 onValueChange = { viewModel.sendIntent(RegisterIntent.ChangePassword(it)) },
                 label = "Contraseña",
                 placeholder = "Ingresa ontraseña",

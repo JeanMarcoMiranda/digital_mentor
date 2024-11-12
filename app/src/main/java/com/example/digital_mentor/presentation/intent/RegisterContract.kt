@@ -10,7 +10,11 @@ sealed class RegisterViewState {
         val email: String,
         val card: String,
         val password: String,
-        val passwordVisible: Boolean = false
+        val passwordVisible: Boolean = false,
+        val nameError: String? = null,
+        val cardError: String? = null,
+        val emailError: String? = null,
+        val passwordError: String? = null
     ) : RegisterViewState()
 }
 

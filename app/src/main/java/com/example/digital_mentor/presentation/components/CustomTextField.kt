@@ -30,62 +30,75 @@ fun CustomTextField(
     isPassword: Boolean = false,
     isPasswordVisible: Boolean = false,
     onPasswordVisibilityChange: () -> Unit = {},
+    error: String? = null,
     modifier: Modifier = Modifier
 ) {
-    OutlinedTextField(
-        value = value,
-        onValueChange = onValueChange,
-        textStyle = TextStyle(
-            color = Color(0xFF333333),
-            fontSize = 14.sp,  // Fuente más pequeña para compactar
-            lineHeight = 18.sp
-        ),
-        label = {
-            Text(
-                text = label,
-                style = TextStyle(
-                    fontSize = 14.sp,  // Fuente compacta para el placeholder
-                    color = Color(0xFF9E9E9E),
-                    lineHeight = 18.sp
+    Column {
+        OutlinedTextField(
+            value = value,
+            onValueChange = onValueChange,
+            textStyle = TextStyle(
+                color = Color(0xFF333333),
+                fontSize = 14.sp,  // Fuente más pequeña para compactar
+                lineHeight = 18.sp
+            ),
+            label = {
+                Text(
+                    text = label,
+                    style = TextStyle(
+                        fontSize = 14.sp,  // Fuente compacta para el placeholder
+                        color = Color(0xFF9E9E9E),
+                        lineHeight = 18.sp
+                    )
                 )
-            )
-        },
-        placeholder = {
-            Text(
-                text = placeholder,
-                style = TextStyle(
-                    fontSize = 14.sp,  // Fuente compacta para el placeholder
-                    color = Color(0xFF9E9E9E),
-                    lineHeight = 18.sp
+            },
+            placeholder = {
+                Text(
+                    text = placeholder,
+                    style = TextStyle(
+                        fontSize = 14.sp,  // Fuente compacta para el placeholder
+                        color = Color(0xFF9E9E9E),
+                        lineHeight = 18.sp
+                    )
                 )
-            )
-        },
-        trailingIcon = {
-            if (isPassword) {
-                Icon(
-                    imageVector = if (isPasswordVisible) Icons.Outlined.VisibilityOff else Icons.Outlined.Visibility,
-                    contentDescription = if (isPasswordVisible) "Ocultar contraseña" else "Mostrar contraseña",
-                    tint = Color(0xFF6E6E6E),
-                    modifier = Modifier
-                        .size(18.dp)  // Icono más pequeño para alinearse con el campo compacto
-                        .clickable { onPasswordVisibilityChange() }
-                )
-            }
-        },
-        visualTransformation = if (isPassword && !isPasswordVisible) PasswordVisualTransformation() else VisualTransformation.None,
-        keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
-        singleLine = true,
-        modifier = modifier
-            .fillMaxWidth(),
+            },
+            trailingIcon = {
+                if (isPassword) {
+                    Icon(
+                        imageVector = if (isPasswordVisible) Icons.Outlined.VisibilityOff else Icons.Outlined.Visibility,
+                        contentDescription = if (isPasswordVisible) "Ocultar contraseña" else "Mostrar contraseña",
+                        tint = Color(0xFF6E6E6E),
+                        modifier = Modifier
+                            .size(18.dp)  // Icono más pequeño para alinearse con el campo compacto
+                            .clickable { onPasswordVisibilityChange() }
+                    )
+                }
+            },
+            visualTransformation = if (isPassword && !isPasswordVisible) PasswordVisualTransformation() else VisualTransformation.None,
+            keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
+            singleLine = true,
+            modifier = modifier
+                .fillMaxWidth(),
 //            .padding(vertical = 8.dp)  // Menos padding para compactar
 //            .height(48.dp),  // Altura reducida para un diseño más compacto
-        colors = TextFieldDefaults.colors(
-            focusedContainerColor = Color(0xFFE0F7FA),
-            unfocusedContainerColor = Color(0xFFF5F5F5),
-            focusedTextColor = Color(0xFF333333),
-            unfocusedTextColor = Color(0xFF6E6E6E),
-            focusedLabelColor = Color(0xFF00796B),
-            cursorColor = Color(0xFF00796B)
+            colors = TextFieldDefaults.colors(
+                focusedContainerColor = Color(0xFFE0F7FA),
+                unfocusedContainerColor = Color(0xFFF5F5F5),
+                focusedTextColor = Color(0xFF333333),
+                unfocusedTextColor = Color(0xFF6E6E6E),
+                focusedLabelColor = Color(0xFF00796B),
+                cursorColor = Color(0xFF00796B)
+            )
         )
-    )
+
+        if (error != null) {
+            Text(
+                text = error,
+                color = Color.Red,
+                style = TextStyle(fontSize = 12.sp),
+                modifier = Modifier.padding(start = 10.dp, top = 4.dp)
+            )
+        }
+    }
+
 }
