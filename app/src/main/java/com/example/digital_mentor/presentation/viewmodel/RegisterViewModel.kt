@@ -139,7 +139,12 @@ class RegisterViewModel(private val signUpUseCase: SignUpUseCase) : ViewModel() 
 
     private fun validateInput(input: RegisterViewState.Input): RegisterViewState.Input {
         val nameError = if (input.name.isBlank()) "Nombre es obligatorio" else null
-        val cardError = if (input.card.isBlank()) "Tarjeta es obligatoria" else null
+//        val cardError = if (input.card.isBlank()) "Tarjeta es obligatoria" else null
+        val cardError = when {
+            input.card.isBlank() -> "Tarjeta es obligatoria"
+            input.card.length != 16  -> "La tarjeta debe tener 16 digitos"
+            else -> null
+        }
         val emailError = if (!input.email.contains("@")) "Correo inválido" else null
         val passwordError = if (input.password.length < 6) "Contraseña muy corta" else null
 

@@ -19,6 +19,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.digital_mentor.R
+import com.example.digital_mentor.presentation.components.CustomCardTextField
 import com.example.digital_mentor.presentation.components.CustomTextField
 import com.example.digital_mentor.presentation.intent.RegisterIntent
 import com.example.digital_mentor.presentation.intent.RegisterViewState
@@ -67,13 +68,27 @@ fun RegisterScreen(
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            CustomTextField(
+//            CustomTextField(
+//                value = (viewState as? RegisterViewState.Input)?.card ?: "",
+//                error = (viewState as? RegisterViewState.Input)?.cardError,
+//                onValueChange = { viewModel.sendIntent(RegisterIntent.ChangeCard(it)) },
+//                keyboardType = KeyboardType.Number,
+//                label = "Tarjeta",
+//                placeholder = "Ingresa tu número de tarjeta",
+//            )
+
+            CustomCardTextField(
                 value = (viewState as? RegisterViewState.Input)?.card ?: "",
                 error = (viewState as? RegisterViewState.Input)?.cardError,
-                onValueChange = { viewModel.sendIntent(RegisterIntent.ChangeCard(it)) },
-                keyboardType = KeyboardType.Number,
-                label = "Tarjeta",
-                placeholder = "Ingresa tu número de tarjeta",
+                onValueChange = {
+                    if (it.length <= 16) viewModel.sendIntent(
+                        RegisterIntent.ChangeCard(
+                            it
+                        )
+                    )
+                },
+                label = "Número de tarjetaa",
+                placeholder = "#### #### #### ####",
             )
             Spacer(modifier = Modifier.height(8.dp))
 
