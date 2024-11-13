@@ -75,19 +75,32 @@ fun IlliteracyTestScreen(
         }
 
         is IlliteracyTestState.Categories -> {
-            // Show the Illiteracy test based on the categories and questions data
-            IlliteracyTestContent(
-                categories = state.categories,
-                currentCategoryIndex = state.currentCategoryIndex,
-                currentQuestionIndex = state.currentQuestionIndex,
-                selectedAnswer = state.selectedAnswer,
-                onSelectAnswer = { answer ->
-                    viewModel.sendIntent(IlliteracyTestIntent.SelectAnswer(answer))
-                },
-                onNextQuestion = {
-                    viewModel.sendIntent(IlliteracyTestIntent.NextQuestion)
-                }
-            )
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp)
+            ) {
+                Stepper(
+                    totalSteps = state.categories.size,
+                    currentStep = state.currentCategoryIndex
+                )
+
+                Spacer(Modifier.height(16.dp))
+
+                // Show the Illiteracy test based on the categories and questions data
+                IlliteracyTestContent(
+                    categories = state.categories,
+                    currentCategoryIndex = state.currentCategoryIndex,
+                    currentQuestionIndex = state.currentQuestionIndex,
+                    selectedAnswer = state.selectedAnswer,
+                    onSelectAnswer = { answer ->
+                        viewModel.sendIntent(IlliteracyTestIntent.SelectAnswer(answer))
+                    },
+                    onNextQuestion = {
+                        viewModel.sendIntent(IlliteracyTestIntent.NextQuestion)
+                    }
+                )
+            }
         }
 
         is IlliteracyTestState.Success -> {
@@ -98,6 +111,27 @@ fun IlliteracyTestScreen(
                     .wrapContentSize(Alignment.Center),
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.primary
+            )
+        }
+    }
+}
+
+@Composable
+fun Stepper(totalSteps: Int, currentStep: Int) {
+    Row(
+        modifier = Modifier.fillMaxWidth().padding(top = 20.dp),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        for (i in 0 until totalSteps) {
+            Box(
+                modifier = Modifier
+                    .size(20.dp)
+                    .clip(RoundedCornerShape(50))
+                    .background(
+                        if (i <= currentStep) MaterialTheme.colorScheme.primary
+                        else Color.Gray
+                    )
             )
         }
     }
@@ -163,10 +197,10 @@ fun IlliteracyTestContent(
                 AnimatedContent(
                     targetState = currentQuestion.question,
                     transitionSpec = {
-                         ContentTransform(
-                             targetContentEnter = fadeIn(animationSpec = tween(500)),
-                             initialContentExit = fadeOut(animationSpec = tween(500))
-                         )
+                        ContentTransform(
+                            targetContentEnter = fadeIn(animationSpec = tween(500)),
+                            initialContentExit = fadeOut(animationSpec = tween(500))
+                        )
                     }
                 ) { questionText ->
                     Box(

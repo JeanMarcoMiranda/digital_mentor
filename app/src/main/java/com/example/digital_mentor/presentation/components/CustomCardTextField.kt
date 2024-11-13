@@ -98,13 +98,3 @@ class CardNumberVisualTransformation : VisualTransformation {
         return TransformedText(AnnotatedString(formatted), offsetMapping)
     }
 }
-
-//class CardNumberVisualTransformation : VisualTransformation {
-//    override fun filter(text: AnnotatedString): TransformedText {
-//        // Aquí formateamos el texto en bloques de 4 dígitos
-//        val trimmed = if (text.text.length >= 16) text.text.substring(0..15) else text.text
-//        val formatted = trimmed.chunked(4).joinToString(" ")
-//
-//        return TransformedText(AnnotatedString(formatted), OffsetMapping.Identity)
-//    }
-//}
