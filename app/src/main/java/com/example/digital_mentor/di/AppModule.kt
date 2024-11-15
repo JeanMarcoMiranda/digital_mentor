@@ -22,6 +22,7 @@ import com.example.digital_mentor.domain.usecase.SignUpUseCase
 import com.example.digital_mentor.domain.usecase.UpdateUserProfileUseCase
 import com.example.digital_mentor.presentation.viewmodel.AppViewModel
 import com.example.digital_mentor.presentation.viewmodel.IlliteracyTestViewModel
+import com.example.digital_mentor.presentation.viewmodel.LiveSupportViewModel
 import com.example.digital_mentor.presentation.viewmodel.LoginViewModel
 import com.example.digital_mentor.presentation.viewmodel.MainLayoutViewModel
 import com.example.digital_mentor.presentation.viewmodel.RegisterViewModel
@@ -79,6 +80,7 @@ val appModule = module {
     single { GetUserProfileUseCase(get()) }
 
     viewModel { AppViewModel(get()) }
+    viewModel { LiveSupportViewModel() }
     viewModel { LoginViewModel(get(), get(), get(), get()) }
     viewModel { RegisterViewModel(get()) }
     viewModel { IlliteracyTestViewModel(get(), get(), get()) }

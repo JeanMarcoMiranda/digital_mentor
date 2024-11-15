@@ -28,4 +28,10 @@ sealed interface Routes {
 
     @Serializable
     data object TestResult: Routes
+
+    @Serializable
+    data object UserProfile: Routes
+
+    @Serializable
+    data object LiveSupport: Routes
 }

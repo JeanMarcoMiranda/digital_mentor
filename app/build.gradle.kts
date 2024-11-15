@@ -112,4 +112,7 @@ dependencies {
 
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.6")
 
+    // Stepper
+    implementation("com.github.binayshaw7777:KotStep:2.2.3")
+
 }

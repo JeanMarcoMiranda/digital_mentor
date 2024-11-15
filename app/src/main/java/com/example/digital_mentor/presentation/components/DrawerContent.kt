@@ -15,11 +15,13 @@ import androidx.compose.material.icons.rounded.DeviceUnknown
 import androidx.compose.material.icons.rounded.LocalLibrary
 import androidx.compose.material.icons.rounded.Logout
 import androidx.compose.material.icons.rounded.OnDeviceTraining
+import androidx.compose.material.icons.rounded.Person
 import androidx.compose.material.icons.rounded.PhonelinkRing
 import androidx.compose.material.icons.rounded.PsychologyAlt
 import androidx.compose.material.icons.rounded.SupportAgent
 import androidx.compose.material.icons.rounded.VideoLibrary
 import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationDrawerItem
@@ -31,9 +33,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import com.example.digital_mentor.core.utils.Routes
 
 @Composable
-fun DrawerContent(modifier: Modifier = Modifier, onLogoutClick: () -> Unit) {
+fun DrawerContent(
+    navController: NavController,
+    onLogoutClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
     Box(modifier = modifier.fillMaxSize()) {
         Column(modifier = Modifier.fillMaxSize()) {
             // Título del drawer
@@ -43,25 +51,27 @@ fun DrawerContent(modifier: Modifier = Modifier, onLogoutClick: () -> Unit) {
                 modifier = Modifier.padding(16.dp)
             )
 
-            Divider()
+            HorizontalDivider()
 
             // Contenido del drawer
             NavigationDrawerItem(
                 icon = {
                     Icon(
-                        imageVector = Icons.Rounded.SupportAgent,
-                        contentDescription = "Soporte en vivo"
+                        imageVector = Icons.Rounded.Person,
+                        contentDescription = "Perfil"
                     )
                 },
                 label = {
                     Text(
-                        text = "Soporte en vivo",
+                        text = "Mi Perfil",
                         fontSize = 17.sp,
                         modifier = Modifier.padding(16.dp)
                     )
                 },
                 selected = false,
-                onClick = {}
+                onClick = {
+                    navController.navigate(Routes.UserProfile)
+                }
             )
             NavigationDrawerItem(
                 icon = {
@@ -102,7 +112,7 @@ fun DrawerContent(modifier: Modifier = Modifier, onLogoutClick: () -> Unit) {
             Spacer(modifier = Modifier.weight(1f))
         }
 
-        Divider()
+        HorizontalDivider()
 
         // Opción de Logout
         Surface(

@@ -56,7 +56,9 @@ fun MainAppLayout(
         drawerState = drawerState,
         drawerContent = {
             ModalDrawerSheet() {
-                DrawerContent(onLogoutClick = {
+                DrawerContent(
+                    navController = navController,
+                    onLogoutClick = {
                     viewModel.sendIntent(MainLayoutIntent.LogoutClicked)
                 })
             }

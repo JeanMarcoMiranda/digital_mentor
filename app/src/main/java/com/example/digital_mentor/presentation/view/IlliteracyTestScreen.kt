@@ -20,7 +20,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -41,14 +40,18 @@ import com.example.digital_mentor.presentation.viewmodel.IlliteracyTestViewModel
 import org.koin.androidx.compose.koinViewModel
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ContentTransform
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import com.binayshaw7777.kotstep.model.StepDefaults
+import com.binayshaw7777.kotstep.model.StepStyle
+import com.binayshaw7777.kotstep.model.tabHorizontal
+import com.binayshaw7777.kotstep.ui.horizontal.HorizontalStepper
 
 @Composable
 fun IlliteracyTestScreen(
-    viewModel: IlliteracyTestViewModel = koinViewModel()
+    viewModel: IlliteracyTestViewModel = koinViewModel(),
+    modifier: Modifier = Modifier
 ) {
     // Get the view state from the ViewModel
     val viewState by viewModel.viewState.collectAsState()
@@ -76,13 +79,18 @@ fun IlliteracyTestScreen(
 
         is IlliteracyTestState.Categories -> {
             Column(
-                modifier = Modifier
+                modifier = modifier
                     .fillMaxSize()
                     .padding(16.dp)
             ) {
-                Stepper(
-                    totalSteps = state.categories.size,
-                    currentStep = state.currentCategoryIndex
+                HorizontalStepper(
+                    style = tabHorizontal(
+                        totalSteps = state.categories.size,
+                        currentStep = state.currentCategoryIndex,
+                        stepStyle = StepStyle(
+                            showStrokeOnCurrent = false
+                        )
+                    )
                 )
 
                 Spacer(Modifier.height(16.dp))
@@ -111,27 +119,6 @@ fun IlliteracyTestScreen(
                     .wrapContentSize(Alignment.Center),
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.primary
-            )
-        }
-    }
-}
-
-@Composable
-fun Stepper(totalSteps: Int, currentStep: Int) {
-    Row(
-        modifier = Modifier.fillMaxWidth().padding(top = 20.dp),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        for (i in 0 until totalSteps) {
-            Box(
-                modifier = Modifier
-                    .size(20.dp)
-                    .clip(RoundedCornerShape(50))
-                    .background(
-                        if (i <= currentStep) MaterialTheme.colorScheme.primary
-                        else Color.Gray
-                    )
             )
         }
     }

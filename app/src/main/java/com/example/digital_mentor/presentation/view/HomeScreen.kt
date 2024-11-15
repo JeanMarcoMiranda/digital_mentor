@@ -28,9 +28,14 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import com.example.digital_mentor.core.utils.Routes
 
 @Composable
-fun HomeScreen(modifier: Modifier = Modifier) {
+fun HomeScreen(
+    navController: NavController,
+    modifier: Modifier = Modifier
+) {
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -39,7 +44,9 @@ fun HomeScreen(modifier: Modifier = Modifier) {
         verticalArrangement = Arrangement.Center
     ) {
         Button(
-            onClick = {},
+            onClick = {
+                navController.navigate(Routes.LiveSupport)
+            },
             shape = RoundedCornerShape(40.dp),
             modifier = Modifier
                 .fillMaxWidth()
