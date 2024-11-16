@@ -3,7 +3,7 @@ package com.example.digital_mentor.presentation.viewmodel
 import androidx.compose.material3.DrawerValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.digital_mentor.domain.usecase.SignOutUseCase
+import com.example.digital_mentor.domain.usecase.auth.SignOutUseCase
 import com.example.digital_mentor.presentation.intent.MainLayoutIntent
 import com.example.digital_mentor.presentation.intent.MainLayoutState
 import kotlinx.coroutines.channels.Channel

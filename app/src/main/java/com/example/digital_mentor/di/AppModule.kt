@@ -8,18 +8,21 @@ import com.example.digital_mentor.data.datasource.remote.MySupabaseClient
 import com.example.digital_mentor.domain.repository.AuthRepository
 import com.example.digital_mentor.data.repository.AuthRepositoryImpl
 import com.example.digital_mentor.data.repository.CategoryRepositoryImpl
+import com.example.digital_mentor.data.repository.TopicRepositoryImpl
 import com.example.digital_mentor.data.repository.UserProfileRepositoryImpl
 import com.example.digital_mentor.domain.repository.CategoryRepository
+import com.example.digital_mentor.domain.repository.TopicRepository
 import com.example.digital_mentor.domain.repository.UserProfileRepository
-import com.example.digital_mentor.domain.usecase.CheckSessionUseCase
-import com.example.digital_mentor.domain.usecase.GetCategoriesWithQuestionsUseCase
-import com.example.digital_mentor.domain.usecase.GetCurrentUserInfoUseCase
-import com.example.digital_mentor.domain.usecase.GetUserProfileUseCase
-import com.example.digital_mentor.domain.usecase.SignInUseCase
-import com.example.digital_mentor.domain.usecase.SignInWithGoogleUseCase
-import com.example.digital_mentor.domain.usecase.SignOutUseCase
-import com.example.digital_mentor.domain.usecase.SignUpUseCase
-import com.example.digital_mentor.domain.usecase.UpdateUserProfileUseCase
+import com.example.digital_mentor.domain.usecase.auth.CheckSessionUseCase
+import com.example.digital_mentor.domain.usecase.category.GetCategoriesWithQuestionsUseCase
+import com.example.digital_mentor.domain.usecase.auth.GetCurrentUserInfoUseCase
+import com.example.digital_mentor.domain.usecase.userProfile.GetUserProfileUseCase
+import com.example.digital_mentor.domain.usecase.auth.SignInUseCase
+import com.example.digital_mentor.domain.usecase.auth.SignInWithGoogleUseCase
+import com.example.digital_mentor.domain.usecase.auth.SignOutUseCase
+import com.example.digital_mentor.domain.usecase.auth.SignUpUseCase
+import com.example.digital_mentor.domain.usecase.topic.GetTopicWithQuestionsUseCase
+import com.example.digital_mentor.domain.usecase.userProfile.UpdateUserProfileUseCase
 import com.example.digital_mentor.presentation.viewmodel.AppViewModel
 import com.example.digital_mentor.presentation.viewmodel.IlliteracyTestViewModel
 import com.example.digital_mentor.presentation.viewmodel.LiveSupportViewModel
@@ -30,8 +33,6 @@ import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.auth.Auth
 import io.github.jan.supabase.auth.auth
-import io.github.jan.supabase.createSupabaseClient
-import io.github.jan.supabase.postgrest.Postgrest
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import java.security.MessageDigest
@@ -68,19 +69,25 @@ val appModule = module {
     single<AuthRepository> { AuthRepositoryImpl(get(), get(), get()) }
     single<UserProfileRepository> { UserProfileRepositoryImpl(get()) }
     single<CategoryRepository> { CategoryRepositoryImpl(get()) }
+    single<TopicRepository> { TopicRepositoryImpl(get()) }
 
+    // Auth
     single { SignUpUseCase(get(), get()) }
     single { SignInUseCase(get()) }
     single { SignOutUseCase(get()) }
     single { SignInWithGoogleUseCase(get()) }
     single { CheckSessionUseCase(get()) }
-    single { GetCategoriesWithQuestionsUseCase(get()) }
-    single { UpdateUserProfileUseCase(get()) }
     single { GetCurrentUserInfoUseCase(get()) }
+    // Category
+    single { GetCategoriesWithQuestionsUseCase(get()) }
+    // UserProfile
+    single { UpdateUserProfileUseCase(get()) }
     single { GetUserProfileUseCase(get()) }
+    // Topic
+    single { GetTopicWithQuestionsUseCase(get()) }
 
     viewModel { AppViewModel(get()) }
-    viewModel { LiveSupportViewModel() }
+    viewModel { LiveSupportViewModel(get()) }
     viewModel { LoginViewModel(get(), get(), get(), get()) }
     viewModel { RegisterViewModel(get()) }
     viewModel { IlliteracyTestViewModel(get(), get(), get()) }

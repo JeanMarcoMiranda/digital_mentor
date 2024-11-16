@@ -1,7 +1,11 @@
 package com.example.digital_mentor.presentation.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.digital_mentor.domain.model.Topic
+import com.example.digital_mentor.domain.model.TopicQuestion
+import com.example.digital_mentor.domain.usecase.topic.GetTopicWithQuestionsUseCase
 import com.example.digital_mentor.presentation.intent.ChatMessage
 import com.example.digital_mentor.presentation.intent.ChatSender
 import com.example.digital_mentor.presentation.intent.LiveSupportIntent
@@ -14,7 +18,7 @@ import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.launch
 
 class LiveSupportViewModel(
-
+    private val getTopics: GetTopicWithQuestionsUseCase
 ) : ViewModel() {
 
     private val _viewState = MutableStateFlow<LiveSupportState>(
@@ -23,7 +27,9 @@ class LiveSupportViewModel(
     val viewState: StateFlow<LiveSupportState> = _viewState.asStateFlow()
 
     private val intentChannel = Channel<LiveSupportIntent> { Channel.UNLIMITED }
-    private val chatHistory = mutableListOf<ChatMessage>()
+
+    private var selectedTopic: Topic? = null
+    private var currentQuestionIndex = 0
 
     init {
         handleIntents()
@@ -39,64 +45,146 @@ class LiveSupportViewModel(
         viewModelScope.launch {
             intentChannel.consumeAsFlow().collect() { intent ->
                 when (intent) {
-                    LiveSupportIntent.StartConsulting -> {
-                        _viewState.value = LiveSupportState.ConsultChat(consultTopics = "alsalf")
-                    }
-
-                    is LiveSupportIntent.AnswerQuestion -> TODO()
-                    is LiveSupportIntent.SelectTopic -> TODO()
+                    LiveSupportIntent.StartConsulting -> fetchTopics()
+                    is LiveSupportIntent.SelectTopic -> handleSelectTopic(intent.topic)
+                    is LiveSupportIntent.AnswerQuestion -> handleAnswer(intent)
+                    is LiveSupportIntent.UpdateTypeAnswer -> TODO()
                 }
             }
         }
     }
 
-    private fun startConsulting() {
-        _viewState.value = LiveSupportState.ConsultChat(
-            chatHistory = chatHistory.toList()
-        )
-    }
+    private fun fetchTopics() {
+        viewModelScope.launch {
+            _viewState.value = LiveSupportState.Loading
 
-    private fun selectTopic(
-        topic: String
-    ) {
-        chatHistory.add(ChatMessage(ChatSender.User, topic))
-        chatHistory.add(ChatMessage(ChatSender.System, "¿Cómo podemos ayudarte con $topic?"))
-
-        _viewState.value = LiveSupportState.SelectedTopic(
-            topic = topic,
-            chatHistory = chatHistory.toList()
-        )
-    }
-
-    // Lógica para manejar respuestas a las preguntas (opciones o entrada de texto)
-    private fun answerQuestion(answer: String) {
-        // Agregar la respuesta al historial del chat
-        chatHistory.add(ChatMessage(ChatSender.User, answer))
-
-        // Obtener la siguiente pregunta o finalizar
-        val nextQuestion = getNextQuestion()
-        if (nextQuestion != null) {
-            chatHistory.add(ChatMessage(ChatSender.System, nextQuestion.questionText))
-            _viewState.value = LiveSupportState.Question(
-                questionText = nextQuestion.questionText,
-                options = nextQuestion.options
-            )
-        } else {
-            chatHistory.add(ChatMessage(ChatSender.System, "Gracias por usar el soporte en vivo."))
-            _viewState.value = LiveSupportState.Success("Bueans")
+            getTopics().onSuccess { topics ->
+                _viewState.value = LiveSupportState.TopicSelection(topics = topics)
+            }.onFailure {
+                _viewState.value =
+                    LiveSupportState.Error(message = "No se pudieron cargar los datos correctamente")
+            }
         }
     }
 
-    // Simulación de lógica para obtener la siguiente pregunta en función del contexto actual
-    private fun getNextQuestion(): QuestionData? {
-        // Aquí se definiría la lógica para obtener la siguiente pregunta,
-        // basada en el tópico seleccionado y las respuestas previas.
-        // Esta función devuelve un objeto `QuestionData` o `null` si no hay más preguntas.
+    private fun handleSelectTopic(topic: Topic) {
+        selectedTopic = topic
+        currentQuestionIndex = 0
 
-        // Ejemplo de pregunta de prueba (se debería obtener dinámicamente)
-        return QuestionData(
-            questionText = "¿Tienes alguna otra consulta sobre este tema?",
-            options = listOf("Sí", "No")
+        val firstQuestion = topic.topicQuestions.firstOrNull()
+        if (firstQuestion != null) {
+            updateState {
+                LiveSupportState.QuestionConsult(
+                    topic = topic,
+                    currentQuestion = firstQuestion,
+                    messages = listOf(
+                        ChatMessage(ChatSender.User, "Topico seleccionado: ${topic.name}"),
+                        ChatMessage(ChatSender.System, firstQuestion.questionText)
+                    )
+                )
+            }
+
+        } else {
+            updateState {
+                LiveSupportState.Error("El tópico no tiene preguntas")
+            }
+        }
+    }
+
+    private fun handleAnswer(intent: LiveSupportIntent.AnswerQuestion) {
+        val currentState = _viewState.value
+        if (currentState !is LiveSupportState.QuestionConsult) return
+
+        val currentQuestion = selectedTopic?.topicQuestions?.getOrNull(currentQuestionIndex)
+        if (currentQuestion == null) {
+            updateState { LiveSupportState.Error("Error con el index de la pregunta actual. No existe") }
+            return
+        }
+
+        addMessage(ChatSender.User, intent.answer)
+
+        // Verifica si la opción seleccionada requiere una descripción adicional
+        val selectedOption = currentQuestion.options.firstOrNull { it.id == intent.optionId }
+        if (selectedOption != null && selectedOption.needDescription) {
+            addMessage(ChatSender.System, "Por favor, proporciona mas detalles:")
+
+            updateState {
+                currentState.copy(
+                    showTextField = true,
+                    typedAnswer = ""
+                )
+            }
+            return
+        }
+
+        // Procesa la siguiente pregunta si no se requiere descripción
+        goToNextQuestion(currentState)
+    }
+
+    private fun goToNextQuestion(
+        currentState: LiveSupportState.QuestionConsult,
+    ) {
+        val topic = currentState.topic
+        val nextQuestion = topic.topicQuestions.getOrNull(currentQuestionIndex + 1)
+
+        if (nextQuestion != null) {
+            currentQuestionIndex++
+            updateStateForNextQuestion(currentState, nextQuestion)
+        } else {
+            connectToMentor(currentState)
+        }
+    }
+
+    private fun updateStateForNextQuestion(
+        currentState: LiveSupportState.QuestionConsult,
+        nextQuestion: TopicQuestion
+    ) {
+        updateState {
+            currentState.copy(
+                currentQuestion = nextQuestion,
+                messages = currentState.messages + ChatMessage(
+                    ChatSender.System,
+                    nextQuestion.questionText
+                ),
+                showTextField = false,
+                typedAnswer = ""
+            )
+        }
+    }
+
+    private fun connectToMentor(currentState: LiveSupportState.QuestionConsult) {
+        addMessage(
+            ChatSender.System,
+            "Te conectaremos con uno de nuestros mentores en línea para ayudarte a resolver este problema."
         )
+        updateState {
+            currentState.copy(
+                messages = currentState.messages + ChatMessage(
+                    ChatSender.System,
+                    "Te conectaremos con uno de nuestros mentores en línea para ayudarte a resolver este problema."
+                ),
+                showTextField = false,
+                typedAnswer = ""
+            )
+        }
+    }
+
+    private fun addMessage(sender: ChatSender, content: String) {
+        val currentState = _viewState.value
+        Log.d("LiveSupport", "here")
+        Log.d("LiveSupport", "this is the current state $currentState")
+
+        if (currentState is LiveSupportState.QuestionConsult) {
+            Log.d("LiveSupport", "here2")
+            updateState {
+                currentState.copy(
+                    messages = currentState.messages + ChatMessage(sender, content)
+                )
+            }
+        }
+    }
+
+    private fun updateState(newState: () -> LiveSupportState) {
+        _viewState.value = newState()
     }
 }

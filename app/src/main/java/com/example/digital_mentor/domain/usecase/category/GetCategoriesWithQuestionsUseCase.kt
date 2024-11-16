@@ -1,4 +1,4 @@
-package com.example.digital_mentor.domain.usecase
+package com.example.digital_mentor.domain.usecase.category
 
 import com.example.digital_mentor.domain.model.Category
 import com.example.digital_mentor.domain.repository.CategoryRepository

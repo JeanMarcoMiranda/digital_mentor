@@ -52,7 +52,9 @@ fun NavGraphBuilder.mainNavGraph(
 
         composable<Routes.LiveSupport> {
             MainAppLayout(navController = navController) { modifier ->
-                LiveSupportScreen(modifier = modifier)
+                LiveSupportScreen(modifier = modifier, onReturnToMenu = {
+                    navController.navigate(Routes.Home)
+                })
             }
         }
     }

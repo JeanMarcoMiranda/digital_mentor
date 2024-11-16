@@ -6,12 +6,10 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.digital_mentor.core.utils.Routes
-import com.example.digital_mentor.domain.usecase.GetCurrentUserInfoUseCase
-import com.example.digital_mentor.domain.usecase.GetUserProfileUseCase
-import com.example.digital_mentor.domain.usecase.SignInUseCase
-import com.example.digital_mentor.domain.usecase.SignInWithGoogleUseCase
-import com.example.digital_mentor.presentation.intent.AppState
+import com.example.digital_mentor.domain.usecase.auth.GetCurrentUserInfoUseCase
+import com.example.digital_mentor.domain.usecase.userProfile.GetUserProfileUseCase
+import com.example.digital_mentor.domain.usecase.auth.SignInUseCase
+import com.example.digital_mentor.domain.usecase.auth.SignInWithGoogleUseCase
 import com.example.digital_mentor.presentation.intent.LoginIntent
 import com.example.digital_mentor.presentation.intent.LoginViewState
 import kotlinx.coroutines.channels.Channel

@@ -1,4 +1,4 @@
-package com.example.digital_mentor.domain.usecase
+package com.example.digital_mentor.domain.usecase.auth
 
 import android.content.Context
 import com.example.digital_mentor.domain.repository.AuthRepository

@@ -1,5 +1,6 @@
 package com.example.digital_mentor.data.repository
 
+import android.util.Log
 import com.example.digital_mentor.data.model.TopicDto
 import com.example.digital_mentor.data.model.toDomain
 import com.example.digital_mentor.domain.model.Topic
@@ -13,8 +14,25 @@ class TopicRepositoryImpl(
 ) : TopicRepository {
     override suspend fun getTopicsWithQuestions(): Result<List<Topic>> {
         return try {
-            val columnsToSelect =
-                Columns.raw("id, name, description, topic_questions(id, topic_id, question_text, response_type, order, options(id, question_id, option_text, need_description))")
+            val columnsToSelect = Columns.raw(
+                    """
+                        id,
+                        name,
+                        description,
+                        topic_questions(
+                            id, 
+                            topic_id, 
+                            question_text, 
+                            response_type, 
+                            order, 
+                            options(
+                                id, 
+                                question_id, 
+                                option_text, 
+                                need_description
+                            )
+                        )
+                    """.trimIndent())
 
             val result =
                 supabaseClient.from("topics").select(columnsToSelect)
@@ -25,6 +43,7 @@ class TopicRepositoryImpl(
 
             return Result.success(topics)
         } catch (e: Exception) {
+            Log.d("TopicRepository", "This is the repository error: $e")
             Result.failure(e)
         }
     }

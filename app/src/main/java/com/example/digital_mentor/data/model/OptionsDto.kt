@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class OptionsDto(
-    val id: String,
+    val id: Int,
     val question_id: String,
     val option_text: String,
     val need_description: Boolean

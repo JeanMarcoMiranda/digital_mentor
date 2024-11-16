@@ -4,10 +4,9 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.digital_mentor.data.model.UserProfileEntityUpdate
-import com.example.digital_mentor.domain.usecase.CheckSessionUseCase
-import com.example.digital_mentor.domain.usecase.GetCategoriesWithQuestionsUseCase
-import com.example.digital_mentor.domain.usecase.GetCurrentUserInfoUseCase
-import com.example.digital_mentor.domain.usecase.UpdateUserProfileUseCase
+import com.example.digital_mentor.domain.usecase.category.GetCategoriesWithQuestionsUseCase
+import com.example.digital_mentor.domain.usecase.auth.GetCurrentUserInfoUseCase
+import com.example.digital_mentor.domain.usecase.userProfile.UpdateUserProfileUseCase
 import com.example.digital_mentor.presentation.intent.IlliteracyTestIntent
 import com.example.digital_mentor.presentation.intent.IlliteracyTestState
 import kotlinx.coroutines.channels.Channel

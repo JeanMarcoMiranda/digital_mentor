@@ -1,4 +1,4 @@
-package com.example.digital_mentor.domain.usecase
+package com.example.digital_mentor.domain.usecase.userProfile
 
 import com.example.digital_mentor.data.model.UserProfileEntity
 import com.example.digital_mentor.domain.repository.UserProfileRepository

@@ -1,4 +1,4 @@
-package com.example.digital_mentor.domain.usecase
+package com.example.digital_mentor.domain.usecase.userProfile
 
 import android.util.Log
 import com.example.digital_mentor.data.model.UserProfileEntityUpdate
