@@ -156,11 +156,8 @@ class IlliteracyTestViewModel(
         viewModelScope.launch {
             _viewState.value = IlliteracyTestState.Loading
             getCategoriesWithQuestionsUseCase().onSuccess { categories ->
-                Log.d("QuestionsViewModel", "These are the categories: $categories")
-
                 _viewState.value = IlliteracyTestState.Categories(categories ?: emptyList(), 0, 0)
             }.onFailure {
-                Log.d("QuestionsViewModel", "No se pudieron cargar los datos")
                 _viewState.value =
                     IlliteracyTestState.Error("Error al cargar los datos de las preguntas")
             }
