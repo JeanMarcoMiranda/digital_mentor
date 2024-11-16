@@ -28,6 +28,7 @@ import com.example.digital_mentor.domain.usecase.topic.GetTopicWithQuestionsUseC
 import com.example.digital_mentor.domain.usecase.userProfile.UpdateUserProfileUseCase
 import com.example.digital_mentor.presentation.viewmodel.AppViewModel
 import com.example.digital_mentor.presentation.viewmodel.IlliteracyTestViewModel
+import com.example.digital_mentor.presentation.viewmodel.LearningGuidesViewModel
 import com.example.digital_mentor.presentation.viewmodel.LiveSupportViewModel
 import com.example.digital_mentor.presentation.viewmodel.LoginViewModel
 import com.example.digital_mentor.presentation.viewmodel.MainLayoutViewModel
@@ -98,4 +99,5 @@ val appModule = module {
     viewModel { RegisterViewModel(get()) }
     viewModel { IlliteracyTestViewModel(get(), get(), get()) }
     viewModel { MainLayoutViewModel(get()) }
+    viewModel { LearningGuidesViewModel(get()) }
 }

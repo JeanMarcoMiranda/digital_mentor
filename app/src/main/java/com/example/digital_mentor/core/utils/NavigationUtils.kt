@@ -34,4 +34,7 @@ sealed interface Routes {
 
     @Serializable
     data object LiveSupport: Routes
+
+    @Serializable
+    data object LearningGuides: Routes
 }

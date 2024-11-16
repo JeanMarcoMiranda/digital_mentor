@@ -11,6 +11,7 @@ import com.example.digital_mentor.core.utils.Routes
 import com.example.digital_mentor.presentation.layout.MainAppLayout
 import com.example.digital_mentor.presentation.view.HomeScreen
 import com.example.digital_mentor.presentation.view.IlliteracyTestScreen
+import com.example.digital_mentor.presentation.view.LearningGuidesScreen
 import com.example.digital_mentor.presentation.view.LiveSupportScreen
 import com.example.digital_mentor.presentation.view.TestResultScreen
 import com.example.digital_mentor.presentation.view.UserProfileScreen
@@ -55,6 +56,12 @@ fun NavGraphBuilder.mainNavGraph(
                 LiveSupportScreen(modifier = modifier, onReturnToMenu = {
                     navController.navigate(Routes.Home)
                 })
+            }
+        }
+
+        composable<Routes.LearningGuides> {
+            MainAppLayout(navController = navController) { modifier ->
+                LearningGuidesScreen(modifier = modifier)
             }
         }
     }

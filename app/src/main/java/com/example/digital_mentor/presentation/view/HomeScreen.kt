@@ -86,7 +86,9 @@ fun HomeScreen(
         }
         Spacer(modifier = Modifier.height(15.dp))
         Button(
-            onClick = {},
+            onClick = {
+                navController.navigate(Routes.LearningGuides)
+            },
             shape = RoundedCornerShape(40.dp),
             modifier = Modifier
                 .fillMaxWidth()
@@ -94,11 +96,11 @@ fun HomeScreen(
         ) {
             Icon(
                 imageVector = Icons.Rounded.LocalLibrary,
-                contentDescription = "Video Tutoriales"
+                contentDescription = "Guias de Aprendizaje"
             )
             Spacer(modifier = Modifier.width(10.dp))
             Text(
-                text = "Guias de Prendizaje", style = TextStyle(
+                text = "Guias de Aprendizaje", style = TextStyle(
                     fontWeight = FontWeight.Bold,
                     fontSize = 20.sp
                 )
@@ -114,7 +116,7 @@ fun HomeScreen(
         ) {
             Icon(
                 imageVector = Icons.Rounded.PsychologyAlt,
-                contentDescription = "Video Tutoriales"
+                contentDescription = "Mis COnsultas"
             )
             Spacer(modifier = Modifier.width(10.dp))
             Text(
@@ -126,7 +128,9 @@ fun HomeScreen(
         }
         Spacer(modifier = Modifier.height(15.dp))
         Button(
-            onClick = {},
+            onClick = {
+                navController.navigate(Routes.TestResult)
+            },
             shape = RoundedCornerShape(40.dp),
             modifier = Modifier
                 .fillMaxWidth()
