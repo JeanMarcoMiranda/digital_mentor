@@ -26,6 +26,7 @@ import com.example.digital_mentor.domain.usecase.auth.SignUpUseCase
 import com.example.digital_mentor.domain.usecase.course.GetCoursesUseCase
 import com.example.digital_mentor.domain.usecase.topic.GetTopicWithQuestionsUseCase
 import com.example.digital_mentor.domain.usecase.userProfile.UpdateUserProfileUseCase
+import com.example.digital_mentor.presentation.intent.TestResultState
 import com.example.digital_mentor.presentation.viewmodel.AppViewModel
 import com.example.digital_mentor.presentation.viewmodel.IlliteracyTestViewModel
 import com.example.digital_mentor.presentation.viewmodel.LearningGuidesViewModel
@@ -33,6 +34,7 @@ import com.example.digital_mentor.presentation.viewmodel.LiveSupportViewModel
 import com.example.digital_mentor.presentation.viewmodel.LoginViewModel
 import com.example.digital_mentor.presentation.viewmodel.MainLayoutViewModel
 import com.example.digital_mentor.presentation.viewmodel.RegisterViewModel
+import com.example.digital_mentor.presentation.viewmodel.TestResultViewModel
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.auth.Auth
@@ -100,4 +102,5 @@ val appModule = module {
     viewModel { IlliteracyTestViewModel(get(), get(), get()) }
     viewModel { MainLayoutViewModel(get()) }
     viewModel { LearningGuidesViewModel(get()) }
+    viewModel { TestResultViewModel(get(), get()) }
 }

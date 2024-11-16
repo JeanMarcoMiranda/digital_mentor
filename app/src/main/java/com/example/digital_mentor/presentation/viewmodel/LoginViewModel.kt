@@ -146,22 +146,15 @@ class LoginViewModel(
             )
 
             if (userInfoResult.isSuccess) {
-                Log.d("UserProfile", "Here")
                 val userInfo = userInfoResult.getOrNull()
                 if (userInfo != null) {
-                    Log.d("UserProfile", "Here2")
                     val userProfileResult = getUserProfile(userInfo.id)
 
                     if (userProfileResult.isSuccess) {
-                        Log.d("UserProfile", "Here3")
                         val userProfile = userProfileResult.getOrNull()
 
                         if (userProfile != null) {
-                            Log.d("UserProfile", "Here4")
-
-                            Log.d("UserProfile", "This is the userProfile: $userProfile")
                             val testPending = isTestPending(userProfile.lastTestDate)
-                            Log.d("UserProfile", "Test is pending: $testPending")
 
                             _viewState.value = currentState.copy(
                                 userProfile = userProfile,

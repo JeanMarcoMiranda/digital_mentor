@@ -36,8 +36,10 @@ fun NavGraphBuilder.mainNavGraph(
         }
 
         composable<Routes.TestResult> {
-            MainAppLayout(navController = navController) {
-                TestResultScreen()
+            MainAppLayout(navController = navController) { modifier ->
+                TestResultScreen(modifier = modifier, onNavToHome = {
+                    navController.navigate(Routes.Home)
+                })
             }
         }
 
