@@ -8,9 +8,11 @@ import com.example.digital_mentor.data.datasource.remote.MySupabaseClient
 import com.example.digital_mentor.domain.repository.AuthRepository
 import com.example.digital_mentor.data.repository.AuthRepositoryImpl
 import com.example.digital_mentor.data.repository.CategoryRepositoryImpl
+import com.example.digital_mentor.data.repository.CourseRepositoryImpl
 import com.example.digital_mentor.data.repository.TopicRepositoryImpl
 import com.example.digital_mentor.data.repository.UserProfileRepositoryImpl
 import com.example.digital_mentor.domain.repository.CategoryRepository
+import com.example.digital_mentor.domain.repository.CourseRepository
 import com.example.digital_mentor.domain.repository.TopicRepository
 import com.example.digital_mentor.domain.repository.UserProfileRepository
 import com.example.digital_mentor.domain.usecase.auth.CheckSessionUseCase
@@ -21,6 +23,7 @@ import com.example.digital_mentor.domain.usecase.auth.SignInUseCase
 import com.example.digital_mentor.domain.usecase.auth.SignInWithGoogleUseCase
 import com.example.digital_mentor.domain.usecase.auth.SignOutUseCase
 import com.example.digital_mentor.domain.usecase.auth.SignUpUseCase
+import com.example.digital_mentor.domain.usecase.course.GetCoursesUseCase
 import com.example.digital_mentor.domain.usecase.topic.GetTopicWithQuestionsUseCase
 import com.example.digital_mentor.domain.usecase.userProfile.UpdateUserProfileUseCase
 import com.example.digital_mentor.presentation.viewmodel.AppViewModel
@@ -70,6 +73,7 @@ val appModule = module {
     single<UserProfileRepository> { UserProfileRepositoryImpl(get()) }
     single<CategoryRepository> { CategoryRepositoryImpl(get()) }
     single<TopicRepository> { TopicRepositoryImpl(get()) }
+    single<CourseRepository> { CourseRepositoryImpl(get()) }
 
     // Auth
     single { SignUpUseCase(get(), get()) }
@@ -85,6 +89,8 @@ val appModule = module {
     single { GetUserProfileUseCase(get()) }
     // Topic
     single { GetTopicWithQuestionsUseCase(get()) }
+    // Courses
+    single { GetCoursesUseCase(get()) }
 
     viewModel { AppViewModel(get()) }
     viewModel { LiveSupportViewModel(get()) }

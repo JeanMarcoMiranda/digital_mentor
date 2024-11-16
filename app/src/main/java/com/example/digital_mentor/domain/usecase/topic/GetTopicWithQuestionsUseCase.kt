@@ -11,7 +11,7 @@ class GetTopicWithQuestionsUseCase(
             val topicsResult = repository.getTopicsWithQuestions()
 
             topicsResult.onSuccess {
-                val topics = topicsResult.getOrNull() ?: throw Exception("Topics where not found")
+                val topics = topicsResult.getOrNull() ?: throw Exception("Topics were not found")
                 Result.success(topics)
             }.onFailure {
                 throw Exception(topicsResult.exceptionOrNull())
