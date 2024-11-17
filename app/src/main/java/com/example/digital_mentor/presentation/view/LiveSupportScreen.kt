@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
@@ -232,7 +233,7 @@ fun ChatContent(
     val listState = rememberLazyListState()
 
     LaunchedEffect(messages) {
-        listState.animateScrollToItem(messages.size -1)
+        listState.animateScrollToItem(messages.size - 1)
     }
 
     Column(
@@ -255,14 +256,20 @@ fun ChatContent(
 
         if (!showHomeButton && !showTextField) {
             Column(modifier = Modifier.padding(16.dp)) {
-                currentQuestion.options.forEach { option ->
-                    Button(
-                        onClick = { onAnswer(option.id, option.optionText) },
-                        modifier = Modifier
-                            .fillMaxWidth()
-
-                    ) {
-                        Text(option.optionText)
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .heightIn(max = 200.dp) // Limita la altura máxima del contenedor
+                ) {
+                    items(currentQuestion.options) { option ->
+                        Button(
+                            onClick = { onAnswer(option.id, option.optionText) },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 4.dp) // Espaciado entre botones
+                        ) {
+                            Text(option.optionText)
+                        }
                     }
                 }
             }
@@ -280,34 +287,31 @@ fun ChatContent(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp),
-                verticalAlignment = Alignment.CenterVertically // Asegura que ambos elementos estén centrados verticalmente
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 OutlinedTextField(
                     value = typedAnswer,
-                    onValueChange = { newText ->
-                        // Actualizar el texto del mensaje si fuera necesario
-                        onTypedAnswerChange(newText)
-                    },
+                    onValueChange = { newText -> onTypedAnswerChange(newText) },
                     modifier = Modifier
-                        .weight(1f) // Ocupa el espacio restante
-                        .padding(end = 8.dp), // Espaciado entre el TextField y el ícono
-                    textStyle = TextStyle(fontSize = 14.sp), // Tamaño más pequeño
+                        .weight(1f)
+                        .padding(end = 8.dp),
+                    textStyle = TextStyle(fontSize = 14.sp),
                     label = {
                         Text(
                             "Escribe tu respuesta",
                             fontSize = 12.sp
                         )
-                    }, // Etiqueta más pequeña
-                    singleLine = true, // Restringe a una sola línea
-                    shape = RoundedCornerShape(8.dp) // Bordes más redondeados
+                    },
+                    singleLine = true,
+                    shape = RoundedCornerShape(8.dp)
                 )
                 IconButton(
                     onClick = { onAnswer(null, typedAnswer) },
-                    enabled = typedAnswer.isNotBlank(), // Solo habilitar si hay texto
-                    modifier = Modifier.size(48.dp) // Tamaño cuadrado consistente con la altura del TextField
+                    enabled = typedAnswer.isNotBlank(),
+                    modifier = Modifier.size(48.dp)
                 ) {
                     Icon(
-                        imageVector = Icons.Outlined.Send, // Ícono de enviar
+                        imageVector = Icons.Outlined.Send,
                         contentDescription = "Enviar respuesta",
                         tint = if (typedAnswer.isNotBlank()) MaterialTheme.colorScheme.primary else Color.Gray
                     )

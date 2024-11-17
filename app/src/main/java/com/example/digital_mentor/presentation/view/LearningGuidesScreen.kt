@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -62,7 +63,8 @@ fun LearningGuidesScreen(
         modifier = modifier
             .fillMaxSize()
             .padding(horizontal = 16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
     ) {
 
 
@@ -261,20 +263,32 @@ fun CourseDetailContent(
             text = course.name,
             style = MaterialTheme.typography.headlineSmall,
             textAlign = TextAlign.Center,
-            modifier = Modifier.padding(top = 8.dp, bottom = 40.dp)
+            modifier = Modifier.padding(top = 8.dp, bottom = 16.dp)
         )
 
-        // Imagen del curso
+        // Imagen del curso con más altura
         AsyncImage(
             model = course.image,
             contentDescription = "Imagen de ${course.name}",
             modifier = Modifier
                 .fillMaxWidth()
-                .weight(1f),
+                .weight(3f) // Dar más peso a la imagen para que ocupe más espacio vertical
+                .padding(vertical = 8.dp),
             contentScale = ContentScale.Crop
         )
 
-        Spacer(modifier = Modifier.weight(1f)) // Espaciador para empujar los botones hacia abajo
+        Spacer(modifier = Modifier.height(20.dp))
+
+        // Descripción del curso
+        Text(
+            text = course.description ?: "Esta guía no cuenta con una descripción",
+            fontSize = 20.sp,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.padding(top = 8.dp, bottom = 16.dp)
+        )
+
+        // Espaciador para empujar los botones hacia abajo
+        Spacer(modifier = Modifier.weight(1f))
 
         // Botones en la parte inferior
         Row(

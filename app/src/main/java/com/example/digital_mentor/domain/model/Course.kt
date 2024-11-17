@@ -5,4 +5,5 @@ class Course(
     val name: String,
     val image: String,
     val pdf: String,
+    val description: String?
 )

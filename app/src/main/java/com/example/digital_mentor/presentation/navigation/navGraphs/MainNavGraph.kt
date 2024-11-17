@@ -24,21 +24,19 @@ fun NavGraphBuilder.mainNavGraph(
         startDestination = Routes.Home
     ) {
         composable<Routes.Home> {
-            MainAppLayout(navController = navController) { paddingValues ->
-                HomeScreen(navController = navController)
+            MainAppLayout(navController = navController) { modifier ->
+                HomeScreen(navController = navController, modifier = modifier)
             }
         }
 
         composable<Routes.IlliterateTest> {
-            MainAppLayout(navController = navController) { modifier ->
-                IlliteracyTestScreen(modifier = modifier, onTestCompleted = {
-                    navController.navigate(Routes.TestResult) {
-                        popUpTo<Routes.IlliterateTest> {
-                            inclusive = true
-                        }
+            IlliteracyTestScreen(onTestCompleted = {
+                navController.navigate(Routes.TestResult) {
+                    popUpTo<Routes.IlliterateTest> {
+                        inclusive = true
                     }
-                })
-            }
+                }
+            })
         }
 
         composable<Routes.TestResult> {

@@ -9,6 +9,7 @@ data class CourseDto(
     val name: String,
     val image: String,
     val pdf: String,
+    val description: String?,
     val created_at: String
 )
 
@@ -17,6 +18,7 @@ fun CourseDto.toDomain(): DomainCourse {
         id = id,
         name = name,
         image = image,
-        pdf = pdf
+        pdf = pdf,
+        description = description
     )
 }

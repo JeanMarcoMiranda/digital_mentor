@@ -307,7 +307,7 @@ fun CardEditForm(
                     OutlinedTextField(
                         value = viewState.expirationDate ?: "",
                         onValueChange = onExpirationDateChange,
-                        label = { Text("Fecha de vencimiento") },
+                        label = { Text("FV") },
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                         modifier = Modifier.fillMaxWidth()
                     )

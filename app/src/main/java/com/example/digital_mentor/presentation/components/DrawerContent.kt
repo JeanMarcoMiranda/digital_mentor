@@ -18,6 +18,7 @@ import androidx.compose.material.icons.rounded.OnDeviceTraining
 import androidx.compose.material.icons.rounded.Person
 import androidx.compose.material.icons.rounded.PhonelinkRing
 import androidx.compose.material.icons.rounded.PsychologyAlt
+import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.material.icons.rounded.SupportAgent
 import androidx.compose.material.icons.rounded.VideoLibrary
 import androidx.compose.material3.Divider
@@ -76,30 +77,13 @@ fun DrawerContent(
             NavigationDrawerItem(
                 icon = {
                     Icon(
-                        imageVector = Icons.Rounded.VideoLibrary,
-                        contentDescription = "Video tutoriales"
+                        imageVector = Icons.Rounded.Settings,
+                        contentDescription = "Configuracion"
                     )
                 },
                 label = {
                     Text(
-                        text = "Video tutoriales",
-                        fontSize = 17.sp,
-                        modifier = Modifier.padding(16.dp)
-                    )
-                },
-                selected = false,
-                onClick = {}
-            )
-            NavigationDrawerItem(
-                icon = {
-                    Icon(
-                        imageVector = Icons.Rounded.LocalLibrary,
-                        contentDescription = "Guias de aprendizaje"
-                    )
-                },
-                label = {
-                    Text(
-                        text = "Guias de aprendizaje",
+                        text = "Configuración",
                         fontSize = 17.sp,
                         modifier = Modifier.padding(16.dp)
                     )

@@ -1,6 +1,6 @@
 package com.example.digital_mentor.presentation.view
 
-import android.graphics.drawable.shapes.Shape
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -44,6 +44,8 @@ import androidx.compose.animation.ContentTransform
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.platform.LocalContext
 import com.binayshaw7777.kotstep.model.StepDefaults
 import com.binayshaw7777.kotstep.model.StepStyle
 import com.binayshaw7777.kotstep.model.tabHorizontal
@@ -55,6 +57,7 @@ fun IlliteracyTestScreen(
     onTestCompleted: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val context = LocalContext.current
     // Get the view state from the ViewModel
     val viewState by viewModel.viewState.collectAsState()
 
@@ -122,8 +125,23 @@ fun IlliteracyTestScreen(
             }
         }
 
-        is IlliteracyTestState.Success -> {
-            onTestCompleted()
+        else -> Unit
+    }
+
+    LaunchedEffect(viewState) {
+        when (viewState) {
+            is IlliteracyTestState.Success -> {
+                val successMessage = (viewState as IlliteracyTestState.Success).message
+                onTestCompleted()
+                Toast.makeText(context, successMessage, Toast.LENGTH_SHORT).show()
+            }
+
+            is IlliteracyTestState.Error -> {
+                val errorMessage = (viewState as IlliteracyTestState.Error).message
+                Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
+            }
+
+            else -> Unit
         }
     }
 }

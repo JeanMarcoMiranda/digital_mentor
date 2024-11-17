@@ -1,5 +1,6 @@
 package com.example.digital_mentor.presentation.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.digital_mentor.domain.usecase.course.GetCoursesUseCase
@@ -70,6 +71,7 @@ class LearningGuidesViewModel(
             _viewState.value = LearningGuidesState.Loding
 
             getCourses().onSuccess { courses ->
+                Log.d("Courses", "This are the courses: ")
                 _viewState.value =
                     LearningGuidesState.CourseSelection(courses = courses, searchQuery = "")
             }.onFailure {

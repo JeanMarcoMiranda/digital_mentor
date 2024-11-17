@@ -19,6 +19,7 @@ class CourseRepositoryImpl(
                 name,
                 image,
                 pdf,
+                description,
                 created_at
             """.trimIndent()
             )

@@ -43,7 +43,7 @@ fun HomeScreen(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .padding(horizontal = 55.dp),
+            .padding(horizontal = 40.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
@@ -54,7 +54,7 @@ fun HomeScreen(
             modifier = Modifier.size(200.dp)
         )
 
-        Spacer(modifier = modifier.height(40.dp))
+        Spacer(modifier = modifier.height(10.dp))
 
         Button(
             onClick = {
