@@ -18,6 +18,7 @@ sealed class LiveSupportState {
         val currentQuestion: TopicQuestion,
         val messages: List<ChatMessage>,
         val showTextField: Boolean = false,
+        val showHomeButton: Boolean = false,
         val typedAnswer: String = ""
     ) : LiveSupportState()
 }

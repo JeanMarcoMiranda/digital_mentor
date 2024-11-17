@@ -20,6 +20,7 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Send
@@ -31,6 +32,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -43,6 +45,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.digital_mentor.R
 import com.example.digital_mentor.domain.model.Topic
 import com.example.digital_mentor.domain.model.TopicQuestion
@@ -98,7 +101,15 @@ fun LiveSupportScreen(
                             )
                         },
                         typedAnswer = state.typedAnswer,
+                        onTypedAnswerChange = { text ->
+                            viewModel.sendIntent(
+                                LiveSupportIntent.UpdateTypeAnswer(
+                                    text
+                                )
+                            )
+                        },
                         showTextField = state.showTextField,
+                        showHomeButton = state.showHomeButton,
                         onReturnToMenu = onReturnToMenu
                     )
                 }
@@ -143,7 +154,7 @@ fun LiveSupportStartContent(
                 .padding(16.dp)
         ) {
             Text(
-                text = "Hola Juan! Mi nombre es Leonel. Será un gusto ayudarte.\n" +
+                text = "Hola! Mi nombre es Leonel. Será un gusto ayudarte.\n" +
                         "\n" +
                         "Por favor, dar click aqui",
                 modifier = Modifier.fillMaxWidth(),
@@ -212,17 +223,25 @@ fun ChatContent(
     messages: List<ChatMessage>,
     currentQuestion: TopicQuestion,
     showTextField: Boolean,
+    showHomeButton: Boolean,
     typedAnswer: String,
+    onTypedAnswerChange: (String) -> Unit,
     onAnswer: (Int?, String) -> Unit,
     onReturnToMenu: () -> Unit
 ) {
-    Log.d("LiveSupport", "These are the messages: $messages")
+    val listState = rememberLazyListState()
+
+    LaunchedEffect(messages) {
+        listState.animateScrollToItem(messages.size -1)
+    }
+
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
         // Mostrar historial de mensajes
         LazyColumn(
-            modifier = Modifier.weight(1f)
+            modifier = Modifier.weight(1f),
+            state = listState
         ) {
             items(messages) { message ->
                 ChatBubble(
@@ -234,7 +253,7 @@ fun ChatContent(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        if (currentQuestion.options.isNotEmpty() && !showTextField) {
+        if (!showHomeButton && !showTextField) {
             Column(modifier = Modifier.padding(16.dp)) {
                 currentQuestion.options.forEach { option ->
                     Button(
@@ -247,7 +266,7 @@ fun ChatContent(
                     }
                 }
             }
-        } else {
+        } else if (showHomeButton && !showTextField) {
             Button(
                 onClick = onReturnToMenu,
                 modifier = Modifier
@@ -256,9 +275,7 @@ fun ChatContent(
             ) {
                 Text("Regresar al menú principal")
             }
-        }
-
-        if (showTextField) {
+        } else {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -269,10 +286,10 @@ fun ChatContent(
                     value = typedAnswer,
                     onValueChange = { newText ->
                         // Actualizar el texto del mensaje si fuera necesario
+                        onTypedAnswerChange(newText)
                     },
                     modifier = Modifier
                         .weight(1f) // Ocupa el espacio restante
-                        .height(48.dp) // Reducir la altura del TextField
                         .padding(end = 8.dp), // Espaciado entre el TextField y el ícono
                     textStyle = TextStyle(fontSize = 14.sp), // Tamaño más pequeño
                     label = {
@@ -305,21 +322,25 @@ fun ChatBubble(
     text: String,
     isSystem: Boolean
 ) {
+    val alignment = if (isSystem) Alignment.CenterStart else Alignment.CenterEnd
+    val backgroundColor = if (isSystem) Color.LightGray else Color(0xFF2e86c1)
+    val textColor = if (isSystem) Color.Black else Color.White
+
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp),
-        contentAlignment = if (isSystem) Alignment.CenterStart else Alignment.CenterEnd
+        contentAlignment = alignment
     ) {
         Box(
             modifier = Modifier
                 .clip(RoundedCornerShape(16.dp))
-                .background(if (isSystem) Color.LightGray else Color(0xFFADD8E6))
+                .background(backgroundColor)
                 .padding(12.dp)
         ) {
             Text(
                 text = text,
-                color = if (isSystem) Color.Black else Color.White,
+                color = textColor,
                 fontSize = 14.sp
             )
         }

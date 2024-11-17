@@ -41,7 +41,6 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.digital_mentor.presentation.components.CustomCardTextField
-import com.example.digital_mentor.presentation.intent.LoginViewState
 import com.example.digital_mentor.presentation.intent.UserProfileIntent
 import com.example.digital_mentor.presentation.intent.UserProfileState
 import com.example.digital_mentor.presentation.viewmodel.UserProfileViewModel

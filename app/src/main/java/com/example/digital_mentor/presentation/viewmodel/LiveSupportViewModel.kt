@@ -48,7 +48,7 @@ class LiveSupportViewModel(
                     LiveSupportIntent.StartConsulting -> fetchTopics()
                     is LiveSupportIntent.SelectTopic -> handleSelectTopic(intent.topic)
                     is LiveSupportIntent.AnswerQuestion -> handleAnswer(intent)
-                    is LiveSupportIntent.UpdateTypeAnswer -> TODO()
+                    is LiveSupportIntent.UpdateTypeAnswer -> updateTypedAnswer(intent.typeAnswer)
                 }
             }
         }
@@ -95,93 +95,76 @@ class LiveSupportViewModel(
         val currentState = _viewState.value
         if (currentState !is LiveSupportState.QuestionConsult) return
 
-        val currentQuestion = selectedTopic?.topicQuestions?.getOrNull(currentQuestionIndex)
-        if (currentQuestion == null) {
-            updateState { LiveSupportState.Error("Error con el index de la pregunta actual. No existe") }
-            return
-        }
+        val newMessages = mutableListOf<ChatMessage>()
 
-        addMessage(ChatSender.User, intent.answer)
+        // Agregar el mensaje del usuario
+        newMessages.add(ChatMessage(ChatSender.User, intent.answer))
 
-        // Verifica si la opción seleccionada requiere una descripción adicional
-        val selectedOption = currentQuestion.options.firstOrNull { it.id == intent.optionId }
-        if (selectedOption != null && selectedOption.needDescription) {
-            addMessage(ChatSender.System, "Por favor, proporciona mas detalles:")
-
+        // Verificar si la opción seleccionada necesita más detalles
+        val selectedOption =
+            currentState.currentQuestion.options.firstOrNull { it.id == intent.optionId }
+        if (selectedOption?.needDescription == true) {
+            newMessages.add(ChatMessage(ChatSender.System, "Por favor, proporciona más detalles:"))
             updateState {
                 currentState.copy(
+                    messages = currentState.messages + newMessages,
                     showTextField = true,
                     typedAnswer = ""
                 )
             }
-            return
-        }
+        } else {
+            // Avanzar a la siguiente pregunta o finalizar la consulta
+            val updatedState = goToNextQuestionWithMessages(currentState, newMessages)
 
-        // Procesa la siguiente pregunta si no se requiere descripción
-        goToNextQuestion(currentState)
+            // Actualizar el estado
+            updateState { updatedState }
+        }
     }
 
-    private fun goToNextQuestion(
+    private fun goToNextQuestionWithMessages(
         currentState: LiveSupportState.QuestionConsult,
-    ) {
+        messages: MutableList<ChatMessage>
+    ): LiveSupportState.QuestionConsult {
         val topic = currentState.topic
         val nextQuestion = topic.topicQuestions.getOrNull(currentQuestionIndex + 1)
 
-        if (nextQuestion != null) {
+        return if (nextQuestion != null) {
+            // Avanzar a la siguiente pregunta
             currentQuestionIndex++
-            updateStateForNextQuestion(currentState, nextQuestion)
-        } else {
-            connectToMentor(currentState)
-        }
-    }
-
-    private fun updateStateForNextQuestion(
-        currentState: LiveSupportState.QuestionConsult,
-        nextQuestion: TopicQuestion
-    ) {
-        updateState {
+            messages.add(ChatMessage(ChatSender.System, nextQuestion.questionText))
             currentState.copy(
                 currentQuestion = nextQuestion,
-                messages = currentState.messages + ChatMessage(
-                    ChatSender.System,
-                    nextQuestion.questionText
-                ),
+                messages = currentState.messages + messages,
                 showTextField = false,
                 typedAnswer = ""
             )
+        } else {
+            // Conectar con mentor si no hay más preguntas
+            connectToMentorWithMessages(currentState, messages)
         }
     }
 
-    private fun connectToMentor(currentState: LiveSupportState.QuestionConsult) {
-        addMessage(
-            ChatSender.System,
-            "Te conectaremos con uno de nuestros mentores en línea para ayudarte a resolver este problema."
+    private fun connectToMentorWithMessages(
+        currentState: LiveSupportState.QuestionConsult,
+        messages: MutableList<ChatMessage>
+    ): LiveSupportState.QuestionConsult {
+        messages.add(
+            ChatMessage(
+                ChatSender.System,
+                "Te conectaremos con uno de nuestros mentores en línea para ayudarte a resolver este problema."
+            )
         )
-        updateState {
-            currentState.copy(
-                messages = currentState.messages + ChatMessage(
-                    ChatSender.System,
-                    "Te conectaremos con uno de nuestros mentores en línea para ayudarte a resolver este problema."
-                ),
-                showTextField = false,
-                typedAnswer = ""
-            )
-        }
+        return currentState.copy(
+            messages = currentState.messages + messages,
+            showTextField = false,
+            showHomeButton = true,
+            typedAnswer = ""
+        )
     }
 
-    private fun addMessage(sender: ChatSender, content: String) {
-        val currentState = _viewState.value
-        Log.d("LiveSupport", "here")
-        Log.d("LiveSupport", "this is the current state $currentState")
-
-        if (currentState is LiveSupportState.QuestionConsult) {
-            Log.d("LiveSupport", "here2")
-            updateState {
-                currentState.copy(
-                    messages = currentState.messages + ChatMessage(sender, content)
-                )
-            }
-        }
+    private fun updateTypedAnswer(newAnswer: String) {
+        val currentState = _viewState.value as? LiveSupportState.QuestionConsult ?: return
+        updateState { currentState.copy(typedAnswer = newAnswer) }
     }
 
     private fun updateState(newState: () -> LiveSupportState) {
