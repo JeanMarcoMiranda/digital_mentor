@@ -44,7 +44,7 @@ class RegisterViewModel(private val signUpUseCase: SignUpUseCase) : ViewModel() 
                         _viewState.value = currentState.copy(name = intent.name)
                     }
 
-                    is RegisterIntent.ChangeCard -> {
+                    is RegisterIntent.ChangePhone -> {
                         val currentState =
                             _viewState.value as? RegisterViewState.Input ?: RegisterViewState.Input(
                                 "",
@@ -53,7 +53,7 @@ class RegisterViewModel(private val signUpUseCase: SignUpUseCase) : ViewModel() 
                                 ""
                             )
 
-                        _viewState.value = currentState.copy(card = intent.card)
+                        _viewState.value = currentState.copy(phoneNumber = intent.phone)
                     }
 
                     is RegisterIntent.ChangeEmail -> {
@@ -101,7 +101,7 @@ class RegisterViewModel(private val signUpUseCase: SignUpUseCase) : ViewModel() 
                         val validatedState = validateInput(currentState)
 
                         if (validatedState.nameError == null &&
-                            validatedState.cardError == null &&
+                            validatedState.phoneError == null &&
                             validatedState.emailError == null &&
                             validatedState.passwordError == null
                         ) {
@@ -110,7 +110,7 @@ class RegisterViewModel(private val signUpUseCase: SignUpUseCase) : ViewModel() 
                             viewModelScope.launch {
                                 val result = signUpUseCase(
                                     name = currentState.name,
-                                    card = currentState.card,
+                                    phoneNumber = currentState.phoneNumber,
                                     email = currentState.email,
                                     password = currentState.password
                                 )
@@ -139,18 +139,18 @@ class RegisterViewModel(private val signUpUseCase: SignUpUseCase) : ViewModel() 
 
     private fun validateInput(input: RegisterViewState.Input): RegisterViewState.Input {
         val nameError = if (input.name.isBlank()) "Nombre es obligatorio" else null
-//        val cardError = if (input.card.isBlank()) "Tarjeta es obligatoria" else null
-        val cardError = when {
-            input.card.isBlank() -> "Tarjeta es obligatoria"
-            input.card.length != 16  -> "La tarjeta debe tener 16 digitos"
-            else -> null
-        }
+//        val cardError = when {
+//            input.card.isBlank() -> "Tarjeta es obligatoria"
+//            input.card.length != 16 -> "La tarjeta debe tener 16 digitos"
+//            else -> null
+//        }
+        val phoneError = if (input.phoneNumber.isBlank()) "El telefono es obligatorio" else null
         val emailError = if (!input.email.contains("@")) "Correo inválido" else null
         val passwordError = if (input.password.length < 6) "Contraseña muy corta" else null
 
         return input.copy(
             nameError = nameError,
-            cardError = cardError,
+            phoneError = phoneError,
             emailError = emailError,
             passwordError = passwordError
         )

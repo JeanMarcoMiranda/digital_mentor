@@ -68,28 +68,31 @@ fun RegisterScreen(
 
             Spacer(modifier = Modifier.height(8.dp))
 
-//            CustomTextField(
+            CustomTextField(
+                value = (viewState as? RegisterViewState.Input)?.phoneNumber ?: "",
+                error = (viewState as? RegisterViewState.Input)?.phoneError,
+                onValueChange = {
+                    if (it.length <= 9)
+                        viewModel.sendIntent(RegisterIntent.ChangePhone(it))
+                },
+                keyboardType = KeyboardType.Number,
+                label = "Número telefónico",
+                placeholder = "Ingresa tu número de teléfono",
+            )
+
+//            CustomCardTextField(
 //                value = (viewState as? RegisterViewState.Input)?.card ?: "",
 //                error = (viewState as? RegisterViewState.Input)?.cardError,
-//                onValueChange = { viewModel.sendIntent(RegisterIntent.ChangeCard(it)) },
-//                keyboardType = KeyboardType.Number,
-//                label = "Tarjeta",
-//                placeholder = "Ingresa tu número de tarjeta",
+//                onValueChange = {
+//                    if (it.length <= 16) viewModel.sendIntent(
+//                        RegisterIntent.ChangeCard(
+//                            it
+//                        )
+//                    )
+//                },
+//                label = "Número de tarjetaa",
+//                placeholder = "#### #### #### ####",
 //            )
-
-            CustomCardTextField(
-                value = (viewState as? RegisterViewState.Input)?.card ?: "",
-                error = (viewState as? RegisterViewState.Input)?.cardError,
-                onValueChange = {
-                    if (it.length <= 16) viewModel.sendIntent(
-                        RegisterIntent.ChangeCard(
-                            it
-                        )
-                    )
-                },
-                label = "Número de tarjetaa",
-                placeholder = "#### #### #### ####",
-            )
             Spacer(modifier = Modifier.height(8.dp))
 
             CustomTextField(

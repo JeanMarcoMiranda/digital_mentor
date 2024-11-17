@@ -3,8 +3,10 @@ package com.example.digital_mentor.presentation.view
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,6 +16,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -138,7 +143,9 @@ fun LiveSupportStartContent(
                 .padding(16.dp)
         ) {
             Text(
-                text = "Buenas",
+                text = "Hola Juan! Mi nombre es Leonel. Será un gusto ayudarte.\n" +
+                        "\n" +
+                        "Por favor, dar click aqui",
                 modifier = Modifier.fillMaxWidth(),
                 textAlign = TextAlign.Center,
             )
@@ -232,7 +239,9 @@ fun ChatContent(
                 currentQuestion.options.forEach { option ->
                     Button(
                         onClick = { onAnswer(option.id, option.optionText) },
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier
+                            .fillMaxWidth()
+
                     ) {
                         Text(option.optionText)
                     }
@@ -322,20 +331,25 @@ fun TopicSelectionContent(
     topics: List<Topic>,
     onTopicSelected: (Topic) -> Unit
 ) {
-    Column(
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(2),
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+            .fillMaxSize()
+            .padding(bottom = 15.dp),
+        contentPadding = PaddingValues(8.dp),
+        horizontalArrangement = Arrangement.spacedBy(15.dp),
+        verticalArrangement = Arrangement.spacedBy(15.dp)
     ) {
-        topics.forEach { topic ->
+        items(topics) { topic ->
             Button(
                 onClick = { onTopicSelected(topic) },
+                shape = RoundedCornerShape(8.dp),
                 modifier = Modifier
                     .fillMaxWidth()
+                    .height(100.dp)
                     .padding(vertical = 4.dp)
             ) {
-                Text(topic.name)
+                Text(topic.name, textAlign = TextAlign.Center)
             }
         }
     }

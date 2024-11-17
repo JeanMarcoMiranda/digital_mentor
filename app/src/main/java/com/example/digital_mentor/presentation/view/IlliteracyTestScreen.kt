@@ -1,5 +1,6 @@
 package com.example.digital_mentor.presentation.view
 
+import android.graphics.drawable.shapes.Shape
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -51,6 +52,7 @@ import com.binayshaw7777.kotstep.ui.horizontal.HorizontalStepper
 @Composable
 fun IlliteracyTestScreen(
     viewModel: IlliteracyTestViewModel = koinViewModel(),
+    onTestCompleted: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     // Get the view state from the ViewModel
@@ -88,7 +90,16 @@ fun IlliteracyTestScreen(
                         totalSteps = state.categories.size,
                         currentStep = state.currentCategoryIndex,
                         stepStyle = StepStyle(
-                            showStrokeOnCurrent = false
+                            colors = StepDefaults(
+                                doneContainerColor = MaterialTheme.colorScheme.primary,
+                                doneLineColor = MaterialTheme.colorScheme.primary,
+                                doneContentColor = Color(0xFF212121),
+                                currentContainerColor = Color(0xFF4B81F4),
+                                currentLineColor = Color(0xFF4B81F4),
+                                todoContainerColor = Color(0xFF50596C),
+                                todoContentColor = Color.LightGray,
+                                todoLineColor = Color(0xFF50596C)
+                            )
                         )
                     )
                 )
@@ -112,14 +123,7 @@ fun IlliteracyTestScreen(
         }
 
         is IlliteracyTestState.Success -> {
-            Text(
-                text = state.message,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .wrapContentSize(Alignment.Center),
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.primary
-            )
+            onTestCompleted()
         }
     }
 }

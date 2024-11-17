@@ -8,11 +8,11 @@ sealed class RegisterViewState {
     data class Input(
         val name: String,
         val email: String,
-        val card: String,
+        val phoneNumber: String,
         val password: String,
         val passwordVisible: Boolean = false,
         val nameError: String? = null,
-        val cardError: String? = null,
+        val phoneError: String? = null,
         val emailError: String? = null,
         val passwordError: String? = null
     ) : RegisterViewState()
@@ -20,7 +20,7 @@ sealed class RegisterViewState {
 
 sealed class RegisterIntent {
     data class ChangeName(val name: String) : RegisterIntent()
-    data class ChangeCard(val card: String) : RegisterIntent()
+    data class ChangePhone(val phone: String) : RegisterIntent()
     data class ChangeEmail(val email: String) : RegisterIntent()
     data class ChangePassword(val password: String) : RegisterIntent()
     object Register : RegisterIntent()

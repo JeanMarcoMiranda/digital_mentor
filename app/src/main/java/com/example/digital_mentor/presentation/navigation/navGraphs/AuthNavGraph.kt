@@ -27,7 +27,11 @@ fun NavGraphBuilder.authNavGraph(
             RegisterScreen(onLoginClick = {
                 navController.navigate(Routes.Login)
             }, onRegisterSuccess = {
-                navController.navigate(Routes.Login)
+                navController.navigate(Routes.IlliterateTest) {
+                    popUpTo<AppRoutes.AuthGraph> {
+                        inclusive = true
+                    }
+                }
             })
         }
     }

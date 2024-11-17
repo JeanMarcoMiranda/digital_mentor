@@ -45,7 +45,6 @@ class IlliteracyTestViewModel(
 
     init {
         handleIntents()
-        fetchCategoriesData()
     }
 
     fun sendIntent(intent: IlliteracyTestIntent) {

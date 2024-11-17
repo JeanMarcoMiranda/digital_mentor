@@ -31,7 +31,13 @@ fun NavGraphBuilder.mainNavGraph(
 
         composable<Routes.IlliterateTest> {
             MainAppLayout(navController = navController) { modifier ->
-                IlliteracyTestScreen(modifier = modifier)
+                IlliteracyTestScreen(modifier = modifier, onTestCompleted = {
+                    navController.navigate(Routes.TestResult) {
+                        popUpTo<Routes.IlliterateTest> {
+                            inclusive = true
+                        }
+                    }
+                })
             }
         }
 
@@ -44,11 +50,12 @@ fun NavGraphBuilder.mainNavGraph(
         }
 
         composable<Routes.UserProfile> {
-            MainAppLayout(navController = navController) {
+            MainAppLayout(navController = navController) { modifier ->
                 UserProfileScreen(
                     onNavBack = {
                         navController.navigate(Routes.Home)
-                    }
+                    },
+                    modifier = modifier
                 )
             }
         }

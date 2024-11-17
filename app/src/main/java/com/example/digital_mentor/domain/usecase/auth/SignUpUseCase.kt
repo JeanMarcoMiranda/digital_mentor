@@ -10,7 +10,7 @@ class SignUpUseCase(
 ) {
     suspend operator fun invoke(
         name: String,
-        card: String,
+        phoneNumber: String?,
         email: String,
         password: String
     ): Result<Boolean> {
@@ -23,7 +23,11 @@ class SignUpUseCase(
 
             if (userInfo != null) {
                 val userId = userInfo.id
-                val userCreateData = UserProfileEntityCreate(id = userId, name = name, card = card)
+                val userCreateData = UserProfileEntityCreate(
+                    id = userId,
+                    name = name,
+                    phoneNumber = phoneNumber ?: null
+                )
 
                 userRepository.saveUserProfile(userCreateData)
             }
