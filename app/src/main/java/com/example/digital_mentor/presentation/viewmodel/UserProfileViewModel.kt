@@ -1,5 +1,6 @@
 package com.example.digital_mentor.presentation.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.digital_mentor.data.model.UserProfileEntityUpdate
@@ -86,6 +87,10 @@ class UserProfileViewModel(
     private fun updateCardDetails(cardNumber: String?, expirationDate: String?, cvv: String?) {
         val currentState = _viewState.value
         if (currentState is UserProfileState.UserData) {
+            Log.d("UpdateCardDetails", "this is the current state: $currentState")
+            Log.d("UpdateCardDetails", "this is the current card: $cardNumber")
+            Log.d("UpdateCardDetails", "this is the current expirationDate: $expirationDate")
+            Log.d("UpdateCardDetails", "this is the current cvv: $cvv")
             _viewState.value = currentState.copy(
                 cardNumber = cardNumber,
                 expirationDate = expirationDate,

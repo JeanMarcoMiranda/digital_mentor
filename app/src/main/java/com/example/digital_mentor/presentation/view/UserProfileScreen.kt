@@ -76,25 +76,25 @@ fun UserProfileScreen(
                     viewModel.sendIntent(
                         UserProfileIntent.UpdateCardDetails(
                             it,
-                            null,
-                            null
+                            (viewState as UserProfileState.UserData).expirationDate,
+                            (viewState as UserProfileState.UserData).cvv,
                         )
                     )
                 },
                 onExpirationDateChange = {
                     viewModel.sendIntent(
                         UserProfileIntent.UpdateCardDetails(
-                            null,
+                            (viewState as UserProfileState.UserData).cardNumber,
                             it,
-                            null
+                            (viewState as UserProfileState.UserData).cvv,
                         )
                     )
                 },
                 onCvvChange = {
                     viewModel.sendIntent(
                         UserProfileIntent.UpdateCardDetails(
-                            null,
-                            null,
+                            (viewState as UserProfileState.UserData).cardNumber,
+                            (viewState as UserProfileState.UserData).expirationDate,
                             it
                         )
                     )
