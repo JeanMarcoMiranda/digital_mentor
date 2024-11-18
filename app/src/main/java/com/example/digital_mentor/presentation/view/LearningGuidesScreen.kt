@@ -6,8 +6,11 @@ import android.content.Context
 import android.net.Uri
 import android.os.Environment
 import android.widget.Toast
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -17,12 +20,15 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Button
@@ -39,10 +45,12 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -122,7 +130,7 @@ fun LearningGuidesScreen(
                 CourseDetailContent(
                     course = state.selectedCourse,
                     onReadClick = {},
-                    onLearningGuideClick = {}
+                    onLearningGuideClick = { viewModel.sendIntent(LearningGuidesIntent.onLearingGuidesClicked) }
                 )
             }
         }
@@ -138,10 +146,10 @@ fun CourseGridContent(
         columns = GridCells.Fixed(2),
         modifier = Modifier
             .fillMaxSize()
-            .padding(bottom = 15.dp),
+            .padding(8.dp),
         contentPadding = PaddingValues(8.dp),
-        horizontalArrangement = Arrangement.spacedBy(15.dp),
-        verticalArrangement = Arrangement.spacedBy(15.dp)
+        horizontalArrangement = Arrangement.spacedBy(16.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         items(courses) { course ->
             CourseCard(course = course, onCourseClick = onCourseClick)
@@ -149,41 +157,112 @@ fun CourseGridContent(
     }
 }
 
+//@Composable
+//fun CourseCard(
+//    course: Course,
+//    onCourseClick: (selectedCourse: Course) -> Unit
+//) {
+//    Card(
+//        elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
+//        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+//        shape = RoundedCornerShape(16.dp),
+//        border = BorderStroke(1.dp, MaterialTheme.colorScheme.primary.copy(alpha = 0.3f)),
+//        modifier = Modifier
+//            .fillMaxWidth()
+//            .heightIn(min = 200.dp, max = 250.dp) // Altura uniforme
+//            .clickable { onCourseClick(course) }
+//    ) {
+//        Column(
+//            modifier = Modifier
+//                .fillMaxHeight()
+//                .padding(12.dp),
+//            horizontalAlignment = Alignment.CenterHorizontally,
+//            verticalArrangement = Arrangement.spacedBy(8.dp)
+//        ) {
+//            // Imagen del curso
+//            AsyncImage(
+//                model = course.image,
+//                contentDescription = course.name,
+//                contentScale = ContentScale.Crop,
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//                    .aspectRatio(1f) // Relación de aspecto cuadrada
+//                    .clip(RoundedCornerShape(12.dp)) // Bordes redondeados para la imagen
+//            )
+//
+//            // Contenedor de texto con scroll
+//            Box(
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//                    .weight(1f) // Espacio restante para el texto
+//                    .verticalScroll(rememberScrollState())
+//            ) {
+//                Text(
+//                    text = course.name,
+//                    style = MaterialTheme.typography.bodyMedium,
+//                    textAlign = TextAlign.Center,
+//                    modifier = Modifier.padding(4.dp),
+//                    color = MaterialTheme.colorScheme.onSurface
+//                )
+//            }
+//        }
+//    }
+//}
+
 @Composable
 fun CourseCard(
     course: Course,
     onCourseClick: (selectedCourse: Course) -> Unit
 ) {
-    Card(
-        elevation = CardDefaults.cardElevation(
-            defaultElevation = 10.dp
-        ),
-        colors = CardDefaults.cardColors(
-            containerColor = Color.LightGray
-        ),
+    BoxWithConstraints(
         modifier = Modifier
-            .height(250.dp)
-            .clickable {
-                onCourseClick(course)
-            }
+            .fillMaxWidth()
+            .clickable { onCourseClick(course) }
     ) {
-        Column(
-            modifier = Modifier.padding(8.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+        // Calculamos la altura dinámica
+        val dynamicHeight = maxHeight * 0.4f // Ajusta el valor según sea necesario
+
+        Card(
+            elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+            shape = RoundedCornerShape(16.dp),
+            border = BorderStroke(1.dp, MaterialTheme.colorScheme.primary.copy(alpha = 0.3f)),
+            modifier = Modifier
+                .heightIn(min = 200.dp, max = dynamicHeight) // Ajustamos el alto dinámicamente
         ) {
-            AsyncImage(
-                model = course.image,
-                contentDescription = course.name,
+            Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .aspectRatio(1f),
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(
-                text = course.name,
-                style = MaterialTheme.typography.bodyMedium,
-                textAlign = TextAlign.Center
-            )
+                    .fillMaxHeight()
+                    .padding(12.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                // Imagen del curso
+                AsyncImage(
+                    model = course.image,
+                    contentDescription = course.name,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .aspectRatio(1f) // Mantener la relación de aspecto
+                        .clip(RoundedCornerShape(12.dp)) // Bordes redondeados
+                )
+
+                // Contenedor de texto sin weight, para que se ajuste automáticamente al contenido
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 8.dp) // Añadir algo de espacio entre la imagen y el texto
+                ) {
+                    Text(
+                        text = course.name,
+                        style = MaterialTheme.typography.bodyMedium,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.padding(4.dp),
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                }
+            }
         }
     }
 }
@@ -253,17 +332,20 @@ fun CourseDetailContent(
         // Título
         Text(
             text = "Detalles del Curso",
-            style = MaterialTheme.typography.titleLarge,
             textAlign = TextAlign.Center,
-            modifier = Modifier.padding(vertical = 16.dp)
+            fontSize = 30.sp,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.padding(vertical = 16.dp),
         )
 
         // Nombre del curso
         Text(
             text = course.name,
             style = MaterialTheme.typography.headlineSmall,
+            color = MaterialTheme.colorScheme.primary,
+            fontWeight = FontWeight.Bold,
             textAlign = TextAlign.Center,
-            modifier = Modifier.padding(top = 8.dp, bottom = 16.dp)
+            modifier = Modifier.padding(top = 15.dp, bottom = 8.dp)
         )
 
         // Imagen del curso con más altura
@@ -305,7 +387,7 @@ fun CourseDetailContent(
                     .height(60.dp)
                     .padding(end = 8.dp)
             ) {
-                Text(text = "Leer")
+                Text(text = "Leer", fontSize = 20.sp)
             }
 
             Button(
@@ -316,7 +398,7 @@ fun CourseDetailContent(
                     .height(60.dp)
                     .padding(start = 8.dp)
             ) {
-                Text(text = "Guía de Aprendizaje", textAlign = TextAlign.Center)
+                Text(text = "Guía de Aprendizaje", textAlign = TextAlign.Center, fontSize = 20.sp)
             }
         }
     }
@@ -340,6 +422,7 @@ fun downloadPdf(context: Context, pdfUrl: String, courseName: String) {
         downloadManager.enqueue(request)
         Toast.makeText(context, "Descarga iniciada...", Toast.LENGTH_SHORT).show()
     } catch (e: Exception) {
-        Toast.makeText(context, "Error al descargar el archivo: ${e.message}", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, "Error al descargar el archivo: ${e.message}", Toast.LENGTH_SHORT)
+            .show()
     }
 }

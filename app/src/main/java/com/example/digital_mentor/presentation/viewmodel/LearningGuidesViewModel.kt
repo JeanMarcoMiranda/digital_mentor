@@ -61,6 +61,11 @@ class LearningGuidesViewModel(
                         _viewState.value =
                             LearningGuidesState.CourseDetail(selectedCourse = intent.course)
                     }
+
+                    LearningGuidesIntent.onLearingGuidesClicked -> {
+//                        _viewState.value = LearningGuidesState.CourseSelection()
+                        fetchCoursesData()
+                    }
                 }
             }
         }

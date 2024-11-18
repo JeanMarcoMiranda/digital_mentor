@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -124,17 +125,25 @@ fun ResultContent(
         // Felicitaciones
         Text(
             text = "!Felicitaciones ${userProfile.name}!",
-            style = MaterialTheme.typography.titleMedium,
+            style = MaterialTheme.typography.titleMedium.copy(
+                lineHeight = 40.sp
+            ),
             textAlign = TextAlign.Center,
             color = MaterialTheme.colorScheme.primary,
-            fontSize = 30.sp,
+            fontSize = 40.sp,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(horizontal = 25.dp)
         )
 
         // Mensaje motivacional
+        val motivationalMessage = when (userProfile.cumulativeScore) {
+            in 0..5 -> "Necesita asistencia en todas las áreas tecnológicas."
+            in 6..10 -> "Tiene conocimientos básicos, pero necesita mejorar en aspectos clave para manejarse de manera independiente."
+            in 11..15 -> "Maneja las habilidades básicas con soltura, pero necesita mejorar en competencias avanzadas y seguridad digital."
+            else -> "Tiene buen dominio de las herramientas digitales, incluyendo algunas competencias avanzadas, pero puede perfeccionar habilidades complejas."
+        }
         Text(
-            text = "¡Estás muy cerca de culminar el nivel ${userProfile.illiteracyLevel}!",
+            text = motivationalMessage,
             style = MaterialTheme.typography.bodyMedium,
             textAlign = TextAlign.Center,
             fontSize = 20.sp,
@@ -145,7 +154,11 @@ fun ResultContent(
         Spacer(modifier = Modifier.height(20.dp))
 
         Button(
-            onClick = onNavToHome
+            onClick = onNavToHome,
+            shape = RoundedCornerShape(15.dp),
+            modifier = Modifier
+                .height(60.dp)
+                .padding(start = 8.dp)
         ) {
             Text(
                 "Ir al inicio",

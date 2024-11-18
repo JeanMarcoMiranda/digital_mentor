@@ -19,4 +19,5 @@ sealed class LearningGuidesState {
 sealed class LearningGuidesIntent {
     data class OnSearchTextChange(val searchText: String) : LearningGuidesIntent()
     data class onCourseSelected(val course: Course) : LearningGuidesIntent()
+    object onLearingGuidesClicked : LearningGuidesIntent()
 }

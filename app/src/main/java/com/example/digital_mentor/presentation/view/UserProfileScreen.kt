@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -40,6 +41,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.digital_mentor.presentation.components.CustomCardExpirationDateTextField
 import com.example.digital_mentor.presentation.components.CustomCardTextField
 import com.example.digital_mentor.presentation.intent.UserProfileIntent
 import com.example.digital_mentor.presentation.intent.UserProfileState
@@ -50,9 +52,9 @@ import org.koin.androidx.compose.koinViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun UserProfileScreen(
+    modifier: Modifier = Modifier,
     viewModel: UserProfileViewModel = koinViewModel(), // Pasamos el ViewModel
     onNavBack: () -> Unit, // Callback para manejar la navegación
-    modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
     val viewState by viewModel.viewState.collectAsState()
@@ -159,8 +161,6 @@ fun UserProfileScreen(
                     Text("No hay datos disponibles")
                 }
             }
-
-            else -> Unit
         }
 
         Spacer(modifier = Modifier.height(50.dp))
@@ -264,7 +264,8 @@ fun CardEditForm(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 20.dp),
+                .padding(horizontal = 16.dp, vertical = 20.dp)
+                .imePadding(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
@@ -282,13 +283,6 @@ fun CardEditForm(
             ) {
                 // Número de tarjeta ocupa dos columnas
                 item(span = { GridItemSpan(2) }) {
-                    OutlinedTextField(
-                        value = viewState.cardNumber ?: "",
-                        onValueChange = onCardNumberChange,
-                        label = { Text("Número de tarjeta") },
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                        modifier = Modifier.fillMaxWidth()
-                    )
                     CustomCardTextField(
                         value = viewState.cardNumber ?: "",
                         error = viewState.cardError,
@@ -297,19 +291,24 @@ fun CardEditForm(
                                 onCardNumberChange(it)
                             }
                         },
-                        label = "Número de tarjetaa",
+                        label = "Número de tarjeta",
                         placeholder = "#### #### #### ####",
                     )
                 }
 
                 // Fecha de vencimiento ocupa una columna
                 item {
-                    OutlinedTextField(
+//                    OutlinedTextField(
+//                        value = viewState.expirationDate ?: "",
+//                        onValueChange = onExpirationDateChange,
+//                        label = { Text("FV") },
+//                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+//                        modifier = Modifier.fillMaxWidth()
+//                    )
+
+                    CustomCardExpirationDateTextField(
                         value = viewState.expirationDate ?: "",
-                        onValueChange = onExpirationDateChange,
-                        label = { Text("FV") },
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                        modifier = Modifier.fillMaxWidth()
+                        onValueChange = onExpirationDateChange
                     )
                 }
 
