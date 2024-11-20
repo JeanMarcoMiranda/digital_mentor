@@ -12,7 +12,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -76,9 +78,11 @@ fun ResultContent(
     val progress = (cumulativeScore / totalScore.toFloat()).coerceIn(0f, 1f)
     val percentage = (progress * 100).toInt()
 
+    // Envolver el contenido en un Scrollable Column
     Column(
         modifier = Modifier
-            .fillMaxWidth()
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(16.dp)
@@ -106,7 +110,7 @@ fun ResultContent(
             contentAlignment = Alignment.Center
         ) {
             CircularProgressIndicator(
-                progress = { progress },
+                progress = progress,
                 modifier = Modifier.fillMaxSize(),
                 color = MaterialTheme.colorScheme.primary,
                 strokeWidth = 8.dp
