@@ -69,9 +69,18 @@ class AuthRepositoryImpl(
         return currentSession != null
     }
 
-    override suspend fun resetPassword(email: String): Result<Unit> {
+    override suspend fun sendPasswordRecoveryEmail(email: String): Result<Unit> {
         return try {
             auth.resetPasswordForEmail(email)
+            Result.success(Unit)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    override suspend fun updatePassword(newPassword: String): Result<Unit> {
+        return try {
+            val response = auth.updateUser { password = newPassword }
             Result.success(Unit)
         } catch (e: Exception) {
             Result.failure(e)

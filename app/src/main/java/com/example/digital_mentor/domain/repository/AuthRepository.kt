@@ -19,5 +19,7 @@ interface AuthRepository {
 
     suspend fun isSessionActive(): Boolean
 
-    suspend fun resetPassword(email: String): Result<Unit>
+    suspend fun sendPasswordRecoveryEmail(email: String): Result<Unit>
+
+    suspend fun updatePassword(newPassword: String): Result<Unit>
 }
