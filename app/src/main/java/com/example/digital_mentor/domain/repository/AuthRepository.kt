@@ -18,4 +18,6 @@ interface AuthRepository {
     suspend fun getCurrentUserInfo(): Result<UserInfo>
 
     suspend fun isSessionActive(): Boolean
+
+    suspend fun resetPassword(email: String): Result<Unit>
 }

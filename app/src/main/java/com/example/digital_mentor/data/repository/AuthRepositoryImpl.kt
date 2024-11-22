@@ -69,6 +69,15 @@ class AuthRepositoryImpl(
         return currentSession != null
     }
 
+    override suspend fun resetPassword(email: String): Result<Unit> {
+        return try {
+            auth.resetPasswordForEmail(email)
+            Result.success(Unit)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
     override suspend fun getCurrentUserInfo(): Result<UserInfo> {
         return try {
             val user = auth.currentUserOrNull() ?: throw Exception("Cannot find user Session Info")

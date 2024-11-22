@@ -110,7 +110,7 @@ fun ResultContent(
             contentAlignment = Alignment.Center
         ) {
             CircularProgressIndicator(
-                progress = progress,
+                progress = { progress },
                 modifier = Modifier.fillMaxSize(),
                 color = MaterialTheme.colorScheme.primary,
                 strokeWidth = 8.dp
