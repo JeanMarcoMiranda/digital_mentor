@@ -21,5 +21,7 @@ interface AuthRepository {
 
     suspend fun sendPasswordRecoveryEmail(email: String): Result<Unit>
 
+    suspend fun checkUserExistsWithEmail(email: String): Result<Unit>
+
     suspend fun updatePassword(newPassword: String): Result<Unit>
 }

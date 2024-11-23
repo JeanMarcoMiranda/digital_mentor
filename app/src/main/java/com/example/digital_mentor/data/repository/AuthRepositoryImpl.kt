@@ -78,6 +78,10 @@ class AuthRepositoryImpl(
         }
     }
 
+    override suspend fun checkUserExistsWithEmail(email: String): Result<Unit> {
+        TODO("Not yet implemented")
+    }
+
     override suspend fun updatePassword(newPassword: String): Result<Unit> {
         return try {
             val response = auth.updateUser { password = newPassword }

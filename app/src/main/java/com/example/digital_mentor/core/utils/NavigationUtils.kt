@@ -37,4 +37,10 @@ sealed interface Routes {
 
     @Serializable
     data object LearningGuides: Routes
+
+    @Serializable
+    data object PasswordRecoverySendEmail: Routes
+
+    @Serializable
+    data object PasswordRecoveryNewPassword: Routes
 }

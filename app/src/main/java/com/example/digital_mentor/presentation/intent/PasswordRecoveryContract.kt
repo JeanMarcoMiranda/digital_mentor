@@ -11,7 +11,7 @@ sealed class PasswordRecoveryState {
     data class UpdatePassword(
         val newPassword: String,
         val newPasswordVerify: String
-    )
+    ): PasswordRecoveryState()
 }
 
 sealed class PasswordRecoveryIntent {

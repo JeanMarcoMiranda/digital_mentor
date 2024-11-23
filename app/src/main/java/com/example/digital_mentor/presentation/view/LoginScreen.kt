@@ -116,6 +116,21 @@ fun LoginScreen(
                 )
             }
 
+            Spacer(modifier = Modifier.height(24.dp))
+
+            // Forgot password
+            Text(
+                text = "¿Olvidaste la contraseña?",
+                style = TextStyle(
+                    fontSize = 15.sp
+                ),
+                color = Color.Blue,
+                modifier = Modifier
+                    .clickable {
+                        navController.navigate(Routes.PasswordRecoverySendEmail)
+                    }
+            )
+
             DividerWithText("o")
 
             // Login with Google Button
@@ -176,7 +191,8 @@ fun LoginScreen(
                     val isPending = (viewState as LoginViewState.Success).isPending
 
                     if (isPending != null) {
-                        val mainStartDestination = if (isPending) Routes.IlliterateTest else Routes.Home
+                        val mainStartDestination =
+                            if (isPending) Routes.IlliterateTest else Routes.Home
                         navController.navigate(mainStartDestination) {
                             popUpTo(AppRoutes.AuthGraph) { inclusive = true }
                         }
