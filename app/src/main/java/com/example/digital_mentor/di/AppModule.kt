@@ -18,11 +18,13 @@ import com.example.digital_mentor.domain.repository.UserProfileRepository
 import com.example.digital_mentor.domain.usecase.auth.CheckSessionUseCase
 import com.example.digital_mentor.domain.usecase.category.GetCategoriesWithQuestionsUseCase
 import com.example.digital_mentor.domain.usecase.auth.GetCurrentUserInfoUseCase
+import com.example.digital_mentor.domain.usecase.auth.SendPasswordRecoveryEmailUseCase
 import com.example.digital_mentor.domain.usecase.userProfile.GetUserProfileUseCase
 import com.example.digital_mentor.domain.usecase.auth.SignInUseCase
 import com.example.digital_mentor.domain.usecase.auth.SignInWithGoogleUseCase
 import com.example.digital_mentor.domain.usecase.auth.SignOutUseCase
 import com.example.digital_mentor.domain.usecase.auth.SignUpUseCase
+import com.example.digital_mentor.domain.usecase.auth.UpdatePasswordUseCase
 import com.example.digital_mentor.domain.usecase.course.GetCoursesUseCase
 import com.example.digital_mentor.domain.usecase.topic.GetTopicWithQuestionsUseCase
 import com.example.digital_mentor.domain.usecase.userProfile.UpdateUserProfileUseCase
@@ -32,6 +34,7 @@ import com.example.digital_mentor.presentation.viewmodel.LearningGuidesViewModel
 import com.example.digital_mentor.presentation.viewmodel.LiveSupportViewModel
 import com.example.digital_mentor.presentation.viewmodel.LoginViewModel
 import com.example.digital_mentor.presentation.viewmodel.MainLayoutViewModel
+import com.example.digital_mentor.presentation.viewmodel.PasswordRecoveryViewModel
 import com.example.digital_mentor.presentation.viewmodel.RegisterViewModel
 import com.example.digital_mentor.presentation.viewmodel.TestResultViewModel
 import com.example.digital_mentor.presentation.viewmodel.UserProfileViewModel
@@ -85,6 +88,8 @@ val appModule = module {
     single { SignInWithGoogleUseCase(get()) }
     single { CheckSessionUseCase(get()) }
     single { GetCurrentUserInfoUseCase(get()) }
+    single { SendPasswordRecoveryEmailUseCase(get()) }
+    single { UpdatePasswordUseCase(get()) }
     // Category
     single { GetCategoriesWithQuestionsUseCase(get()) }
     // UserProfile
@@ -104,4 +109,5 @@ val appModule = module {
     viewModel { LearningGuidesViewModel(get()) }
     viewModel { TestResultViewModel(get(), get()) }
     viewModel { UserProfileViewModel(get(), get(), get()) }
+    viewModel { PasswordRecoveryViewModel(get(), get()) }
 }

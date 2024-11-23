@@ -5,7 +5,8 @@ sealed class PasswordRecoveryState {
     data class Success(val message: String) : PasswordRecoveryState()
     data class Error(val message: String) : PasswordRecoveryState()
     data class EmailVerify(
-        val email: String
+        val email: String,
+        val emailError: String? = null
     ) : PasswordRecoveryState()
 
     data class UpdatePassword(

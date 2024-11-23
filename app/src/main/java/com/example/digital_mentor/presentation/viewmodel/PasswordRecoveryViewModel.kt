@@ -59,8 +59,31 @@ class PasswordRecoveryViewModel(
         viewModelScope.launch {
             val currentState = _viewState.value
             if (currentState is PasswordRecoveryState.EmailVerify) {
-                val result = sendPasswordRecoveryEmail(currentState.email)
+                val validatedState = validateInputSendEmail(currentState)
+
+                if (
+                    validatedState.emailError == null
+                ) {
+                    sendPasswordRecoveryEmail(currentState.email).onSuccess {
+                        _viewState.value =
+                            PasswordRecoveryState.Success("Se envio el correo de varificacion correctamente")
+                    }.onFailure {
+                        _viewState.value = PasswordRecoveryState.Error(
+                            "No se pudo enviar el correo, vuelva a intentarlo"
+                        )
+                    }
+                } else {
+                    _viewState.value = validatedState
+                }
             }
         }
+    }
+
+    private fun validateInputSendEmail(input: PasswordRecoveryState.EmailVerify): PasswordRecoveryState.EmailVerify {
+        val emailError = if (input.email.isEmpty()) "Debe llenar el correo electronico" else null
+
+        return input.copy(
+            emailError = emailError
+        )
     }
 }
