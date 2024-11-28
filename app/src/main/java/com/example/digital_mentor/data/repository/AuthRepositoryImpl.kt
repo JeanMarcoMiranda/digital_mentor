@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.credentials.CredentialManager
 import androidx.credentials.GetCredentialRequest
 import com.example.digital_mentor.BuildConfig
+import com.example.digital_mentor.data.model.UserProfileEntityCreate
 import com.example.digital_mentor.domain.repository.AuthRepository
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GetSignInWithGoogleOption
@@ -78,10 +79,6 @@ class AuthRepositoryImpl(
         }
     }
 
-    override suspend fun checkUserExistsWithEmail(email: String): Result<Unit> {
-        TODO("Not yet implemented")
-    }
-
     override suspend fun updatePassword(newPassword: String): Result<Unit> {
         return try {
             val response = auth.updateUser { password = newPassword }
@@ -100,7 +97,7 @@ class AuthRepositoryImpl(
         }
     }
 
-    override suspend fun signInWithGoogle(context: Context): Result<Boolean> {
+    override suspend fun signInWithGoogle(context: Context): Result<UserProfileEntityCreate> {
         return try {
             val rawNonce = UUID.randomUUID()
                 .toString() // Generate a random String. UUID should be sufficient, but can also be any other random string.
@@ -110,6 +107,7 @@ class AuthRepositoryImpl(
             val hashedNonce =
                 digest.fold("") { str, it -> str + "%02x".format(it) } // Hashed nonce to be passed to Google sign-in
 
+            Log.d("googleSignIn", "Here")
             val googleOptions = GetGoogleIdOption.Builder()
                 .setFilterByAuthorizedAccounts(true)
                 .setServerClientId(BuildConfig.WEB_CLIENT_ID)
@@ -120,15 +118,18 @@ class AuthRepositoryImpl(
                 .addCredentialOption(googleOptions)
                 .build()
 
+            Log.d("googleSignIn", "Here2")
             try {
                 val result = credentialManager.getCredential(
                     request = requestId,
                     context = context
                 )
 
+                Log.d("googleSignIn", "Here3")
                 val googleIdTokenCredential =
                     GoogleIdTokenCredential.createFrom(result.credential.data)
                 val googleIdToken = googleIdTokenCredential.idToken
+                Log.d("googleSignIn", "Here4")
 
                 auth.signInWith(IDToken) {
                     idToken = googleIdToken
@@ -136,8 +137,11 @@ class AuthRepositoryImpl(
                     nonce = rawNonce
                 }
             } catch (e: Exception) {
+                Log.d("googleSignIn", "Here5")
                 // Here we check if the exception is "No credentials available", if so we show signInGoogleModal
                 if (e is NoSuchElementException || e.message?.contains("No credentials available") == true) {
+                    Log.d("googleSignIn", "Here6")
+                    Log.d("googleSignIn", e.message ?: "")
                     val signInWithGoogleOption =
                         GetSignInWithGoogleOption.Builder(BuildConfig.WEB_CLIENT_ID)
                             .setNonce(hashedNonce)
@@ -147,12 +151,14 @@ class AuthRepositoryImpl(
                         .addCredentialOption(signInWithGoogleOption)
                         .build()
 
+                    Log.d("googleSignIn", "Here7")
                     val resultSignIn =
                         credentialManager.getCredential(request = requestSignIn, context = context)
                     val googleIdTokenCredential =
                         GoogleIdTokenCredential.createFrom(resultSignIn.credential.data)
                     val googleIdToken = googleIdTokenCredential.idToken
 
+                    Log.d("googleSignIn", "Here8")
                     auth.signInWith(IDToken) {
                         idToken = googleIdToken
                         provider = Google
@@ -163,7 +169,25 @@ class AuthRepositoryImpl(
                 }
             }
 
-            Result.success(true)
+            // Obtener los datos del usuario autenticado
+            val session = auth.currentSessionOrNull()
+            val user = session?.user
+
+            if (user != null) {
+                Log.d("CheckUserExists", "User get successfully")
+                val userId = user.id
+                val userName = user.userMetadata?.get("name") ?: "Usuario"
+
+                val userCreateData = UserProfileEntityCreate(
+                    id = userId,
+                    name = userName as String,
+                )
+
+                Log.d("CheckUserExists", "User to create $userCreateData")
+                Result.success(userCreateData)
+            } else {
+                Result.failure(Exception("Usuario no encontrado después de iniciar sesión."))
+            }
         } catch (e: GoogleIdTokenParsingException) {
             Result.failure(e)
         } catch (e: RestException) {

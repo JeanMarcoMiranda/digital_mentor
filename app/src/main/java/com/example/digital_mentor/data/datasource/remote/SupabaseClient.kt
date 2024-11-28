@@ -2,6 +2,7 @@ package com.example.digital_mentor.data.datasource.remote
 
 import com.example.digital_mentor.BuildConfig
 import io.github.jan.supabase.auth.Auth
+import io.github.jan.supabase.auth.ExternalAuthAction
 import io.github.jan.supabase.createSupabaseClient
 import io.github.jan.supabase.postgrest.Postgrest
 
@@ -11,6 +12,11 @@ object MySupabaseClient {
         supabaseKey = BuildConfig.SUPABASE_ANON_KEY
     ) {
         install(Postgrest)
-        install(Auth)
+        install(Auth) {
+            host = "resetpassword"
+            scheme = "digitalmentor"
+
+            defaultExternalAuthAction = ExternalAuthAction.CustomTabs()
+        }
     }
 }

@@ -26,7 +26,6 @@ import androidx.compose.ui.unit.sp
 import com.example.digital_mentor.presentation.components.CustomTextField
 import com.example.digital_mentor.presentation.intent.PasswordRecoveryIntent
 import com.example.digital_mentor.presentation.intent.PasswordRecoveryState
-import com.example.digital_mentor.presentation.intent.RegisterViewState
 import com.example.digital_mentor.presentation.viewmodel.PasswordRecoveryViewModel
 import org.koin.androidx.compose.koinViewModel
 

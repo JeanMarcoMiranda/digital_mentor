@@ -57,12 +57,14 @@ class LoginViewModel(
         viewModelScope.launch {
             _viewState.value = LoginViewState.Loading
             val result = signInWithGoogleUseCase(context)
-            _viewState.value = if (result.isSuccess) {
+            if (result.isSuccess) {
                 Log.d("LogWithGoogle", "Success")
-                LoginViewState.Success("Bienvenido con Google!")
+//                LoginViewState.Success("Bienvenido con Google!")
+                loadUserProfile()
             } else {
                 Log.d("LogWithGoogle", "Error")
-                LoginViewState.Error(
+                Log.d("LogWithGoogle", result.exceptionOrNull()?.message ?: "")
+                _viewState.value = LoginViewState.Error(
                     result.exceptionOrNull()?.message ?: "Error en inicio de sesión con Google"
                 )
             }

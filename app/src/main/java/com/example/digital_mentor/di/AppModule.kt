@@ -85,7 +85,7 @@ val appModule = module {
     single { SignUpUseCase(get(), get()) }
     single { SignInUseCase(get()) }
     single { SignOutUseCase(get()) }
-    single { SignInWithGoogleUseCase(get()) }
+    single { SignInWithGoogleUseCase(get(), get()) }
     single { CheckSessionUseCase(get()) }
     single { GetCurrentUserInfoUseCase(get()) }
     single { SendPasswordRecoveryEmailUseCase(get()) }

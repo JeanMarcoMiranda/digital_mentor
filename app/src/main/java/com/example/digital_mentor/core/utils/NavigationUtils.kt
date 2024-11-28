@@ -43,4 +43,7 @@ sealed interface Routes {
 
     @Serializable
     data object PasswordRecoveryNewPassword: Routes
+
+    @Serializable
+    data object DirectLinks: Routes
 }

@@ -36,6 +36,34 @@ class UserProfileRepositoryImpl(
         }
     }
 
+    override suspend fun ensureUserProfileExists(userData: UserProfileEntityCreate): Result<UserProfileEntity> {
+        return try {
+            // 1. Verificar si el perfil del usuario ya existe
+            val existingProfileResult = getUserProfile(userData.id)
+
+            existingProfileResult.fold(
+                onSuccess = { existingProfile ->
+                    Log.d("CheckUserExists", "Here exists")
+                    // Si existe, devolverlo
+                    Result.success(existingProfile)
+                },
+                onFailure = { error ->
+                    Log.d("CheckUserExists", "Here doesnt exists")
+                    if (error.message?.contains("No such record") == true) {
+                        Log.d("CheckUserExists", "Here to create profile")
+                        // 2. Si no existe, crear el perfil
+                        saveUserProfile(userData)
+                    } else {
+                        // Si hay otro tipo de error, devolverlo
+                        Result.failure(error)
+                    }
+                }
+            )
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
     override suspend fun updateUserProfile(
         userId: String,
         userData: UserProfileEntityUpdate

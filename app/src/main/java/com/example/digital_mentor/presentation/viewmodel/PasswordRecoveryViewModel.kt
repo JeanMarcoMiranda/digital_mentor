@@ -47,9 +47,54 @@ class PasswordRecoveryViewModel(
                     }
 
                     PasswordRecoveryIntent.SendRecoveryEmail -> handleSendRecoveryEmail()
-                    is PasswordRecoveryIntent.OnNewPasswordChange -> Unit
-                    PasswordRecoveryIntent.UpdatePassword -> Unit
-                    is PasswordRecoveryIntent.onNewPasswordVerifyChange -> Unit
+                    is PasswordRecoveryIntent.OnNewPasswordChange -> {
+                        val currentState = _viewState.value
+                        if (currentState is PasswordRecoveryState.UpdatePassword) {
+                            _viewState.value = currentState.copy(newPassword = intent.newPassword)
+                        }
+                    }
+
+                    is PasswordRecoveryIntent.onNewPasswordVerifyChange -> {
+                        val currentState = _viewState.value
+                        if (currentState is PasswordRecoveryState.UpdatePassword) {
+                            _viewState.value =
+                                currentState.copy(newPasswordVerify = intent.newPasswordVerify)
+                        }
+                    }
+
+                    PasswordRecoveryIntent.UpdatePassword -> handleUpdatePassword()
+                    is PasswordRecoveryIntent.SetEmailVerifyState -> {
+                        _viewState.value = PasswordRecoveryState.EmailVerify(email = "")
+                    }
+
+                    is PasswordRecoveryIntent.SetUpdatePasswordState -> {
+                        _viewState.value = PasswordRecoveryState.UpdatePassword(
+                            newPassword = "",
+                            newPasswordVerify = ""
+                        )
+                    }
+
+                    PasswordRecoveryIntent.ToggleNewPasswordVerifyVisibility -> {
+                        val currentState = _viewState.value as? PasswordRecoveryState.UpdatePassword
+                            ?: PasswordRecoveryState.UpdatePassword(
+                                newPassword = "",
+                                newPasswordVerify = ""
+                            )
+
+                        _viewState.value =
+                            currentState.copy(newPasswordVerifyVisible = !currentState.newPasswordVerifyVisible)
+                    }
+
+                    PasswordRecoveryIntent.ToggleNewPasswordVisibility -> {
+                        val currentState = _viewState.value as? PasswordRecoveryState.UpdatePassword
+                            ?: PasswordRecoveryState.UpdatePassword(
+                                newPassword = "",
+                                newPasswordVerify = ""
+                            )
+
+                        _viewState.value =
+                            currentState.copy(newPasswordVisible = !currentState.newPasswordVisible)
+                    }
                 }
             }
         }
@@ -79,11 +124,51 @@ class PasswordRecoveryViewModel(
         }
     }
 
+    private fun handleUpdatePassword() {
+        viewModelScope.launch {
+            val currentState = _viewState.value
+            if (currentState is PasswordRecoveryState.UpdatePassword) {
+                val validatedState = validateInputUpdatePassword(currentState)
+
+                if (validatedState.newPasswordError == null && validatedState.newPasswordVerifyError == null) {
+                    updateUserPassword(currentState.newPassword).onSuccess {
+                        _viewState.value =
+                            PasswordRecoveryState.Success("La contraseña se actualizó correctamente.")
+                    }.onFailure {
+                        _viewState.value =
+                            PasswordRecoveryState.Error("No se pudo actualizar la contraseña. Inténtelo de nuevo.")
+                    }
+                } else {
+                    _viewState.value = validatedState
+                }
+            }
+        }
+    }
+
     private fun validateInputSendEmail(input: PasswordRecoveryState.EmailVerify): PasswordRecoveryState.EmailVerify {
         val emailError = if (input.email.isEmpty()) "Debe llenar el correo electronico" else null
 
         return input.copy(
             emailError = emailError
+        )
+    }
+
+    private fun validateInputUpdatePassword(input: PasswordRecoveryState.UpdatePassword): PasswordRecoveryState.UpdatePassword {
+        val newPasswordError = when {
+            input.newPassword.isEmpty() -> "Debe ingresar una nueva contraseña."
+            input.newPassword.length < 6 -> "La contraseña debe tener al menos 6 caracteres."
+            else -> null
+        }
+
+        val newPasswordVerifyError = when {
+            input.newPasswordVerify.isEmpty() -> "Debe confirmar la nueva contraseña."
+            input.newPassword != input.newPasswordVerify -> "Las contraseñas no coinciden."
+            else -> null
+        }
+
+        return input.copy(
+            newPasswordError = newPasswordError,
+            newPasswordVerifyError = newPasswordVerifyError
         )
     }
 }

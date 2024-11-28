@@ -147,9 +147,9 @@ fun HomeScreen(
             // Botón Anexos directos (deshabilitado)
             item {
                 Button(
-                    onClick = {},
+                    onClick = {
+                    },
                     shape = RoundedCornerShape(40.dp),
-                    enabled = false,
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(55.dp)

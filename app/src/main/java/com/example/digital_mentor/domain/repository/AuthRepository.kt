@@ -1,6 +1,7 @@
 package com.example.digital_mentor.domain.repository
 
 import android.content.Context
+import com.example.digital_mentor.data.model.UserProfileEntityCreate
 import io.github.jan.supabase.auth.user.UserInfo
 
 interface AuthRepository {
@@ -13,15 +14,13 @@ interface AuthRepository {
 
     suspend fun signOut(): Result<Boolean>
 
-    suspend fun signInWithGoogle(context: Context): Result<Boolean>
+    suspend fun signInWithGoogle(context: Context): Result<UserProfileEntityCreate>
 
     suspend fun getCurrentUserInfo(): Result<UserInfo>
 
     suspend fun isSessionActive(): Boolean
 
     suspend fun sendPasswordRecoveryEmail(email: String): Result<Unit>
-
-    suspend fun checkUserExistsWithEmail(email: String): Result<Unit>
 
     suspend fun updatePassword(newPassword: String): Result<Unit>
 }

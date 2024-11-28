@@ -11,7 +11,11 @@ sealed class PasswordRecoveryState {
 
     data class UpdatePassword(
         val newPassword: String,
-        val newPasswordVerify: String
+        val newPasswordError: String? = null,
+        val newPasswordVisible: Boolean = false,
+        val newPasswordVerify: String,
+        val newPasswordVerifyError: String? = null,
+        val newPasswordVerifyVisible: Boolean = false,
     ): PasswordRecoveryState()
 }
 
@@ -21,5 +25,9 @@ sealed class PasswordRecoveryIntent {
     data class OnNewPasswordChange(val newPassword: String): PasswordRecoveryIntent()
     data class onNewPasswordVerifyChange(val newPasswordVerify: String): PasswordRecoveryIntent()
     object UpdatePassword : PasswordRecoveryIntent()
+    object ToggleNewPasswordVisibility : PasswordRecoveryIntent()
+    object ToggleNewPasswordVerifyVisibility : PasswordRecoveryIntent()
+    object SetEmailVerifyState: PasswordRecoveryIntent()
+    object SetUpdatePasswordState: PasswordRecoveryIntent()
 }
 

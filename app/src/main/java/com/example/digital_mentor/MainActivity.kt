@@ -9,12 +9,18 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import com.example.digital_mentor.presentation.navigation.AppNavigationGraph
 import com.example.digital_mentor.ui.theme.Digital_mentorTheme
+import io.github.jan.supabase.SupabaseClient
+import io.github.jan.supabase.auth.handleDeeplinks
+import org.koin.android.ext.android.inject
 
 
 class MainActivity : ComponentActivity() {
+    private val supabase by inject<SupabaseClient>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        supabase.handleDeeplinks(intent)
+
         setContent {
             Digital_mentorTheme {
                 Surface(
