@@ -9,6 +9,7 @@ import androidx.navigation.navigation
 import com.example.digital_mentor.core.utils.AppRoutes
 import com.example.digital_mentor.core.utils.Routes
 import com.example.digital_mentor.presentation.layout.MainAppLayout
+import com.example.digital_mentor.presentation.view.DirectLinksScreen
 import com.example.digital_mentor.presentation.view.HomeScreen
 import com.example.digital_mentor.presentation.view.IlliteracyTestScreen
 import com.example.digital_mentor.presentation.view.LearningGuidesScreen
@@ -44,6 +45,12 @@ fun NavGraphBuilder.mainNavGraph(
                 TestResultScreen(modifier = modifier, onNavToHome = {
                     navController.navigate(Routes.Home)
                 })
+            }
+        }
+
+        composable<Routes.DirectLinks> {
+            MainAppLayout(navController = navController) { modifier ->
+                DirectLinksScreen(modifier)
             }
         }
 

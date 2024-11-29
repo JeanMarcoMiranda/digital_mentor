@@ -148,6 +148,7 @@ fun HomeScreen(
             item {
                 Button(
                     onClick = {
+                        navController.navigate(Routes.DirectLinks)
                     },
                     shape = RoundedCornerShape(40.dp),
                     modifier = Modifier
