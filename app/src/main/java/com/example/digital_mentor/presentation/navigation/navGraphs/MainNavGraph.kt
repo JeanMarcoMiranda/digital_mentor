@@ -50,7 +50,9 @@ fun NavGraphBuilder.mainNavGraph(
 
         composable<Routes.DirectLinks> {
             MainAppLayout(navController = navController) { modifier ->
-                DirectLinksScreen(modifier)
+                DirectLinksScreen(modifier, onNavigateToHome = {
+                    navController.navigate(Routes.Home)
+                })
             }
         }
 

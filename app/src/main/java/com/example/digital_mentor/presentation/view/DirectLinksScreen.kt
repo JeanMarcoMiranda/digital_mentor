@@ -8,6 +8,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -23,6 +24,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Call
 import androidx.compose.material.icons.filled.OpenInNew
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -36,44 +38,70 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.digital_mentor.R
 import com.example.digital_mentor.core.utils.AppInfo
 import com.example.digital_mentor.core.utils.appList
 import com.example.digital_mentor.core.utils.emergencyContacts
 
 @Composable
-fun DirectLinksScreen(modifier: Modifier = Modifier) {
+fun DirectLinksScreen(
+    modifier: Modifier = Modifier,
+    onNavigateToHome: () -> Unit // Callback para la navegación
+) {
     val context = LocalContext.current
 
-    LazyColumn(
-        modifier = modifier.fillMaxSize(),
-        contentPadding = PaddingValues(16.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp)
-    ) {
-        // Sección de Contactos de Emergencia
-        item {
-            SectionTitle(title = "Contactos de Emergencia")
-        }
-        items(emergencyContacts) { (name, phoneNumber) ->
-            EmergencyContactTile(
-                name = name,
-                onClick = { openDialer(context, phoneNumber) }
-            )
+    Box(modifier = modifier.fillMaxSize()) {
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(bottom = 72.dp), // Deja espacio para el botón
+            contentPadding = PaddingValues(16.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            // Sección de Contactos de Emergencia
+            item {
+                SectionTitle(title = "Contactos de Emergencia")
+            }
+            items(emergencyContacts) { (name, phoneNumber) ->
+                EmergencyContactTile(
+                    name = name,
+                    onClick = { openDialer(context, phoneNumber) }
+                )
+            }
+
+            // Espaciador entre secciones
+            item {
+                Spacer(modifier = Modifier.height(8.dp))
+            }
+
+            // Sección de Aplicaciones
+            item {
+                SectionTitle(title = "Aplicaciones")
+            }
+            items(appList) { app ->
+                AppTile(
+                    appInfo = app,
+                    onClick = { packageName -> openApp(context, packageName) }
+                )
+            }
         }
 
-        // Espaciador entre secciones
-        item {
-            Spacer(modifier = Modifier.height(8.dp))
-        }
-
-        // Sección de Aplicaciones
-        item {
-            SectionTitle(title = "Aplicaciones")
-        }
-        items(appList) { app ->
-            AppTile(
-                appInfo = app,
-                onClick = { packageName -> openApp(context, packageName) }
+        // Botón fijo en la parte inferior
+        Button(
+            onClick = onNavigateToHome,
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .padding(horizontal = 16.dp, vertical = 8.dp)
+                .fillMaxWidth()
+                .height(56.dp),
+            shape = RoundedCornerShape(50) // Botón con esquinas redondeadas
+        ) {
+            Text(
+                text = "Ir al inicio",
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold,
+                style = MaterialTheme.typography.bodyLarge
             )
         }
     }
@@ -121,7 +149,8 @@ fun EmergencyContactTile(name: String, onClick: () -> Unit) {
                 Text(
                     text = name,
                     style = MaterialTheme.typography.bodyMedium,
-                    fontWeight = FontWeight.Bold
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold,
                 )
             }
             Icon(
@@ -162,7 +191,9 @@ fun AppTile(appInfo: AppInfo, onClick: (String) -> Unit) {
                 Spacer(modifier = Modifier.width(16.dp))
                 Text(
                     text = appInfo.name,
-                    style = MaterialTheme.typography.bodyMedium
+                    style = MaterialTheme.typography.bodyMedium,
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold,
                 )
             }
             Icon(
