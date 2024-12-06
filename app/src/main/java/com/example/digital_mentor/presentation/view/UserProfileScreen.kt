@@ -298,14 +298,6 @@ fun CardEditForm(
 
                 // Fecha de vencimiento ocupa una columna
                 item {
-//                    OutlinedTextField(
-//                        value = viewState.expirationDate ?: "",
-//                        onValueChange = onExpirationDateChange,
-//                        label = { Text("FV") },
-//                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-//                        modifier = Modifier.fillMaxWidth()
-//                    )
-
                     CustomCardExpirationDateTextField(
                         value = viewState.expirationDate ?: "",
                         onValueChange = onExpirationDateChange

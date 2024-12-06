@@ -112,6 +112,7 @@ fun SectionTitle(title: String) {
     Text(
         text = title,
         style = MaterialTheme.typography.headlineSmall,
+        fontWeight = FontWeight.Bold,
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 8.dp),

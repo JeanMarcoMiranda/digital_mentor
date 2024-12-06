@@ -12,10 +12,12 @@ import androidx.navigation.compose.rememberNavController
 import com.example.digital_mentor.core.utils.AppRoutes
 import com.example.digital_mentor.presentation.intent.AppIntent
 import com.example.digital_mentor.presentation.intent.AppState
+import com.example.digital_mentor.presentation.intent.MainLayoutState
 import com.example.digital_mentor.presentation.navigation.navGraphs.authNavGraph
 import com.example.digital_mentor.presentation.navigation.navGraphs.mainNavGraph
 import com.example.digital_mentor.presentation.view.OnboardingScreen
 import com.example.digital_mentor.presentation.viewmodel.AppViewModel
+import com.example.digital_mentor.presentation.viewmodel.MainLayoutViewModel
 import org.koin.androidx.compose.koinViewModel
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -27,11 +29,23 @@ fun AppNavigationGraph(
     val navController = rememberNavController()
     val viewState by viewModel.viewState.collectAsState()
 
+    val mainLayoutViewModel = koinViewModel<MainLayoutViewModel>()
+    val mainViewState by mainLayoutViewModel.viewState.collectAsState()
+
     // Get start route
     val startRoute = (viewState as? AppState.StartDestination)?.route ?: AppRoutes.AuthGraph
 
-    LaunchedEffect(Unit) {
-        viewModel.sendIntent(AppIntent.Start)
+    // Unificar la lógica de lanzamiento de efectos
+    LaunchedEffect(viewState, mainViewState) {
+        when {
+            mainViewState is MainLayoutState.Success -> {
+                viewModel.sendIntent(AppIntent.Start)
+            }
+
+            viewState is AppState.StartDestination -> {
+                viewModel.sendIntent(AppIntent.Start)
+            }
+        }
     }
 
     NavHost(

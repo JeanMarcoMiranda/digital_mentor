@@ -10,36 +10,19 @@ class SignInWithGoogleUseCase(
     private val userProfileRepository: UserProfileRepository
 ) {
     suspend operator fun invoke(context: Context): Result<Boolean> {
-        return try {
-            val userSignedInResult = repository.signInWithGoogle(context)
+        return runCatching {
+            // Intentar autenticar al usuario con Google
+            val userToCreate = repository.signInWithGoogle(context).getOrThrow()
 
-            Log.d("CheckUserExists", "Here")
-            userSignedInResult.fold(
-                onSuccess = { userToCreate ->
-                    // 2. Asegurar que el perfil exista
-                    val userProfileResult = userProfileRepository.ensureUserProfileExists(
-                        userToCreate
-                    )
-
-                    Log.d("CreatedUser", "After create user: $userProfileResult")
-                    userProfileResult.fold(
-                        onSuccess = { userProfile ->
-                            Result.success(userProfile)
-                        },
-                        onFailure = { error ->
-                            Result.failure(error)
-                        }
-                    )
-                },
-                onFailure = { error ->
-                    Log.d("CreatedUser", "Here Error")
-                    Result.failure(Exception("Failed to authenticate user with Google: ${error.message}"))
-                }
-            )
-
-            Result.success(true)
-        } catch (e: Exception) {
-            Result.failure(e)
+            // Asegurar que el perfil del usuario exista
+            userProfileRepository.ensureUserProfileExists(userToCreate).getOrThrow()
+        }.map {
+            // Si todo fue exitoso, devolver éxito
+            true
+        }.onFailure { error ->
+            // Manejar fallos y cerrar sesión si es necesario
+            Log.e("SignInWithGoogle", "Error: ${error.message}", error)
+            repository.signOut()
         }
     }
 }

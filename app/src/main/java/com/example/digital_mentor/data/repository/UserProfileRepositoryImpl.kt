@@ -11,56 +11,40 @@ import io.github.jan.supabase.postgrest.from
 class UserProfileRepositoryImpl(
     private val supabase: SupabaseClient
 ) : UserProfileRepository {
-    override suspend fun getUserProfile(userId: String): Result<UserProfileEntity> {
-        return try {
-            val user = supabase.from("user_profiles").select {
-                filter {
-                    UserProfileEntity::id eq userId
-                }
-            }.decodeSingle<UserProfileEntity>()
 
-            Result.success(user)
+    override suspend fun saveUserProfile(userData: UserProfileEntityCreate): Result<UserProfileEntity> {
+        return try {
+            val userResponse = supabase.from("user_profiles")
+                .insert(userData) {
+                    select()
+                }
+
+            val users = userResponse.decodeSingle<UserProfileEntity>()
+            Result.success(users)
         } catch (e: Exception) {
             Result.failure(e)
         }
     }
 
-    override suspend fun saveUserProfile(userData: UserProfileEntityCreate): Result<UserProfileEntity> {
+    override suspend fun getUserProfile(userId: String): Result<UserProfileEntity> {
         return try {
-            val user: UserProfileEntity = supabase.from("user_profiles")
-                .insert(userData).decodeSingle()
+            val users: List<UserProfileEntity> = supabase.from("user_profiles").select {
+                filter { UserProfileEntity::id eq userId }
+            }.decodeList()
 
-            Result.success(user)
+            if (users.isEmpty()) {
+                Result.failure(Exception("No such record"))
+            } else {
+                Result.success(users.first())
+            }
         } catch (e: Exception) {
             Result.failure(e)
         }
     }
 
     override suspend fun ensureUserProfileExists(userData: UserProfileEntityCreate): Result<UserProfileEntity> {
-        return try {
-            // 1. Verificar si el perfil del usuario ya existe
-            val existingProfileResult = getUserProfile(userData.id)
-
-            existingProfileResult.fold(
-                onSuccess = { existingProfile ->
-                    Log.d("CheckUserExists", "Here exists")
-                    // Si existe, devolverlo
-                    Result.success(existingProfile)
-                },
-                onFailure = { error ->
-                    Log.d("CheckUserExists", "Here doesnt exists")
-                    if (error.message?.contains("No such record") == true) {
-                        Log.d("CheckUserExists", "Here to create profile")
-                        // 2. Si no existe, crear el perfil
-                        saveUserProfile(userData)
-                    } else {
-                        // Si hay otro tipo de error, devolverlo
-                        Result.failure(error)
-                    }
-                }
-            )
-        } catch (e: Exception) {
-            Result.failure(e)
+        return getUserProfile(userData.id).recoverCatching { _ ->
+            saveUserProfile(userData).getOrThrow()
         }
     }
 

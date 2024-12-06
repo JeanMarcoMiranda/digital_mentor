@@ -59,8 +59,8 @@ fun MainAppLayout(
                 DrawerContent(
                     navController = navController,
                     onLogoutClick = {
-                    viewModel.sendIntent(MainLayoutIntent.LogoutClicked)
-                })
+                        viewModel.sendIntent(MainLayoutIntent.LogoutClicked)
+                    })
             }
         }
     ) {

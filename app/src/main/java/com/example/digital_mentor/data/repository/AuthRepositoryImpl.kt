@@ -17,8 +17,17 @@ import io.github.jan.supabase.auth.providers.builtin.Email
 import io.github.jan.supabase.auth.providers.builtin.IDToken
 import io.github.jan.supabase.auth.user.UserInfo
 import io.github.jan.supabase.exceptions.RestException
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import java.security.MessageDigest
 import java.util.UUID
+
+@Serializable
+data class UserMetadata(
+    @SerialName("name") val name: String? = null
+)
 
 class AuthRepositoryImpl(
     private val auth: Auth,
@@ -107,7 +116,6 @@ class AuthRepositoryImpl(
             val hashedNonce =
                 digest.fold("") { str, it -> str + "%02x".format(it) } // Hashed nonce to be passed to Google sign-in
 
-            Log.d("googleSignIn", "Here")
             val googleOptions = GetGoogleIdOption.Builder()
                 .setFilterByAuthorizedAccounts(true)
                 .setServerClientId(BuildConfig.WEB_CLIENT_ID)
@@ -118,18 +126,15 @@ class AuthRepositoryImpl(
                 .addCredentialOption(googleOptions)
                 .build()
 
-            Log.d("googleSignIn", "Here2")
             try {
                 val result = credentialManager.getCredential(
                     request = requestId,
                     context = context
                 )
 
-                Log.d("googleSignIn", "Here3")
                 val googleIdTokenCredential =
                     GoogleIdTokenCredential.createFrom(result.credential.data)
                 val googleIdToken = googleIdTokenCredential.idToken
-                Log.d("googleSignIn", "Here4")
 
                 auth.signInWith(IDToken) {
                     idToken = googleIdToken
@@ -137,11 +142,8 @@ class AuthRepositoryImpl(
                     nonce = rawNonce
                 }
             } catch (e: Exception) {
-                Log.d("googleSignIn", "Here5")
                 // Here we check if the exception is "No credentials available", if so we show signInGoogleModal
                 if (e is NoSuchElementException || e.message?.contains("No credentials available") == true) {
-                    Log.d("googleSignIn", "Here6")
-                    Log.d("googleSignIn", e.message ?: "")
                     val signInWithGoogleOption =
                         GetSignInWithGoogleOption.Builder(BuildConfig.WEB_CLIENT_ID)
                             .setNonce(hashedNonce)
@@ -151,14 +153,12 @@ class AuthRepositoryImpl(
                         .addCredentialOption(signInWithGoogleOption)
                         .build()
 
-                    Log.d("googleSignIn", "Here7")
                     val resultSignIn =
                         credentialManager.getCredential(request = requestSignIn, context = context)
                     val googleIdTokenCredential =
                         GoogleIdTokenCredential.createFrom(resultSignIn.credential.data)
                     val googleIdToken = googleIdTokenCredential.idToken
 
-                    Log.d("googleSignIn", "Here8")
                     auth.signInWith(IDToken) {
                         idToken = googleIdToken
                         provider = Google
@@ -174,16 +174,23 @@ class AuthRepositoryImpl(
             val user = session?.user
 
             if (user != null) {
-                Log.d("CheckUserExists", "User get successfully")
                 val userId = user.id
-                val userName = user.userMetadata?.get("name") ?: "Usuario"
+                val rawUserMetadata = user.userMetadata
+
+                val json = Json {
+                    ignoreUnknownKeys = true
+                }
+
+                val userMetadata = rawUserMetadata?.let {
+                    json.decodeFromString<UserMetadata>(Json.encodeToString(it))
+                }
+                val userName = userMetadata?.name ?: "Usuario"
 
                 val userCreateData = UserProfileEntityCreate(
                     id = userId,
-                    name = userName as String,
+                    name = userName,
                 )
 
-                Log.d("CheckUserExists", "User to create $userCreateData")
                 Result.success(userCreateData)
             } else {
                 Result.failure(Exception("Usuario no encontrado después de iniciar sesión."))
