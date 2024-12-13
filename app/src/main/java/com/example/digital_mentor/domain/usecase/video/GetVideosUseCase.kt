@@ -7,7 +7,7 @@ import com.example.digital_mentor.domain.repository.VideoRepository
 class GetVideosUseCase(
     private val repository: VideoRepository
 ) {
-    suspend fun invoke(): Result<List<Video>> {
+    suspend operator fun invoke(): Result<List<Video>> {
         return try {
             val videoResult = repository.getVideos()
 
