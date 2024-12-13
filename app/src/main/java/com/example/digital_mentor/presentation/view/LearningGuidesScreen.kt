@@ -75,7 +75,6 @@ fun LearningGuidesScreen(
         verticalArrangement = Arrangement.Center
     ) {
 
-
         when (val state = viewState) {
             is LearningGuidesState.CourseSelection -> {
                 val filteredCourses = state.courses.filter {
@@ -156,58 +155,6 @@ fun CourseGridContent(
         }
     }
 }
-
-//@Composable
-//fun CourseCard(
-//    course: Course,
-//    onCourseClick: (selectedCourse: Course) -> Unit
-//) {
-//    Card(
-//        elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
-//        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-//        shape = RoundedCornerShape(16.dp),
-//        border = BorderStroke(1.dp, MaterialTheme.colorScheme.primary.copy(alpha = 0.3f)),
-//        modifier = Modifier
-//            .fillMaxWidth()
-//            .heightIn(min = 200.dp, max = 250.dp) // Altura uniforme
-//            .clickable { onCourseClick(course) }
-//    ) {
-//        Column(
-//            modifier = Modifier
-//                .fillMaxHeight()
-//                .padding(12.dp),
-//            horizontalAlignment = Alignment.CenterHorizontally,
-//            verticalArrangement = Arrangement.spacedBy(8.dp)
-//        ) {
-//            // Imagen del curso
-//            AsyncImage(
-//                model = course.image,
-//                contentDescription = course.name,
-//                contentScale = ContentScale.Crop,
-//                modifier = Modifier
-//                    .fillMaxWidth()
-//                    .aspectRatio(1f) // Relación de aspecto cuadrada
-//                    .clip(RoundedCornerShape(12.dp)) // Bordes redondeados para la imagen
-//            )
-//
-//            // Contenedor de texto con scroll
-//            Box(
-//                modifier = Modifier
-//                    .fillMaxWidth()
-//                    .weight(1f) // Espacio restante para el texto
-//                    .verticalScroll(rememberScrollState())
-//            ) {
-//                Text(
-//                    text = course.name,
-//                    style = MaterialTheme.typography.bodyMedium,
-//                    textAlign = TextAlign.Center,
-//                    modifier = Modifier.padding(4.dp),
-//                    color = MaterialTheme.colorScheme.onSurface
-//                )
-//            }
-//        }
-//    }
-//}
 
 @Composable
 fun CourseCard(

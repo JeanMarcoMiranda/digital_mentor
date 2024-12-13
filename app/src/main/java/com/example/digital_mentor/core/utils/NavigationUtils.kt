@@ -46,4 +46,7 @@ sealed interface Routes {
 
     @Serializable
     data object DirectLinks: Routes
+
+    @Serializable
+    data object VideoTutorials: Routes
 }

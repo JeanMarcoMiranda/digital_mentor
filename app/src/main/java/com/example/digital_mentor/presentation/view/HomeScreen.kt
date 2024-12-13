@@ -173,9 +173,10 @@ fun HomeScreen(
             // Botón Video Tutoriales (deshabilitado)
             item {
                 Button(
-                    onClick = {},
+                    onClick = {
+                        navController.navigate(Routes.VideoTutorials)
+                    },
                     shape = RoundedCornerShape(40.dp),
-                    enabled = false,
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(55.dp)

@@ -16,6 +16,7 @@ import com.example.digital_mentor.presentation.view.LearningGuidesScreen
 import com.example.digital_mentor.presentation.view.LiveSupportScreen
 import com.example.digital_mentor.presentation.view.TestResultScreen
 import com.example.digital_mentor.presentation.view.UserProfileScreen
+import com.example.digital_mentor.presentation.view.VideoTutorialsScreen
 
 @RequiresApi(Build.VERSION_CODES.O)
 fun NavGraphBuilder.mainNavGraph(
@@ -78,6 +79,12 @@ fun NavGraphBuilder.mainNavGraph(
         composable<Routes.LearningGuides> {
             MainAppLayout(navController = navController) { modifier ->
                 LearningGuidesScreen(modifier = modifier)
+            }
+        }
+
+        composable<Routes.VideoTutorials> {
+            MainAppLayout(navController = navController) { modifier ->
+                VideoTutorialsScreen(modifier = modifier)
             }
         }
     }
