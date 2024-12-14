@@ -11,10 +11,12 @@ import com.example.digital_mentor.data.repository.CategoryRepositoryImpl
 import com.example.digital_mentor.data.repository.CourseRepositoryImpl
 import com.example.digital_mentor.data.repository.TopicRepositoryImpl
 import com.example.digital_mentor.data.repository.UserProfileRepositoryImpl
+import com.example.digital_mentor.data.repository.VideoRepositoryImpl
 import com.example.digital_mentor.domain.repository.CategoryRepository
 import com.example.digital_mentor.domain.repository.CourseRepository
 import com.example.digital_mentor.domain.repository.TopicRepository
 import com.example.digital_mentor.domain.repository.UserProfileRepository
+import com.example.digital_mentor.domain.repository.VideoRepository
 import com.example.digital_mentor.domain.usecase.auth.CheckSessionUseCase
 import com.example.digital_mentor.domain.usecase.category.GetCategoriesWithQuestionsUseCase
 import com.example.digital_mentor.domain.usecase.auth.GetCurrentUserInfoUseCase
@@ -28,6 +30,7 @@ import com.example.digital_mentor.domain.usecase.auth.UpdatePasswordUseCase
 import com.example.digital_mentor.domain.usecase.course.GetCoursesUseCase
 import com.example.digital_mentor.domain.usecase.topic.GetTopicWithQuestionsUseCase
 import com.example.digital_mentor.domain.usecase.userProfile.UpdateUserProfileUseCase
+import com.example.digital_mentor.domain.usecase.video.GetVideosUseCase
 import com.example.digital_mentor.presentation.viewmodel.AppViewModel
 import com.example.digital_mentor.presentation.viewmodel.IlliteracyTestViewModel
 import com.example.digital_mentor.presentation.viewmodel.LearningGuidesViewModel
@@ -38,6 +41,7 @@ import com.example.digital_mentor.presentation.viewmodel.PasswordRecoveryViewMod
 import com.example.digital_mentor.presentation.viewmodel.RegisterViewModel
 import com.example.digital_mentor.presentation.viewmodel.TestResultViewModel
 import com.example.digital_mentor.presentation.viewmodel.UserProfileViewModel
+import com.example.digital_mentor.presentation.viewmodel.VideoTutorialsViewModel
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.auth.Auth
@@ -75,11 +79,13 @@ val appModule = module {
     }
     single { CredentialManager.create(get()) }
 
+
     single<AuthRepository> { AuthRepositoryImpl(get(), get(), get()) }
     single<UserProfileRepository> { UserProfileRepositoryImpl(get()) }
     single<CategoryRepository> { CategoryRepositoryImpl(get()) }
     single<TopicRepository> { TopicRepositoryImpl(get()) }
     single<CourseRepository> { CourseRepositoryImpl(get()) }
+    single<VideoRepository> { VideoRepositoryImpl(get()) }
 
     // Auth
     single { SignUpUseCase(get(), get()) }
@@ -99,6 +105,8 @@ val appModule = module {
     single { GetTopicWithQuestionsUseCase(get()) }
     // Courses
     single { GetCoursesUseCase(get()) }
+    // VideoTutorials
+    single { GetVideosUseCase(get()) }
 
     viewModel { AppViewModel(get()) }
     viewModel { LiveSupportViewModel(get()) }
@@ -110,4 +118,5 @@ val appModule = module {
     viewModel { TestResultViewModel(get(), get()) }
     viewModel { UserProfileViewModel(get(), get(), get()) }
     viewModel { PasswordRecoveryViewModel(get(), get()) }
+    viewModel { VideoTutorialsViewModel(get()) }
 }

@@ -1,5 +1,6 @@
 package com.example.digital_mentor.data.model
 
+import kotlinx.serialization.SerialName
 import com.example.digital_mentor.domain.model.Video as DomainVideo
 import kotlinx.serialization.Serializable
 
@@ -7,8 +8,8 @@ import kotlinx.serialization.Serializable
 data class VideoDto(
     val id: Int,
     val title: String,
-    val youtubeVideoId: String,
-    val youtubeVideoImage: String,
+    @SerialName("youtube_video_id") val youtubeVideoId: String,
+    @SerialName("youtube_video_image") val youtubeVideoImage: String,
     val description: String,
 )
 
