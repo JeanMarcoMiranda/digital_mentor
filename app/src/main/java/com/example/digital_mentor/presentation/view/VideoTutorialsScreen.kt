@@ -294,7 +294,7 @@ fun VideoDetailContent(
                         .height(60.dp)
                         .padding(start = 8.dp)
                 ) {
-                    Text(text = "Guía de Aprendizaje", textAlign = TextAlign.Center, fontSize = 20.sp)
+                    Text(text = "Video Tutoriales", textAlign = TextAlign.Center, fontSize = 20.sp)
                 }
             }
         }

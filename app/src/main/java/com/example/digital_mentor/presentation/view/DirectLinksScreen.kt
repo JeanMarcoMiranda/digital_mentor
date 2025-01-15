@@ -1,5 +1,6 @@
 package com.example.digital_mentor.presentation.view
 
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -231,10 +232,28 @@ fun openApp(context: Context, packageName: String) {
         if (appIntent != null) {
             context.startActivity(appIntent)
         } else {
-            Toast.makeText(context, "La aplicación no está instalada", Toast.LENGTH_SHORT).show()
+//            Toast.makeText(context, "La aplicación no está instalada", Toast.LENGTH_SHORT).show()
+            redirectToPlayStore(context, packageName)
         }
     } catch (e: Exception) {
         Toast.makeText(context, "No se pudo abrir la aplicación", Toast.LENGTH_SHORT).show()
+    }
+}
+
+fun redirectToPlayStore(context: Context, packageName: String) {
+    try {
+        val playStoreIntent = Intent(
+            Intent.ACTION_VIEW,
+            Uri.parse("market://details?id=$packageName")
+        )
+        context.startActivity(playStoreIntent)
+    } catch (e: ActivityNotFoundException) {
+        // En caso de que no haya Play Store (casos raros), usa un navegador
+        val browserIntent = Intent(
+            Intent.ACTION_VIEW,
+            Uri.parse("https://play.google.com/store/apps/details?id=$packageName")
+        )
+        context.startActivity(browserIntent)
     }
 }
 

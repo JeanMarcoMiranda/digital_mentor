@@ -24,6 +24,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -78,6 +79,14 @@ fun ResultContent(
     val progress = (cumulativeScore / totalScore.toFloat()).coerceIn(0f, 1f)
     val percentage = (progress * 100).toInt()
 
+    // Definir el color del progreso según el porcentaje
+    val progressColor = when (percentage) {
+        in 0..25 -> Color.Red
+        in 26..50 -> Color(0xFFFFA500) // Naranja
+        in 51..75 -> Color.Yellow
+        else -> Color.Green
+    }
+
     // Envolver el contenido en un Scrollable Column
     Column(
         modifier = Modifier
@@ -102,6 +111,22 @@ fun ResultContent(
             fontWeight = FontWeight.Bold,
         )
 
+        // Mensaje nivel
+        val levelBasedMessage = when (percentage) {
+            in 0..25 -> "Necesita asistencia en todas las áreas tecnológicas."
+            in 26..50 -> "Tiene conocimientos básicos, pero necesita mejorar en aspectos clave para manejarse de manera independiente."
+            in 51..75 -> "Maneja las habilidades básicas con soltura, pero necesita mejorar en competencias avanzadas y seguridad digital."
+            else -> "Tiene buen dominio de las herramientas digitales, incluyendo algunas competencias avanzadas, pero puede perfeccionar habilidades complejas."
+        }
+        Text(
+            text = levelBasedMessage,
+            style = MaterialTheme.typography.bodyMedium,
+            textAlign = TextAlign.Center,
+            fontSize = 20.sp,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.padding(horizontal = 20.dp)
+        )
+
         Spacer(modifier = Modifier.height(40.dp))
 
         // Barra de progreso circular
@@ -112,14 +137,14 @@ fun ResultContent(
             CircularProgressIndicator(
                 progress = { progress },
                 modifier = Modifier.fillMaxSize(),
-                color = MaterialTheme.colorScheme.primary,
+                color = progressColor,
                 strokeWidth = 8.dp
             )
             Text(
                 text = "$percentage%",
                 style = MaterialTheme.typography.titleLarge,
                 color = MaterialTheme.colorScheme.onSurface,
-                fontSize = 30.sp,
+                fontSize = 35.sp,
                 fontWeight = FontWeight.Bold,
             )
         }
@@ -141,10 +166,10 @@ fun ResultContent(
 
         // Mensaje motivacional
         val motivationalMessage = when (userProfile.cumulativeScore) {
-            in 0..5 -> "Necesita asistencia en todas las áreas tecnológicas."
-            in 6..10 -> "Tiene conocimientos básicos, pero necesita mejorar en aspectos clave para manejarse de manera independiente."
-            in 11..15 -> "Maneja las habilidades básicas con soltura, pero necesita mejorar en competencias avanzadas y seguridad digital."
-            else -> "Tiene buen dominio de las herramientas digitales, incluyendo algunas competencias avanzadas, pero puede perfeccionar habilidades complejas."
+            in 0..5 -> "Tranquilo, te guiaremos para aumentar tus conocimientos."
+            in 6..10 -> "Vas por buen camino, pero sigamos reforzando."
+            in 11..15 -> "Tu nivel es bueno. Creemos que puedes llegar a un nivel superior"
+            else -> "Tienes un buen dominio del mundo digital"
         }
         Text(
             text = motivationalMessage,
