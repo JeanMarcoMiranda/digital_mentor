@@ -45,6 +45,12 @@ fun NavGraphBuilder.mainNavGraph(
             MainAppLayout(navController = navController) { modifier ->
                 TestResultScreen(modifier = modifier, onNavToHome = {
                     navController.navigate(Routes.Home)
+                }, onNavToVideoTutorials = {
+                    navController.navigate(Routes.VideoTutorials)
+                }, onNavToLearningGuides = {
+                    navController.navigate(Routes.LearningGuides)
+                }, onNavToLiveSupport = {
+                    navController.navigate(Routes.LiveSupport)
                 })
             }
         }
