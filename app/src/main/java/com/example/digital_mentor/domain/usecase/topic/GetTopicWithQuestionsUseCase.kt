@@ -1,7 +1,7 @@
-package com.example.digital_mentor.domain.usecase.topic
+package com.jacket.digital_mentor.domain.usecase.topic
 
-import com.example.digital_mentor.domain.model.Topic
-import com.example.digital_mentor.domain.repository.TopicRepository
+import com.jacket.digital_mentor.domain.model.Topic
+import com.jacket.digital_mentor.domain.repository.TopicRepository
 
 class GetTopicWithQuestionsUseCase(
     private val repository: TopicRepository

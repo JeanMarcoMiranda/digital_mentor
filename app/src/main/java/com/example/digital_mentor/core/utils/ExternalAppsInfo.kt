@@ -1,6 +1,6 @@
-package com.example.digital_mentor.core.utils
+package com.jacket.digital_mentor.core.utils
 
-import com.example.digital_mentor.R
+import com.jacket.digital_mentor.R
 
 data class AppInfo(val name: String, val packageName: String, val iconRes: Int)
 

@@ -1,11 +1,11 @@
-package com.example.digital_mentor.presentation.viewmodel
+package com.jacket.digital_mentor.presentation.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.digital_mentor.domain.usecase.course.GetCoursesUseCase
-import com.example.digital_mentor.presentation.intent.LearningGuidesIntent
-import com.example.digital_mentor.presentation.intent.LearningGuidesState
+import com.jacket.digital_mentor.domain.usecase.course.GetCoursesUseCase
+import com.jacket.digital_mentor.presentation.intent.LearningGuidesIntent
+import com.jacket.digital_mentor.presentation.intent.LearningGuidesState
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted

@@ -1,4 +1,4 @@
-package com.example.digital_mentor.presentation.view
+package com.jacket.digital_mentor.presentation.view
 
 import android.content.ActivityNotFoundException
 import android.content.Context
@@ -40,10 +40,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.digital_mentor.R
-import com.example.digital_mentor.core.utils.AppInfo
-import com.example.digital_mentor.core.utils.appList
-import com.example.digital_mentor.core.utils.emergencyContacts
+import com.jacket.digital_mentor.R
+import com.jacket.digital_mentor.core.utils.AppInfo
+import com.jacket.digital_mentor.core.utils.appList
+import com.jacket.digital_mentor.core.utils.emergencyContacts
 
 @Composable
 fun DirectLinksScreen(

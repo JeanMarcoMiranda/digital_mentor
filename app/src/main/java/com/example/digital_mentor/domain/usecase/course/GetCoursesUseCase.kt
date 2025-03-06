@@ -1,8 +1,8 @@
-package com.example.digital_mentor.domain.usecase.course
+package com.jacket.digital_mentor.domain.usecase.course
 
 import android.util.Log
-import com.example.digital_mentor.domain.model.Course
-import com.example.digital_mentor.domain.repository.CourseRepository
+import com.jacket.digital_mentor.domain.model.Course
+import com.jacket.digital_mentor.domain.repository.CourseRepository
 
 class GetCoursesUseCase(
     private val repository: CourseRepository

@@ -1,8 +1,8 @@
-package com.example.digital_mentor.domain.usecase.auth
+package com.jacket.digital_mentor.domain.usecase.auth
 
-import com.example.digital_mentor.data.model.UserProfileEntityCreate
-import com.example.digital_mentor.domain.repository.AuthRepository
-import com.example.digital_mentor.domain.repository.UserProfileRepository
+import com.jacket.digital_mentor.data.model.UserProfileEntityCreate
+import com.jacket.digital_mentor.domain.repository.AuthRepository
+import com.jacket.digital_mentor.domain.repository.UserProfileRepository
 
 class SignUpUseCase(
     private val authRepository: AuthRepository,

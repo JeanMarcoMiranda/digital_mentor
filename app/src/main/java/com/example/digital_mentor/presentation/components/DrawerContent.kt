@@ -1,4 +1,4 @@
-package com.example.digital_mentor.presentation.components
+package com.jacket.digital_mentor.presentation.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -35,7 +35,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.digital_mentor.core.utils.Routes
+import com.jacket.digital_mentor.core.utils.Routes
 
 @Composable
 fun DrawerContent(

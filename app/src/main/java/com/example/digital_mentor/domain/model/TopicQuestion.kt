@@ -1,4 +1,4 @@
-package com.example.digital_mentor.domain.model
+package com.jacket.digital_mentor.domain.model
 
 class TopicQuestion (
     val id: String,

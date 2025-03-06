@@ -1,4 +1,4 @@
-package com.example.digital_mentor.presentation.view
+package com.jacket.digital_mentor.presentation.view
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -34,8 +34,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.digital_mentor.R
-import com.example.digital_mentor.core.utils.Routes
+import com.jacket.digital_mentor.R
+import com.jacket.digital_mentor.core.utils.Routes
 
 @Composable
 fun HomeScreen(

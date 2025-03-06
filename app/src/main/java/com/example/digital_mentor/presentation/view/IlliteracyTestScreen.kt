@@ -1,4 +1,4 @@
-package com.example.digital_mentor.presentation.view
+package com.jacket.digital_mentor.presentation.view
 
 import android.widget.Toast
 import androidx.compose.foundation.Image
@@ -33,11 +33,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.digital_mentor.R
-import com.example.digital_mentor.domain.model.Category
-import com.example.digital_mentor.presentation.intent.IlliteracyTestIntent
-import com.example.digital_mentor.presentation.intent.IlliteracyTestState
-import com.example.digital_mentor.presentation.viewmodel.IlliteracyTestViewModel
+import com.jacket.digital_mentor.R
+import com.jacket.digital_mentor.domain.model.Category
+import com.jacket.digital_mentor.presentation.intent.IlliteracyTestIntent
+import com.jacket.digital_mentor.presentation.intent.IlliteracyTestState
+import com.jacket.digital_mentor.presentation.viewmodel.IlliteracyTestViewModel
 import org.koin.androidx.compose.koinViewModel
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ContentTransform

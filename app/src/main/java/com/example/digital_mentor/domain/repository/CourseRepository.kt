@@ -1,6 +1,6 @@
-package com.example.digital_mentor.domain.repository
+package com.jacket.digital_mentor.domain.repository
 
-import com.example.digital_mentor.domain.model.Course
+import com.jacket.digital_mentor.domain.model.Course
 
 interface CourseRepository {
     suspend fun getCourses(): Result<List<Course>>

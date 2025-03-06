@@ -1,4 +1,4 @@
-package com.example.digital_mentor.presentation.view
+package com.jacket.digital_mentor.presentation.view
 
 import android.annotation.SuppressLint
 import android.app.DownloadManager
@@ -7,6 +7,7 @@ import android.net.Uri
 import android.os.Environment
 import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -55,10 +56,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
-import com.example.digital_mentor.domain.model.Course
-import com.example.digital_mentor.presentation.intent.LearningGuidesIntent
-import com.example.digital_mentor.presentation.intent.LearningGuidesState
-import com.example.digital_mentor.presentation.viewmodel.LearningGuidesViewModel
+import com.jacket.digital_mentor.domain.model.Course
+import com.jacket.digital_mentor.presentation.intent.LearningGuidesIntent
+import com.jacket.digital_mentor.presentation.intent.LearningGuidesState
+import com.jacket.digital_mentor.presentation.viewmodel.LearningGuidesViewModel
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -261,95 +262,211 @@ fun SearchBar(
     )
 }
 
+//@Composable
+//fun CourseDetailContent(
+//    course: Course,
+//    onReadClick: () -> Unit,
+//    onLearningGuideClick: () -> Unit,
+//    modifier: Modifier = Modifier
+//) {
+//    val context = LocalContext.current
+//
+//    Column(
+//        modifier = modifier
+//            .fillMaxSize()
+//            .padding(16.dp),
+//        horizontalAlignment = Alignment.CenterHorizontally
+//    ) {
+//        // Título
+//        Text(
+//            text = "Detalles del Curso",
+//            textAlign = TextAlign.Center,
+//            fontSize = 30.sp,
+//            fontWeight = FontWeight.Bold,
+//            modifier = Modifier.padding(vertical = 16.dp),
+//        )
+//
+//        // Nombre del curso
+//        Text(
+//            text = course.name,
+//            style = MaterialTheme.typography.headlineSmall,
+//            color = MaterialTheme.colorScheme.primary,
+//            fontWeight = FontWeight.Bold,
+//            textAlign = TextAlign.Center,
+//            modifier = Modifier.padding(top = 15.dp, bottom = 8.dp)
+//        )
+//
+//        // Imagen del curso con más altura
+//        AsyncImage(
+//            model = course.image,
+//            contentDescription = "Imagen de ${course.name}",
+//            modifier = Modifier
+//                .fillMaxWidth()
+//                .weight(3f) // Dar más peso a la imagen para que ocupe más espacio vertical
+//                .padding(vertical = 8.dp),
+//            contentScale = ContentScale.Crop
+//        )
+//
+//        Spacer(modifier = Modifier.height(20.dp))
+//
+//        // Descripción del curso
+//        Text(
+//            text = course.description ?: "Esta guía no cuenta con una descripción",
+//            fontSize = 20.sp,
+//            textAlign = TextAlign.Center,
+//            modifier = Modifier.padding(top = 8.dp, bottom = 16.dp)
+//        )
+//
+//        // Espaciador para empujar los botones hacia abajo
+//        Spacer(modifier = Modifier.weight(1f))
+//
+//        // Botones en la parte inferior
+//        Row(
+//            modifier = Modifier.fillMaxWidth(),
+//            horizontalArrangement = Arrangement.SpaceEvenly
+//        ) {
+//            Button(
+//                onClick = {
+//                    downloadPdf(context, course.pdf, course.name)
+//                },
+//                shape = RoundedCornerShape(15.dp),
+//                modifier = Modifier
+//                    .weight(1f)
+//                    .height(60.dp)
+//                    .padding(end = 8.dp)
+//            ) {
+//                Text(text = "Leer", fontSize = 20.sp)
+//            }
+//
+//            Button(
+//                onClick = onLearningGuideClick,
+//                shape = RoundedCornerShape(15.dp),
+//                modifier = Modifier
+//                    .weight(1f)
+//                    .height(60.dp)
+//                    .padding(start = 8.dp)
+//            ) {
+//                Text(text = "Guía de Aprendizaje", textAlign = TextAlign.Center, fontSize = 20.sp)
+//            }
+//        }
+//    }
+//}
+
 @Composable
 fun CourseDetailContent(
+    modifier: Modifier = Modifier,
     course: Course,
     onReadClick: () -> Unit,
-    onLearningGuideClick: () -> Unit,
-    modifier: Modifier = Modifier
+    onLearningGuideClick: () -> Unit
 ) {
     val context = LocalContext.current
 
-    Column(
+    Box(
         modifier = modifier
             .fillMaxSize()
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+            .padding(16.dp)
     ) {
-        // Título
-        Text(
-            text = "Detalles del Curso",
-            textAlign = TextAlign.Center,
-            fontSize = 30.sp,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(vertical = 16.dp),
-        )
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+        ) {
+            // Contenido desplazable
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+                    .verticalScroll(rememberScrollState()), // Permite scroll solo si es necesario
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                // Título principal
+                Text(
+                    text = "Detalles del Curso",
+                    fontSize = 28.sp,
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.padding(bottom = 16.dp)
+                )
 
-        // Nombre del curso
-        Text(
-            text = course.name,
-            style = MaterialTheme.typography.headlineSmall,
-            color = MaterialTheme.colorScheme.primary,
-            fontWeight = FontWeight.Bold,
-            textAlign = TextAlign.Center,
-            modifier = Modifier.padding(top = 15.dp, bottom = 8.dp)
-        )
+                // Nombre del curso
+                Text(
+                    text = course.name,
+                    style = MaterialTheme.typography.headlineSmall,
+                    color = MaterialTheme.colorScheme.primary,
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.padding(bottom = 8.dp)
+                )
 
-        // Imagen del curso con más altura
-        AsyncImage(
-            model = course.image,
-            contentDescription = "Imagen de ${course.name}",
+                // Imagen del curso dentro de un Card para mantener la misma estética
+                Card(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(350.dp)
+                        .padding(vertical = 8.dp),
+                    shape = RoundedCornerShape(12.dp),
+                    elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+                ) {
+                    AsyncImage(
+                        model = course.image,
+                        contentDescription = "Imagen de ${course.name}",
+                        contentScale = ContentScale.FillWidth,
+                        modifier = Modifier.fillMaxSize()
+                    )
+                }
+
+                // Descripción
+                Text(
+                    text = course.description ?: "Esta guía no cuenta con una descripción",
+                    fontSize = 18.sp,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.padding(top = 12.dp)
+                )
+
+                // Espaciador para evitar que el contenido quede tapado por los botones
+                Spacer(modifier = Modifier.height(80.dp))
+            }
+        }
+
+        // Contenedor fijo de botones con fondo sólido
+        Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .weight(3f) // Dar más peso a la imagen para que ocupe más espacio vertical
+                .height(80.dp)
+                .align(Alignment.BottomCenter)
+                .background(MaterialTheme.colorScheme.background) // Fondo sólido para evitar transparencia
                 .padding(vertical = 8.dp),
-            contentScale = ContentScale.Crop
-        )
-
-        Spacer(modifier = Modifier.height(20.dp))
-
-        // Descripción del curso
-        Text(
-            text = course.description ?: "Esta guía no cuenta con una descripción",
-            fontSize = 20.sp,
-            textAlign = TextAlign.Center,
-            modifier = Modifier.padding(top = 8.dp, bottom = 16.dp)
-        )
-
-        // Espaciador para empujar los botones hacia abajo
-        Spacer(modifier = Modifier.weight(1f))
-
-        // Botones en la parte inferior
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceEvenly
+            contentAlignment = Alignment.Center
         ) {
-            Button(
-                onClick = {
-                    downloadPdf(context, course.pdf, course.name)
-                },
-                shape = RoundedCornerShape(15.dp),
-                modifier = Modifier
-                    .weight(1f)
-                    .height(60.dp)
-                    .padding(end = 8.dp)
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(12.dp, Alignment.CenterHorizontally)
             ) {
-                Text(text = "Leer", fontSize = 20.sp)
-            }
+                Button(
+                    onClick = onReadClick,
+                    shape = RoundedCornerShape(12.dp),
+                    contentPadding = PaddingValues(vertical = 12.dp),
+                    modifier = Modifier
+                        .weight(1f)
+                        .height(56.dp)
+                ) {
+                    Text(text = "Leer", fontSize = 18.sp)
+                }
 
-            Button(
-                onClick = onLearningGuideClick,
-                shape = RoundedCornerShape(15.dp),
-                modifier = Modifier
-                    .weight(1f)
-                    .height(60.dp)
-                    .padding(start = 8.dp)
-            ) {
-                Text(text = "Guía de Aprendizaje", textAlign = TextAlign.Center, fontSize = 20.sp)
+                Button(
+                    onClick = onLearningGuideClick,
+                    shape = RoundedCornerShape(12.dp),
+                    contentPadding = PaddingValues(vertical = 12.dp),
+                    modifier = Modifier
+                        .weight(1f)
+                        .height(56.dp)
+                ) {
+                    Text(text = "Guía de Aprendizaje", fontSize = 18.sp)
+                }
             }
         }
     }
 }
+
+
 
 @SuppressLint("ServiceCast")
 fun downloadPdf(context: Context, pdfUrl: String, courseName: String) {

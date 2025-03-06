@@ -1,7 +1,7 @@
-package com.example.digital_mentor.domain.usecase.userProfile
+package com.jacket.digital_mentor.domain.usecase.userProfile
 
-import com.example.digital_mentor.data.model.UserProfileEntity
-import com.example.digital_mentor.domain.repository.UserProfileRepository
+import com.jacket.digital_mentor.data.model.UserProfileEntity
+import com.jacket.digital_mentor.domain.repository.UserProfileRepository
 
 class GetUserProfileUseCase(
     private val userRepository: UserProfileRepository

@@ -1,4 +1,4 @@
-package com.example.digital_mentor.core.utils
+package com.jacket.digital_mentor.core.utils
 
 import kotlinx.serialization.Serializable
 

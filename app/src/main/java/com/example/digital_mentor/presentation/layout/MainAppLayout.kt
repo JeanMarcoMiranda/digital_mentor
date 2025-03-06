@@ -1,4 +1,4 @@
-package com.example.digital_mentor.presentation.layout
+package com.jacket.digital_mentor.presentation.layout
 
 import android.os.Build
 import android.util.Log
@@ -21,14 +21,14 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
-import com.example.digital_mentor.core.utils.AppRoutes
-import com.example.digital_mentor.presentation.components.CustomTopAppBar
-import com.example.digital_mentor.presentation.components.DrawerContent
-import com.example.digital_mentor.presentation.intent.AppIntent
-import com.example.digital_mentor.presentation.intent.MainLayoutIntent
-import com.example.digital_mentor.presentation.intent.MainLayoutState
-import com.example.digital_mentor.presentation.viewmodel.AppViewModel
-import com.example.digital_mentor.presentation.viewmodel.MainLayoutViewModel
+import com.jacket.digital_mentor.core.utils.AppRoutes
+import com.jacket.digital_mentor.presentation.components.CustomTopAppBar
+import com.jacket.digital_mentor.presentation.components.DrawerContent
+import com.jacket.digital_mentor.presentation.intent.AppIntent
+import com.jacket.digital_mentor.presentation.intent.MainLayoutIntent
+import com.jacket.digital_mentor.presentation.intent.MainLayoutState
+import com.jacket.digital_mentor.presentation.viewmodel.AppViewModel
+import com.jacket.digital_mentor.presentation.viewmodel.MainLayoutViewModel
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 

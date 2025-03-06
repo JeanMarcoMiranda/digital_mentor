@@ -1,14 +1,14 @@
-package com.example.digital_mentor.presentation.viewmodel
+package com.jacket.digital_mentor.presentation.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.digital_mentor.data.model.UserProfileEntityUpdate
-import com.example.digital_mentor.domain.usecase.auth.GetCurrentUserInfoUseCase
-import com.example.digital_mentor.domain.usecase.userProfile.GetUserProfileUseCase
-import com.example.digital_mentor.domain.usecase.userProfile.UpdateUserProfileUseCase
-import com.example.digital_mentor.presentation.intent.UserProfileIntent
-import com.example.digital_mentor.presentation.intent.UserProfileState
+import com.jacket.digital_mentor.data.model.UserProfileEntityUpdate
+import com.jacket.digital_mentor.domain.usecase.auth.GetCurrentUserInfoUseCase
+import com.jacket.digital_mentor.domain.usecase.userProfile.GetUserProfileUseCase
+import com.jacket.digital_mentor.domain.usecase.userProfile.UpdateUserProfileUseCase
+import com.jacket.digital_mentor.presentation.intent.UserProfileIntent
+import com.jacket.digital_mentor.presentation.intent.UserProfileState
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted

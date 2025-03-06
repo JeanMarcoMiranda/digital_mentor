@@ -1,4 +1,4 @@
-package com.example.digital_mentor.presentation.view
+package com.jacket.digital_mentor.presentation.view
 
 import android.widget.Toast
 import androidx.compose.foundation.background
@@ -41,11 +41,11 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.digital_mentor.presentation.components.CustomCardExpirationDateTextField
-import com.example.digital_mentor.presentation.components.CustomCardTextField
-import com.example.digital_mentor.presentation.intent.UserProfileIntent
-import com.example.digital_mentor.presentation.intent.UserProfileState
-import com.example.digital_mentor.presentation.viewmodel.UserProfileViewModel
+import com.jacket.digital_mentor.presentation.components.CustomCardExpirationDateTextField
+import com.jacket.digital_mentor.presentation.components.CustomCardTextField
+import com.jacket.digital_mentor.presentation.intent.UserProfileIntent
+import com.jacket.digital_mentor.presentation.intent.UserProfileState
+import com.jacket.digital_mentor.presentation.viewmodel.UserProfileViewModel
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 

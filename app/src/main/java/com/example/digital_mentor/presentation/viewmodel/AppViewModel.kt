@@ -1,13 +1,13 @@
-package com.example.digital_mentor.presentation.viewmodel
+package com.jacket.digital_mentor.presentation.viewmodel
 
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.digital_mentor.core.utils.AppRoutes
-import com.example.digital_mentor.domain.usecase.auth.CheckSessionUseCase
-import com.example.digital_mentor.presentation.intent.AppIntent
-import com.example.digital_mentor.presentation.intent.AppState
+import com.jacket.digital_mentor.core.utils.AppRoutes
+import com.jacket.digital_mentor.domain.usecase.auth.CheckSessionUseCase
+import com.jacket.digital_mentor.presentation.intent.AppIntent
+import com.jacket.digital_mentor.presentation.intent.AppState
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

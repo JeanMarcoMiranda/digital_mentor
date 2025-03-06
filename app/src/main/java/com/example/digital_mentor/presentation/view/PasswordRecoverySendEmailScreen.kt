@@ -1,4 +1,4 @@
-package com.example.digital_mentor.presentation.view
+package com.jacket.digital_mentor.presentation.view
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
@@ -23,10 +23,10 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.digital_mentor.presentation.components.CustomTextField
-import com.example.digital_mentor.presentation.intent.PasswordRecoveryIntent
-import com.example.digital_mentor.presentation.intent.PasswordRecoveryState
-import com.example.digital_mentor.presentation.viewmodel.PasswordRecoveryViewModel
+import com.jacket.digital_mentor.presentation.components.CustomTextField
+import com.jacket.digital_mentor.presentation.intent.PasswordRecoveryIntent
+import com.jacket.digital_mentor.presentation.intent.PasswordRecoveryState
+import com.jacket.digital_mentor.presentation.viewmodel.PasswordRecoveryViewModel
 import org.koin.androidx.compose.koinViewModel
 
 @Composable

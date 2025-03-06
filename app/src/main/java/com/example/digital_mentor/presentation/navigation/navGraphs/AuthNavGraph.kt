@@ -1,4 +1,4 @@
-package com.example.digital_mentor.presentation.navigation.navGraphs
+package com.jacket.digital_mentor.presentation.navigation.navGraphs
 
 import android.content.Intent
 import androidx.navigation.NavController
@@ -6,12 +6,12 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navDeepLink
 import androidx.navigation.navigation
-import com.example.digital_mentor.core.utils.AppRoutes
-import com.example.digital_mentor.core.utils.Routes
-import com.example.digital_mentor.presentation.view.LoginScreen
-import com.example.digital_mentor.presentation.view.PasswordRecoveryNewPasswordFormScreen
-import com.example.digital_mentor.presentation.view.PasswordRecoverySendEmailScreen
-import com.example.digital_mentor.presentation.view.RegisterScreen
+import com.jacket.digital_mentor.core.utils.AppRoutes
+import com.jacket.digital_mentor.core.utils.Routes
+import com.jacket.digital_mentor.presentation.view.LoginScreen
+import com.jacket.digital_mentor.presentation.view.PasswordRecoveryNewPasswordFormScreen
+import com.jacket.digital_mentor.presentation.view.PasswordRecoverySendEmailScreen
+import com.jacket.digital_mentor.presentation.view.RegisterScreen
 
 fun NavGraphBuilder.authNavGraph(
     navController: NavController,

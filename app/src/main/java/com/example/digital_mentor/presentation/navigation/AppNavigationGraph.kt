@@ -1,4 +1,4 @@
-package com.example.digital_mentor.presentation.navigation
+package com.jacket.digital_mentor.presentation.navigation
 
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -9,15 +9,15 @@ import androidx.compose.runtime.getValue
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.digital_mentor.core.utils.AppRoutes
-import com.example.digital_mentor.presentation.intent.AppIntent
-import com.example.digital_mentor.presentation.intent.AppState
-import com.example.digital_mentor.presentation.intent.MainLayoutState
-import com.example.digital_mentor.presentation.navigation.navGraphs.authNavGraph
-import com.example.digital_mentor.presentation.navigation.navGraphs.mainNavGraph
-import com.example.digital_mentor.presentation.view.OnboardingScreen
-import com.example.digital_mentor.presentation.viewmodel.AppViewModel
-import com.example.digital_mentor.presentation.viewmodel.MainLayoutViewModel
+import com.jacket.digital_mentor.core.utils.AppRoutes
+import com.jacket.digital_mentor.presentation.intent.AppIntent
+import com.jacket.digital_mentor.presentation.intent.AppState
+import com.jacket.digital_mentor.presentation.intent.MainLayoutState
+import com.jacket.digital_mentor.presentation.navigation.navGraphs.authNavGraph
+import com.jacket.digital_mentor.presentation.navigation.navGraphs.mainNavGraph
+import com.jacket.digital_mentor.presentation.view.OnboardingScreen
+import com.jacket.digital_mentor.presentation.viewmodel.AppViewModel
+import com.jacket.digital_mentor.presentation.viewmodel.MainLayoutViewModel
 import org.koin.androidx.compose.koinViewModel
 
 @RequiresApi(Build.VERSION_CODES.O)

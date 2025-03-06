@@ -1,9 +1,9 @@
-package com.example.digital_mentor.domain.usecase.auth
+package com.jacket.digital_mentor.domain.usecase.auth
 
 import android.content.Context
 import android.util.Log
-import com.example.digital_mentor.domain.repository.AuthRepository
-import com.example.digital_mentor.domain.repository.UserProfileRepository
+import com.jacket.digital_mentor.domain.repository.AuthRepository
+import com.jacket.digital_mentor.domain.repository.UserProfileRepository
 
 class SignInWithGoogleUseCase(
     private val repository: AuthRepository,

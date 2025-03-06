@@ -1,9 +1,9 @@
-package com.example.digital_mentor.data.repository
+package com.jacket.digital_mentor.data.repository
 
-import com.example.digital_mentor.data.model.CourseDto
-import com.example.digital_mentor.data.model.toDomain
-import com.example.digital_mentor.domain.model.Course
-import com.example.digital_mentor.domain.repository.CourseRepository
+import com.jacket.digital_mentor.data.model.CourseDto
+import com.jacket.digital_mentor.data.model.toDomain
+import com.jacket.digital_mentor.domain.model.Course
+import com.jacket.digital_mentor.domain.repository.CourseRepository
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.postgrest.from
 import io.github.jan.supabase.postgrest.query.Columns

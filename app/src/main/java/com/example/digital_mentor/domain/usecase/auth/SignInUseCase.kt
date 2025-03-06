@@ -1,6 +1,6 @@
-package com.example.digital_mentor.domain.usecase.auth
+package com.jacket.digital_mentor.domain.usecase.auth
 
-import com.example.digital_mentor.domain.repository.AuthRepository
+import com.jacket.digital_mentor.domain.repository.AuthRepository
 
 class SignInUseCase(
     private val authRepository: AuthRepository

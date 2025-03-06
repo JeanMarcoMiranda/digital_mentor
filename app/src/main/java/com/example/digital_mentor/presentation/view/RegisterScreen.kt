@@ -1,4 +1,4 @@
-package com.example.digital_mentor.presentation.view
+package com.jacket.digital_mentor.presentation.view
 
 import android.widget.Toast
 import androidx.compose.foundation.Image
@@ -18,12 +18,12 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.digital_mentor.R
-import com.example.digital_mentor.presentation.components.CustomCardTextField
-import com.example.digital_mentor.presentation.components.CustomTextField
-import com.example.digital_mentor.presentation.intent.RegisterIntent
-import com.example.digital_mentor.presentation.intent.RegisterViewState
-import com.example.digital_mentor.presentation.viewmodel.RegisterViewModel
+import com.jacket.digital_mentor.R
+import com.jacket.digital_mentor.presentation.components.CustomCardTextField
+import com.jacket.digital_mentor.presentation.components.CustomTextField
+import com.jacket.digital_mentor.presentation.intent.RegisterIntent
+import com.jacket.digital_mentor.presentation.intent.RegisterViewState
+import com.jacket.digital_mentor.presentation.viewmodel.RegisterViewModel
 import org.koin.androidx.compose.koinViewModel
 
 @Composable

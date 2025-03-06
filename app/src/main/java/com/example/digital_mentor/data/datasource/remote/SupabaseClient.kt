@@ -1,6 +1,6 @@
-package com.example.digital_mentor.data.datasource.remote
+package com.jacket.digital_mentor.data.datasource.remote
 
-import com.example.digital_mentor.BuildConfig
+import com.jacket.digital_mentor.BuildConfig
 import io.github.jan.supabase.auth.Auth
 import io.github.jan.supabase.auth.ExternalAuthAction
 import io.github.jan.supabase.createSupabaseClient

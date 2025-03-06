@@ -1,7 +1,7 @@
-package com.example.digital_mentor.data.model
+package com.jacket.digital_mentor.data.model
 
 import kotlinx.serialization.Serializable
-import com.example.digital_mentor.domain.model.Category as DomainCategory
+import com.jacket.digital_mentor.domain.model.Category as DomainCategory
 
 @Serializable
 data class CategoryDto(

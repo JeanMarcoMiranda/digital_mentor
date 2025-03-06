@@ -17,11 +17,11 @@ if (localProperties.exists()) {
 
 
 android {
-    namespace = "com.example.digital_mentor"
+    namespace = "com.jacket.digital_mentor"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.digital_mentor"
+        applicationId = "com.jacket.digital_mentor"
         minSdk = 24
         targetSdk = 34
         versionCode = 1

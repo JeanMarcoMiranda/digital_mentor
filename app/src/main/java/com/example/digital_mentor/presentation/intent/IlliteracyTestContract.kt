@@ -1,6 +1,6 @@
-package com.example.digital_mentor.presentation.intent
+package com.jacket.digital_mentor.presentation.intent
 
-import com.example.digital_mentor.domain.model.Category
+import com.jacket.digital_mentor.domain.model.Category
 
 sealed class IlliteracyTestState {
     object Loading : IlliteracyTestState()

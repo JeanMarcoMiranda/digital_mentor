@@ -1,10 +1,10 @@
-package com.example.digital_mentor.data.repository
+package com.jacket.digital_mentor.data.repository
 
 import android.util.Log
-import com.example.digital_mentor.data.model.UserProfileEntity
-import com.example.digital_mentor.data.model.UserProfileEntityCreate
-import com.example.digital_mentor.data.model.UserProfileEntityUpdate
-import com.example.digital_mentor.domain.repository.UserProfileRepository
+import com.jacket.digital_mentor.data.model.UserProfileEntity
+import com.jacket.digital_mentor.data.model.UserProfileEntityCreate
+import com.jacket.digital_mentor.data.model.UserProfileEntityUpdate
+import com.jacket.digital_mentor.domain.repository.UserProfileRepository
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.postgrest.from
 

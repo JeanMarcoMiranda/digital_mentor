@@ -1,4 +1,4 @@
-package com.example.digital_mentor.data.model
+package com.jacket.digital_mentor.data.model
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

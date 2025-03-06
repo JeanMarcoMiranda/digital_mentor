@@ -1,11 +1,11 @@
-package com.example.digital_mentor.presentation.viewmodel
+package com.jacket.digital_mentor.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.digital_mentor.domain.usecase.auth.SendPasswordRecoveryEmailUseCase
-import com.example.digital_mentor.domain.usecase.auth.UpdatePasswordUseCase
-import com.example.digital_mentor.presentation.intent.PasswordRecoveryIntent
-import com.example.digital_mentor.presentation.intent.PasswordRecoveryState
+import com.jacket.digital_mentor.domain.usecase.auth.SendPasswordRecoveryEmailUseCase
+import com.jacket.digital_mentor.domain.usecase.auth.UpdatePasswordUseCase
+import com.jacket.digital_mentor.presentation.intent.PasswordRecoveryIntent
+import com.jacket.digital_mentor.presentation.intent.PasswordRecoveryState
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

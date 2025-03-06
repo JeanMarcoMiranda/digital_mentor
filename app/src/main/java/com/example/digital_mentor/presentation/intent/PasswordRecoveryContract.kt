@@ -1,4 +1,4 @@
-package com.example.digital_mentor.presentation.intent
+package com.jacket.digital_mentor.presentation.intent
 
 sealed class PasswordRecoveryState {
     object Loading : PasswordRecoveryState()

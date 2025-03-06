@@ -1,4 +1,4 @@
-package com.example.digital_mentor.presentation.view
+package com.jacket.digital_mentor.presentation.view
 
 import android.os.Build
 import android.widget.Toast
@@ -25,16 +25,16 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.digital_mentor.R
-import com.example.digital_mentor.core.utils.AppRoutes
-import com.example.digital_mentor.core.utils.Routes
-import com.example.digital_mentor.presentation.components.CustomTextField
-import com.example.digital_mentor.presentation.components.DividerWithText
-import com.example.digital_mentor.presentation.intent.AppIntent
-import com.example.digital_mentor.presentation.intent.LoginIntent
-import com.example.digital_mentor.presentation.intent.LoginViewState
-import com.example.digital_mentor.presentation.viewmodel.AppViewModel
-import com.example.digital_mentor.presentation.viewmodel.LoginViewModel
+import com.jacket.digital_mentor.R
+import com.jacket.digital_mentor.core.utils.AppRoutes
+import com.jacket.digital_mentor.core.utils.Routes
+import com.jacket.digital_mentor.presentation.components.CustomTextField
+import com.jacket.digital_mentor.presentation.components.DividerWithText
+import com.jacket.digital_mentor.presentation.intent.AppIntent
+import com.jacket.digital_mentor.presentation.intent.LoginIntent
+import com.jacket.digital_mentor.presentation.intent.LoginViewState
+import com.jacket.digital_mentor.presentation.viewmodel.AppViewModel
+import com.jacket.digital_mentor.presentation.viewmodel.LoginViewModel
 import org.koin.androidx.compose.koinViewModel
 
 @RequiresApi(Build.VERSION_CODES.O)

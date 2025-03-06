@@ -1,8 +1,8 @@
-package com.example.digital_mentor.presentation.intent
+package com.jacket.digital_mentor.presentation.intent
 
-import com.example.digital_mentor.domain.model.Option
-import com.example.digital_mentor.domain.model.Topic
-import com.example.digital_mentor.domain.model.TopicQuestion
+import com.jacket.digital_mentor.domain.model.Option
+import com.jacket.digital_mentor.domain.model.Topic
+import com.jacket.digital_mentor.domain.model.TopicQuestion
 
 sealed class LiveSupportState {
     object Start : LiveSupportState()

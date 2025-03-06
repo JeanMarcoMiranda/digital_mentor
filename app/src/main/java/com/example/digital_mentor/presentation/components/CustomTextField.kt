@@ -1,4 +1,4 @@
-package com.example.digital_mentor.presentation.components
+package com.jacket.digital_mentor.presentation.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*

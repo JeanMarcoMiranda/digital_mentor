@@ -1,7 +1,7 @@
-package com.example.digital_mentor.presentation.intent
+package com.jacket.digital_mentor.presentation.intent
 
-import com.example.digital_mentor.core.utils.Routes
-import com.example.digital_mentor.data.model.UserProfileEntity
+import com.jacket.digital_mentor.core.utils.Routes
+import com.jacket.digital_mentor.data.model.UserProfileEntity
 
 sealed class LoginIntent {
     data class UpdateEmail(val email: String) : LoginIntent()

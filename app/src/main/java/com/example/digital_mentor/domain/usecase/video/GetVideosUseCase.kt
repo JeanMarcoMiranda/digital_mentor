@@ -1,8 +1,8 @@
-package com.example.digital_mentor.domain.usecase.video
+package com.jacket.digital_mentor.domain.usecase.video
 
 import android.util.Log
-import com.example.digital_mentor.domain.model.Video
-import com.example.digital_mentor.domain.repository.VideoRepository
+import com.jacket.digital_mentor.domain.model.Video
+import com.jacket.digital_mentor.domain.repository.VideoRepository
 
 class GetVideosUseCase(
     private val repository: VideoRepository

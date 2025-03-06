@@ -1,4 +1,4 @@
-package com.example.digital_mentor.presentation.view
+package com.jacket.digital_mentor.presentation.view
 
 import android.content.ActivityNotFoundException
 import android.content.Intent
@@ -34,10 +34,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.digital_mentor.data.model.UserProfileEntity
-import com.example.digital_mentor.presentation.intent.LiveSupportIntent
-import com.example.digital_mentor.presentation.intent.TestResultState
-import com.example.digital_mentor.presentation.viewmodel.TestResultViewModel
+import com.jacket.digital_mentor.data.model.UserProfileEntity
+import com.jacket.digital_mentor.presentation.intent.LiveSupportIntent
+import com.jacket.digital_mentor.presentation.intent.TestResultState
+import com.jacket.digital_mentor.presentation.viewmodel.TestResultViewModel
 import org.koin.androidx.compose.koinViewModel
 
 @Composable

@@ -1,4 +1,4 @@
-package com.example.digital_mentor.presentation.viewmodel
+package com.jacket.digital_mentor.presentation.viewmodel
 
 import android.content.Context
 import android.os.Build
@@ -6,12 +6,12 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.digital_mentor.domain.usecase.auth.GetCurrentUserInfoUseCase
-import com.example.digital_mentor.domain.usecase.userProfile.GetUserProfileUseCase
-import com.example.digital_mentor.domain.usecase.auth.SignInUseCase
-import com.example.digital_mentor.domain.usecase.auth.SignInWithGoogleUseCase
-import com.example.digital_mentor.presentation.intent.LoginIntent
-import com.example.digital_mentor.presentation.intent.LoginViewState
+import com.jacket.digital_mentor.domain.usecase.auth.GetCurrentUserInfoUseCase
+import com.jacket.digital_mentor.domain.usecase.userProfile.GetUserProfileUseCase
+import com.jacket.digital_mentor.domain.usecase.auth.SignInUseCase
+import com.jacket.digital_mentor.domain.usecase.auth.SignInWithGoogleUseCase
+import com.jacket.digital_mentor.presentation.intent.LoginIntent
+import com.jacket.digital_mentor.presentation.intent.LoginViewState
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

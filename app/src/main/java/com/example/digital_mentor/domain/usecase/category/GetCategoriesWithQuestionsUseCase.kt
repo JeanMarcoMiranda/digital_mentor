@@ -1,7 +1,7 @@
-package com.example.digital_mentor.domain.usecase.category
+package com.jacket.digital_mentor.domain.usecase.category
 
-import com.example.digital_mentor.domain.model.Category
-import com.example.digital_mentor.domain.repository.CategoryRepository
+import com.jacket.digital_mentor.domain.model.Category
+import com.jacket.digital_mentor.domain.repository.CategoryRepository
 
 class GetCategoriesWithQuestionsUseCase(
     private val repository: CategoryRepository

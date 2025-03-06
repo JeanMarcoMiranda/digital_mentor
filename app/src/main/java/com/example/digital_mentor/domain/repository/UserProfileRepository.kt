@@ -1,8 +1,8 @@
-package com.example.digital_mentor.domain.repository
+package com.jacket.digital_mentor.domain.repository
 
-import com.example.digital_mentor.data.model.UserProfileEntity
-import com.example.digital_mentor.data.model.UserProfileEntityCreate
-import com.example.digital_mentor.data.model.UserProfileEntityUpdate
+import com.jacket.digital_mentor.data.model.UserProfileEntity
+import com.jacket.digital_mentor.data.model.UserProfileEntityCreate
+import com.jacket.digital_mentor.data.model.UserProfileEntityUpdate
 
 interface UserProfileRepository {
     suspend fun getUserProfile(userId: String): Result<UserProfileEntity>

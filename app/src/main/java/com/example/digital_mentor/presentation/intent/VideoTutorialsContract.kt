@@ -1,6 +1,6 @@
-package com.example.digital_mentor.presentation.intent
+package com.jacket.digital_mentor.presentation.intent
 
-import com.example.digital_mentor.domain.model.Video
+import com.jacket.digital_mentor.domain.model.Video
 
 sealed class VideoTutorialsState {
     object  Loading : VideoTutorialsState()

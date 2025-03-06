@@ -1,7 +1,7 @@
-package com.example.digital_mentor.data.model
+package com.jacket.digital_mentor.data.model
 
 import kotlinx.serialization.SerialName
-import com.example.digital_mentor.domain.model.Video as DomainVideo
+import com.jacket.digital_mentor.domain.model.Video as DomainVideo
 import kotlinx.serialization.Serializable
 
 @Serializable

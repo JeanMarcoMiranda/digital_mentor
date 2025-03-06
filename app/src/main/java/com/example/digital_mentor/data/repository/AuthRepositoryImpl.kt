@@ -1,12 +1,12 @@
-package com.example.digital_mentor.data.repository
+package com.jacket.digital_mentor.data.repository
 
 import android.content.Context
 import android.util.Log
 import androidx.credentials.CredentialManager
 import androidx.credentials.GetCredentialRequest
-import com.example.digital_mentor.BuildConfig
-import com.example.digital_mentor.data.model.UserProfileEntityCreate
-import com.example.digital_mentor.domain.repository.AuthRepository
+import com.jacket.digital_mentor.BuildConfig
+import com.jacket.digital_mentor.data.model.UserProfileEntityCreate
+import com.jacket.digital_mentor.domain.repository.AuthRepository
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GetSignInWithGoogleOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential

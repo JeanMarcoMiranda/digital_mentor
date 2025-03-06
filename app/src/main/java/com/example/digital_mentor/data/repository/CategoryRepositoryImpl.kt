@@ -1,10 +1,10 @@
-package com.example.digital_mentor.data.repository
+package com.jacket.digital_mentor.data.repository
 
 import android.util.Log
-import com.example.digital_mentor.data.model.CategoryDto
-import com.example.digital_mentor.data.model.toDomain
-import com.example.digital_mentor.domain.model.Category
-import com.example.digital_mentor.domain.repository.CategoryRepository
+import com.jacket.digital_mentor.data.model.CategoryDto
+import com.jacket.digital_mentor.data.model.toDomain
+import com.jacket.digital_mentor.domain.model.Category
+import com.jacket.digital_mentor.domain.repository.CategoryRepository
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.postgrest.from
 import io.github.jan.supabase.postgrest.query.Columns

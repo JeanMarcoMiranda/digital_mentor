@@ -1,6 +1,6 @@
-package com.example.digital_mentor.data.model
+package com.jacket.digital_mentor.data.model
 
-import com.example.digital_mentor.domain.model.Option as DomainOption
+import com.jacket.digital_mentor.domain.model.Option as DomainOption
 import kotlinx.serialization.Serializable
 
 @Serializable

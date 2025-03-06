@@ -1,15 +1,15 @@
-package com.example.digital_mentor.presentation.viewmodel
+package com.jacket.digital_mentor.presentation.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.digital_mentor.domain.model.Topic
-import com.example.digital_mentor.domain.model.TopicQuestion
-import com.example.digital_mentor.domain.usecase.topic.GetTopicWithQuestionsUseCase
-import com.example.digital_mentor.presentation.intent.ChatMessage
-import com.example.digital_mentor.presentation.intent.ChatSender
-import com.example.digital_mentor.presentation.intent.LiveSupportIntent
-import com.example.digital_mentor.presentation.intent.LiveSupportState
+import com.jacket.digital_mentor.domain.model.Topic
+import com.jacket.digital_mentor.domain.model.TopicQuestion
+import com.jacket.digital_mentor.domain.usecase.topic.GetTopicWithQuestionsUseCase
+import com.jacket.digital_mentor.presentation.intent.ChatMessage
+import com.jacket.digital_mentor.presentation.intent.ChatSender
+import com.jacket.digital_mentor.presentation.intent.LiveSupportIntent
+import com.jacket.digital_mentor.presentation.intent.LiveSupportState
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

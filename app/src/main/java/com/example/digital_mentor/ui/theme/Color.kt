@@ -1,4 +1,4 @@
-package com.example.digital_mentor.ui.theme
+package com.jacket.digital_mentor.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

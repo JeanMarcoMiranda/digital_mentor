@@ -1,4 +1,4 @@
-package com.example.digital_mentor.presentation.view
+package com.jacket.digital_mentor.presentation.view
 
 import android.util.Log
 import androidx.compose.foundation.Image
@@ -47,13 +47,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.digital_mentor.R
-import com.example.digital_mentor.domain.model.Topic
-import com.example.digital_mentor.domain.model.TopicQuestion
-import com.example.digital_mentor.presentation.intent.ChatMessage
-import com.example.digital_mentor.presentation.intent.LiveSupportIntent
-import com.example.digital_mentor.presentation.intent.LiveSupportState
-import com.example.digital_mentor.presentation.viewmodel.LiveSupportViewModel
+import com.jacket.digital_mentor.R
+import com.jacket.digital_mentor.domain.model.Topic
+import com.jacket.digital_mentor.domain.model.TopicQuestion
+import com.jacket.digital_mentor.presentation.intent.ChatMessage
+import com.jacket.digital_mentor.presentation.intent.LiveSupportIntent
+import com.jacket.digital_mentor.presentation.intent.LiveSupportState
+import com.jacket.digital_mentor.presentation.viewmodel.LiveSupportViewModel
 import org.koin.androidx.compose.koinViewModel
 
 @Composable

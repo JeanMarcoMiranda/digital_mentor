@@ -1,4 +1,4 @@
-package com.example.digital_mentor
+package com.jacket.digital_mentor
 
 import org.junit.Test
 

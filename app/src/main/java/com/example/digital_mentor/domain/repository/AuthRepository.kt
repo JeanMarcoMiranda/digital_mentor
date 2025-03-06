@@ -1,7 +1,7 @@
-package com.example.digital_mentor.domain.repository
+package com.jacket.digital_mentor.domain.repository
 
 import android.content.Context
-import com.example.digital_mentor.data.model.UserProfileEntityCreate
+import com.jacket.digital_mentor.data.model.UserProfileEntityCreate
 import io.github.jan.supabase.auth.user.UserInfo
 
 interface AuthRepository {

@@ -1,11 +1,11 @@
-package com.example.digital_mentor.presentation.viewmodel
+package com.jacket.digital_mentor.presentation.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.digital_mentor.domain.usecase.auth.SignUpUseCase
-import com.example.digital_mentor.presentation.intent.RegisterIntent
-import com.example.digital_mentor.presentation.intent.RegisterViewState
+import com.jacket.digital_mentor.domain.usecase.auth.SignUpUseCase
+import com.jacket.digital_mentor.presentation.intent.RegisterIntent
+import com.jacket.digital_mentor.presentation.intent.RegisterViewState
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
