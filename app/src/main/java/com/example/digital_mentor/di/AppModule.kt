@@ -80,7 +80,7 @@ val appModule = module {
     single { CredentialManager.create(get()) }
 
 
-    single<AuthRepository> { AuthRepositoryImpl(get(), get(), get()) }
+    single<AuthRepository> { AuthRepositoryImpl(get(), get()) }
     single<UserProfileRepository> { UserProfileRepositoryImpl(get()) }
     single<CategoryRepository> { CategoryRepositoryImpl(get()) }
     single<TopicRepository> { TopicRepositoryImpl(get()) }
