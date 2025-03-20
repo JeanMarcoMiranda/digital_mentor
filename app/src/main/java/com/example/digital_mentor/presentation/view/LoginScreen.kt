@@ -203,8 +203,8 @@ fun LoginScreen(
 
                 is LoginViewState.Error -> {
                     val errorMessage = (viewState as LoginViewState.Error).error
-//                    Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
-                    Toast.makeText(context, "Credenciales invalidas, vuelva a intentarlon.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
+//                    Toast.makeText(context, "Credenciales invalidas, vuelva a intentarlo.", Toast.LENGTH_SHORT).show()
                 }
 
                 else -> Unit

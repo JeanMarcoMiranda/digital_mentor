@@ -25,7 +25,6 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import java.security.MessageDigest
 import java.util.UUID
-import kotlin.math.log
 
 @Serializable
 data class UserMetadata(
@@ -366,7 +365,7 @@ class AuthRepositoryImpl(
         rawNonce: String
     ) {
         val googleOptions = GetGoogleIdOption.Builder()
-            .setFilterByAuthorizedAccounts(true)
+            .setFilterByAuthorizedAccounts(false)
             .setServerClientId(BuildConfig.WEB_CLIENT_ID)
             .setNonce(hashedNonce)
             .build()
@@ -428,8 +427,7 @@ class AuthRepositoryImpl(
         // Ampliar para capturar más tipos de errores relacionados
         return e is NoSuchElementException ||
                 e is androidx.credentials.exceptions.GetCredentialCancellationException ||
-                e.message?.contains("No credentials available") == true ||
-                e.message?.contains("Account reauth failed") == true
+                e.message?.contains("No credentials available") == true
     }
 
     private fun extractUserProfile(): Result<UserProfileEntityCreate> {
